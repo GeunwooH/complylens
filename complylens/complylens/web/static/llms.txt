@@ -8,6 +8,8 @@
 - [LL144 Self-Assessment Quiz](https://html.npopo.com/quiz.html): 5-question coverage/compliance determination.
 - [AI Hiring Regulation Map 2026](https://html.npopo.com/blog/ai-hiring-regulation-map-2026.html): NYC/IL/CO/CA/EU comparison matrix.
 - [Bias Audit Cost Guide](https://html.npopo.com/blog/ll144-bias-audit-cost.html): verified 2026 prices ($29–$18,500).
+- [Audit Data Requirements](https://html.npopo.com/blog/ll144-audit-data-requirements.html): what to export from Greenhouse/Lever/Workday, CSV format, data quality checklist.
+- [Audit Renewal Guide](https://html.npopo.com/blog/ll144-audit-renewal.html): audits expire after 12 months; renewal checklist and 72-hour turnaround.
 - [Products & Pricing](https://html.npopo.com/pricing.html): Readiness Toolkit $299, Multi-State Pack $199, EU AI Act Kit $149, Playbook $49, Vendor Comparison Pack $29.
 
 ## Key facts (2026)
