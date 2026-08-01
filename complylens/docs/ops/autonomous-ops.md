@@ -83,3 +83,8 @@
 - Playwright 실검증: 퀴즈(결과 표시) / 계산기($67,500) / 주문 폼(지갑 표시) / 문의 폼(리드 저장) / 리드 마그넷(리드 저장) — 전부 ✅
 - 리드 2건 실저장: qaform@test.com, qalead@test.com (테스트)
 - 전환 퍼널 5개 요소 전부 동작 — 구매 가능 상태 확정
+
+## GitHub Discussions 채널 활성화 (2026-08-01)
+- has_discussions=true (API) + 첫 게시물: github.com/GeunwooH/complylens/discussions/1
+- "ComplyLens launched" — 제품 소개 + 질문 유도 (LL144/방법론/다중관할 AMA)
+- 효과: GitHub 커뮤니티 노출 + Discussion 페이지도 검색 색인 (고권위 백링크)
