@@ -29,6 +29,7 @@ from complylens.report.builder import (
 )
 from complylens.web.leads import LeadStore
 from complylens.web.orders import PRODUCTS, OrderStore, verify_btc_payment
+from complylens.web.stats import PVStore
 
 app = FastAPI(title="ComplyLens", version="0.1.0")
 
@@ -176,6 +177,20 @@ def public_summary(audit_id: str) -> str:
     if not summary.exists():
         raise HTTPException(status_code=404, detail="summary not found")
     return summary.read_text(encoding="utf-8")
+
+
+@app.post("/api/pv")
+def record_pageview(payload: dict) -> dict:
+    path = (payload.get("path") or "").strip()
+    if not path or not path.startswith("/"):
+        raise HTTPException(status_code=400, detail="valid path required")
+    PVStore(_data_dir()).record(path)
+    return {"status": "recorded"}
+
+
+@app.get("/api/stats")
+def get_stats(_: None = Depends(_require_api_key)) -> dict:
+    return PVStore(_data_dir()).summary()
 
 
 @app.post("/api/leads")

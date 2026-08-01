@@ -33,5 +33,5 @@ footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 <h2>Your rights</h2>
 <p>You may request access, correction, or deletion of your data by emailing <a href="mailto:audit@npopo.com">audit@npopo.com</a>.</p>
 <footer>Questions: audit@npopo.com</footer>
-</body>
+<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname})}).catch(()=>{});</script></body>
 </html>

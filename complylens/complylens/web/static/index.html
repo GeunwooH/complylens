@@ -124,5 +124,5 @@ calcExposure();
 </div>
 
 <footer>ComplyLens is a service provider, not a law firm. Nothing on this page is legal advice. Data is processed in the United States and never used for AI training.</footer>
-</body>
+<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname})}).catch(()=>{});</script></body>
 </html>

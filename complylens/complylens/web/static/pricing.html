@@ -110,5 +110,5 @@ form.addEventListener("submit", async (e) => {
 </script>
 
 <footer>Informational products. Not legal advice. Independent auditor sign-off is required for a legally effective bias audit.<br><strong>30-day money-back guarantee</strong> on all digital products — if the toolkit doesn't help, email us and we refund in full.</footer>
-</body>
+<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname})}).catch(()=>{});</script></body>
 </html>

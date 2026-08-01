@@ -26,5 +26,5 @@ footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 <h2>Product status</h2>
 <p>ComplyLens is operated as a small independent service. Data is processed in the United States and never used for AI training — see our <a href="/privacy.html">privacy policy</a>.</p>
 <footer>Informational service. Not a law firm; nothing here is legal advice.</footer>
-</body>
+<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname})}).catch(()=>{});</script></body>
 </html>
