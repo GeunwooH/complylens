@@ -98,3 +98,8 @@
 ## 모바일 반응형 검증 (2026-08-01 16:2x)
 - Playwright 375x812 뷰포트: / /pricing.html /ll144-guide.html 전부 가로 오버플로 없음
 - 헤더 스택/CTA 전체 폭 정상 — dev #6 (@media) 실검증 완료
+
+## 보낸 편지함 검증 (2026-08-01 16:4x)
+- Gmail 보낸 편지함 실측: 아웃리치 5건(이메일) 전부 기록 확인
+  lets.talk(idiro) / support(phenom) / advisory(lexaraadvisory) / support(ll144audit) / vedvyas(aedtaudits)
+- 발송 확정 (토스트 외 2차 검증) — 폼 제출 2건(runaiaudit/HireVue)은 "Thank you" 확인
