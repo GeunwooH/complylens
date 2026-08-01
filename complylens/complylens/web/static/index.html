@@ -22,6 +22,15 @@ h1{font-size:1.9rem;line-height:1.25}
 .step{flex:1;min-width:180px;border:1px solid #ddd;border-radius:8px;padding:1rem}
 .faq details{margin:.6rem 0;border:1px solid #eee;border-radius:6px;padding:.7rem}
 footer{margin-top:3rem;color:#666;font-size:.85rem}
+.leadform{background:#f7f9ff;border:1px solid #cfe0ff;border-radius:10px;padding:1.2rem;margin:1.5rem 0}
+.leadform input,.leadform textarea{width:100%;padding:.5rem;margin:.25rem 0 .75rem;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-family:inherit}
+.leadform button{background:#0b5fff;color:#fff;border:none;padding:.6rem 1.3rem;border-radius:6px;font-size:1rem;cursor:pointer}
+@media (max-width:640px){
+  header{display:flex;flex-direction:column;gap:.4rem}
+  header nav{float:none !important}
+  h1{font-size:1.5rem}
+  .steps{flex-direction:column}
+}
 </style>
 </head>
 <body>
@@ -30,6 +39,44 @@ footer{margin-top:3rem;color:#666;font-size:.85rem}
 <p>If your company uses an automated employment decision tool (AEDT) to screen candidates for New York City roles, Local Law 144 requires an annual independent bias audit with a publicly posted summary. We compute the statistics, draft the report, and deliver everything you need to comply.</p>
 <p class="price">$1,500 <span style="font-size:1rem;font-weight:400">per audit — flat fee</span></p>
 <a class="cta" href="mailto:audit@npopo.com?subject=LL144%20Bias%20Audit%20Inquiry&body=Company%3A%20%0D%0AATS%20used%3A%20%0D%0ANYC%20positions%3A%20yes%2Fno">Start your audit — email us</a>
+
+<div class="leadform">
+<h3>Request a quote — we reply within one business day</h3>
+<form id="quoteForm">
+<label>Name</label>
+<input type="text" id="qName" placeholder="Jane Doe">
+<label>Company</label>
+<input type="text" id="qCompany" placeholder="Acme Corp">
+<label>Work email</label>
+<input type="email" id="qEmail" required placeholder="you@company.com">
+<label>What do you need?</label>
+<textarea id="qMsg" required rows="3" placeholder="We use [ATS/tool] for NYC positions and need an LL144 analysis."></textarea>
+<button type="submit">Send request</button>
+</form>
+<p id="qDone" style="display:none;color:#0b7a2b;font-weight:600">✓ Request received — we'll reply within one business day.</p>
+</div>
+
+<script>
+document.getElementById("quoteForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const res = await fetch("/api/leads", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name: document.getElementById("qName").value,
+      company: document.getElementById("qCompany").value,
+      email: document.getElementById("qEmail").value,
+      message: document.getElementById("qMsg").value,
+    }),
+  });
+  if (res.ok) {
+    document.getElementById("qDone").style.display = "block";
+    document.getElementById("quoteForm").style.display = "none";
+  } else {
+    alert("Please fill the required fields.");
+  }
+});
+</script>
 
 <section class="steps">
 <div class="step"><strong>1. Upload</strong><br>Export your hiring data from Greenhouse, Lever, Workday, or CSV.</div>

@@ -27,6 +27,7 @@ from complylens.report.builder import (
     build_public_summary_html,
     render_pdf,
 )
+from complylens.web.leads import LeadStore
 from complylens.web.orders import PRODUCTS, OrderStore, verify_btc_payment
 
 app = FastAPI(title="ComplyLens", version="0.1.0")
@@ -173,6 +174,33 @@ def public_summary(audit_id: str) -> str:
     if not summary.exists():
         raise HTTPException(status_code=404, detail="summary not found")
     return summary.read_text(encoding="utf-8")
+
+
+@app.post("/api/leads")
+def create_lead(payload: dict) -> dict:
+    email = (payload.get("email") or "").strip()
+    message = (payload.get("message") or "").strip()
+    if "@" not in email:
+        raise HTTPException(status_code=400, detail="valid email required")
+    if not message:
+        raise HTTPException(status_code=400, detail="message required")
+    store = LeadStore(_data_dir())
+    lead = store.create(
+        (payload.get("name") or "").strip(),
+        (payload.get("company") or "").strip(),
+        email,
+        message,
+    )
+    return {"lead_id": lead["lead_id"], "status": "received"}
+
+
+@app.get("/api/leads/{lead_id}")
+def get_lead(lead_id: str) -> dict:
+    store = LeadStore(_data_dir())
+    try:
+        return store.get(lead_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="lead not found") from exc
 
 
 @app.post("/api/orders")
