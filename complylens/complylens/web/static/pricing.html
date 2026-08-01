@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Products & Pricing — ComplyLens</title>
+<link rel="canonical" href="https://html.npopo.com/pricing.html">
+<style>
+body{font-family:system-ui,sans-serif;max-width:820px;margin:0 auto;padding:2rem 1.5rem;line-height:1.6;color:#1a1a1a}
+h1{border-bottom:3px solid #0b5fff;padding-bottom:.4rem}
+.product{border:1px solid #ddd;border-radius:10px;padding:1.2rem 1.4rem;margin:1.2rem 0}
+.price{font-size:1.6rem;font-weight:700;color:#0b3d91}
+.cta{display:inline-block;background:#0b5fff;color:#fff;padding:.7rem 1.3rem;border-radius:8px;text-decoration:none;font-weight:600;margin-top:.6rem}
+form{background:#f7f9ff;border-radius:8px;padding:1rem;margin-top:.8rem}
+input[type=email],input[type=text],select{width:100%;padding:.5rem;margin:.3rem 0 .8rem;border:1px solid #ccc;border-radius:6px;box-sizing:border-box}
+button{background:#0b5fff;color:#fff;border:none;padding:.6rem 1.2rem;border-radius:6px;font-size:1rem;cursor:pointer}
+#result{background:#eef7ee;border:1px solid #9ccc9c;border-radius:8px;padding:1rem;margin-top:1rem;white-space:pre-wrap;display:none}
+#wallet{background:#fffbe6;border:1px solid #e6d88a;border-radius:8px;padding:1rem;margin-top:1rem;display:none}
+code{background:#f4f4f4;padding:.15rem .4rem;border-radius:4px;word-break:break-all}
+footer{margin-top:2.5rem;color:#666;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><strong><a href="/" style="text-decoration:none;color:inherit">ComplyLens</a></strong> — Products & Pricing</header>
+<h1>Products & Pricing</h1>
+<p>Payment in BTC or ETH. After payment, submit your transaction ID below to unlock delivery instantly.</p>
+
+<div class="product">
+<h2>LL144 Data Analysis Report</h2>
+<p>Statistical analysis of your AEDT hiring data: selection rates, impact ratios, and four-fifths assessment per DCWP Final Rules, delivered as a detailed report with public-summary draft. <em>Informational analysis — not a legally effective bias audit (independent auditor sign-off required for that).</em></p>
+<p class="price">$299 <span style="font-size:.9rem;font-weight:400">(0.0045 BTC)</span></p>
+</div>
+
+<div class="product">
+<h2>LL144 Compliance Playbook</h2>
+<p>Step-by-step compliance guide distilled from verified research: who is covered, the three obligations, penalty math, data checklist, and a this-week action plan.</p>
+<p class="price">$49 <span style="font-size:.9rem;font-weight:400">(0.00075 BTC)</span></p>
+</div>
+
+<div class="product">
+<h2>Custom Research & Document Automation</h2>
+<p>Custom compliance documents, regulatory research, or document pipelines built on request (48–72h turnaround).</p>
+<p class="price">$199 <span style="font-size:.9rem;font-weight:400">(0.003 BTC)</span></p>
+</div>
+
+<h2>Order</h2>
+<form id="orderForm">
+<label>Email</label>
+<input type="email" id="email" required placeholder="you@company.com">
+<label>Product</label>
+<select id="product">
+<option value="p1-analysis">LL144 Data Analysis Report — $299</option>
+<option value="p2-playbook">LL144 Compliance Playbook — $49</option>
+<option value="p3-custom">Custom Research — $199</option>
+</select>
+<button type="submit">Create order</button>
+</form>
+
+<div id="wallet"></div>
+<div id="result"></div>
+
+<script>
+const form = document.getElementById("orderForm");
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const product = document.getElementById("product").value;
+  const res = await fetch("/api/orders", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({email, product_id: product}),
+  });
+  const data = await res.json();
+  if (!res.ok) { alert("Error: " + (data.detail || res.status)); return; }
+  document.getElementById("wallet").style.display = "block";
+  document.getElementById("wallet").innerHTML =
+    "<strong>Send exactly:</strong> " + data.amount_btc + " BTC (" + data.amount_sat + " sat)<br>" +
+    "<strong>BTC address:</strong> <code>" + data.btc_address + "</code><br>" +
+    "<strong>ETH address:</strong> <code>" + data.eth_address + "</code><br>" +
+    "<strong>Order ID:</strong> <code>" + data.order_id + "</code><br>" +
+    "<label>Transaction ID (after sending):</label><input type='text' id='txid' placeholder='64-char txid'><button id='confirmBtn'>Confirm payment</button>";
+  document.getElementById("confirmBtn").addEventListener("click", async () => {
+    const txid = document.getElementById("txid").value.trim();
+    const c = await fetch("/api/orders/" + data.order_id + "/confirm", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({txid}),
+    });
+    const cd = await c.json();
+    if (!c.ok) { alert("Payment not verified: " + (cd.detail || c.status)); return; }
+    document.getElementById("result").style.display = "block";
+    document.getElementById("result").innerHTML =
+      "<strong>Payment confirmed!</strong> Download: <a href='/api/orders/" + data.order_id + "/download'>your product</a>";
+  });
+});
+</script>
+
+<footer>Informational products. Not legal advice. Independent auditor sign-off is required for a legally effective bias audit.</footer>
+</body>
+</html>

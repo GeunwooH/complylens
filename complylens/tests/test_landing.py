@@ -16,7 +16,7 @@ def test_landing_serves_with_key_marketing_elements() -> None:
         "LL144 Bias Audit",
         "$1,500",
         "72 hours",
-        "How it works",
+        "Start your audit",
         "automated employment decision tool",
     ]:
         assert needle in body
@@ -45,7 +45,7 @@ def test_robots_and_sitemap_served() -> None:
     robots = client.get("/robots.txt")
     assert robots.status_code == 200 and "Sitemap:" in robots.text
     sitemap = client.get("/sitemap.xml")
-    assert sitemap.status_code == 200 and "complylens.example" in sitemap.text
+    assert sitemap.status_code == 200 and "html.npopo.com" in sitemap.text
 
 
 def test_blog_cites_comptroller_findings() -> None:

@@ -27,6 +27,7 @@ from complylens.report.builder import (
     build_public_summary_html,
     render_pdf,
 )
+from complylens.web.orders import PRODUCTS, OrderStore, verify_btc_payment
 
 app = FastAPI(title="ComplyLens", version="0.1.0")
 
@@ -172,6 +173,59 @@ def public_summary(audit_id: str) -> str:
     if not summary.exists():
         raise HTTPException(status_code=404, detail="summary not found")
     return summary.read_text(encoding="utf-8")
+
+
+@app.post("/api/orders")
+def create_order(payload: dict) -> dict:
+    email = (payload.get("email") or "").strip()
+    product_id = payload.get("product_id") or ""
+    if "@" not in email:
+        raise HTTPException(status_code=400, detail="valid email required")
+    if product_id not in PRODUCTS:
+        raise HTTPException(status_code=400, detail="unknown product")
+    store = OrderStore(_data_dir())
+    order = store.create(email, product_id)
+    return {
+        "order_id": order["order_id"],
+        "status": order["status"],
+        "product_name": order["product_name"],
+        "amount_btc": order["amount_btc"],
+        "amount_sat": order["amount_sat"],
+        "btc_address": order["btc_address"],
+        "eth_address": order["eth_address"],
+    }
+
+
+@app.post("/api/orders/{order_id}/confirm")
+def confirm_order(order_id: str, payload: dict) -> dict:
+    store = OrderStore(_data_dir())
+    try:
+        order = store.get(order_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="order not found") from exc
+    if order["status"] == "confirmed":
+        return {"order_id": order_id, "status": "confirmed"}
+    txid = (payload.get("txid") or "").strip()
+    if not verify_btc_payment(txid, order["btc_address"], order["amount_sat"]):
+        raise HTTPException(status_code=402, detail="payment not verified")
+    store.confirm(order_id)
+    return {"order_id": order_id, "status": "confirmed"}
+
+
+@app.get("/api/orders/{order_id}/download", response_class=HTMLResponse)
+def download_product(order_id: str) -> str:
+    store = OrderStore(_data_dir())
+    try:
+        order = store.get(order_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="order not found") from exc
+    if order["status"] != "confirmed":
+        raise HTTPException(status_code=403, detail="payment not confirmed")
+    product = PRODUCTS[order["product_id"]]
+    file = _STATIC_DIR / "products" / product["file"]
+    if not file.exists():
+        raise HTTPException(status_code=404, detail="product file missing")
+    return file.read_text(encoding="utf-8")
 
 
 _STATIC_DIR = Path(__file__).parent / "static"
