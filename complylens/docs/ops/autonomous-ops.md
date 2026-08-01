@@ -67,3 +67,8 @@
 - verifywise.ai: 연락처 미공개 (JS 렌더) — 보류
 - 발송 4건: aedtaudits / ll144audit / lexaraadvisory (이메일) + runaiaudit (폼)
 - 도구: agent-browser (DOM 기반 — 좌표 클릭 문제 우회)
+
+## 아웃리치 5건 완료 (2026-08-01)
+- phenom.com (ATS 벤더) 파트너십 제안 — support@phenompeople.com
+- 발송 5건: aedtaudits / ll144audit / lexaraadvisory / runaiaudit(폼) / phenom
+- eightfold/beamery: 이메일 미공개, paradox: media@만 공개(부적합) — 보류

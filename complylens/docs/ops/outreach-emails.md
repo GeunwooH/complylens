@@ -92,3 +92,9 @@ ComplyLens
 - marketing 목록 중 2024 재감사 완료 기업 (ADP, Morgan Stanley, JetBlue, Pfizer, Burlington, Citizens Bank, HackerRank, Paradox, RippleMatch, Beamery, Phenom) → 2025-07 재감사 → 2026-07 만료 → **재감사 수요 시점**
 - 우선순위 대상 5곳: ADP, Morgan Stanley, JetBlue, Citizens Bank, HackerRank (대기업 — 감사 예산 확보)
 - 개인화 메시지 각도: "Your 2025 bias audit expires — annual re-audit required" (연례 의무 C1 기반)
+
+## 6. phenom.com (ATS 벤더 파트너십)
+**받는 사람**: support@phenompeople.com
+**제목**: [Partnership] Bias audit analysis for your customers
+**본문**: Phenom Fit Score 고객의 NYC LL144 감사 수요 → 선호 요금 + 리퍼럴 제안
+**상태**: ✅ 2026-08-01 발송
