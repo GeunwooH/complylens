@@ -61,3 +61,9 @@
 - **발송 3건**: aedtaudits(등재 문의) · ll144audit(비교 페이지 등재) · lexaraadvisory(교차 리퍼럴)
 - runaiaudit/verifywise: 이메일 미공개(연락 폼만) — 폼 제출은 별도 경로
 - 다음: 응답 모니터링 (Gmail 수신 — 주기 확인)
+
+## 아웃리치 4건 완료 (2026-08-01)
+- runaiaudit.com: agent-browser DOM 조작으로 Formspree 폼 제출 성공 (필드 리셋 = 전송 확인)
+- verifywise.ai: 연락처 미공개 (JS 렌더) — 보류
+- 발송 4건: aedtaudits / ll144audit / lexaraadvisory (이메일) + runaiaudit (폼)
+- 도구: agent-browser (DOM 기반 — 좌표 클릭 문제 우회)
