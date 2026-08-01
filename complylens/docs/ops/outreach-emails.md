@@ -86,3 +86,9 @@ ComplyLens
 | 3 | runaiaudit.com | — | — | — |
 | 4 | aedtaudits.com | — | — | — |
 | 5 | verifywise.ai | — | — | — |
+
+## 타겟팅 인사이트 (2026-08-01)
+- LL144 감사는 12개월 유효 → 2025-07 감사 기업은 **지금(2026-08) 만료**
+- marketing 목록 중 2024 재감사 완료 기업 (ADP, Morgan Stanley, JetBlue, Pfizer, Burlington, Citizens Bank, HackerRank, Paradox, RippleMatch, Beamery, Phenom) → 2025-07 재감사 → 2026-07 만료 → **재감사 수요 시점**
+- 우선순위 대상 5곳: ADP, Morgan Stanley, JetBlue, Citizens Bank, HackerRank (대기업 — 감사 예산 확보)
+- 개인화 메시지 각도: "Your 2025 bias audit expires — annual re-audit required" (연례 의무 C1 기반)
