@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://complylens.example/</loc><priority>1.0</priority></url>
-  <url><loc>https://complylens.example/blog/ll144-enforcement-2026.html</loc><priority>0.7</priority></url>
+  <url><loc>https://html.npopo.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://html.npopo.com/research.html</loc><priority>0.6</priority></url>
+  <url><loc>https://html.npopo.com/plan.html</loc><priority>0.5</priority></url>
+  <url><loc>https://html.npopo.com/blog/ll144-enforcement-2026.html</loc><priority>0.7</priority></url>
+  <url><loc>https://html.npopo.com/blog/illinois-hb3773-2026.html</loc><priority>0.7</priority></url>
+  <url><loc>https://html.npopo.com/blog/comptroller-audit-explained.html</loc><priority>0.7</priority></url>
 </urlset>
