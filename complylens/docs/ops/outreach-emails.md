@@ -98,3 +98,8 @@ ComplyLens
 **제목**: [Partnership] Bias audit analysis for your customers
 **본문**: Phenom Fit Score 고객의 NYC LL144 감사 수요 → 선호 요금 + 리퍼럴 제안
 **상태**: ✅ 2026-08-01 발송
+
+## 7. hirevue.com (최대 AEDT 벤더 — 파트너십)
+**방법**: HubSpot 연락 폼 (agent-browser, email: audit@npopo.com)
+**내용**: 파트너십 일반 문의 — HireVue 고객(JetBlue/Pfizer 등)의 NYC LL144 감사 수요
+**상태**: ✅ 2026-08-01 제출 ("Thank you" 실측)
