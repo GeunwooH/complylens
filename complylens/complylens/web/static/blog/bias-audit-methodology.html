@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How an LL144 Bias Audit Works: Methodology Guide | ComplyLens</title>
+<meta name="description" content="What a Local Law 144 bias audit actually computes: selection rates, impact ratios, four-fifths assessment, and score-based metrics per DCWP Final Rules.">
+<link rel="canonical" href="https://html.npopo.com/blog/bias-audit-methodology.html">
+</head>
+<body>
+<article>
+<h1>How an LL144 Bias Audit Actually Works</h1>
+<p>NYC Local Law 144 requires an independent bias audit of automated employment decision tools (AEDTs). Here is exactly what the audit computes, per the DCWP Final Rules (6 RCNY Subchapter T).</p>
+<h2>The statistical core</h2>
+<ul>
+<li><strong>Selection rate</strong>: for each protected category (sex, ethnicity, and their intersections), the share of candidates selected by the tool.</li>
+<li><strong>Impact ratio</strong>: each category's selection rate divided by the highest selection rate among categories. A ratio below <strong>0.80</strong> (the "four-fifths rule") signals possible adverse impact.</li>
+<li><strong>Score-based metrics</strong>: for tools that score candidates on a continuous scale, the audit computes scoring rates above the median score and a score-based impact ratio.</li>
+</ul>
+<h2>What the audit does NOT do</h2>
+<p>The audit does not judge whether the tool is "good" or "fair" in an abstract sense — it measures statistical parity against the EEOC's four-fifths framework, which has been the standard for adverse impact analysis since 1978. It also does not require the vendor's source code; it works from the tool's outputs on real candidate data.</p>
+<h2>What you get</h2>
+<ol>
+<li>A detailed report with per-category selection rates and impact ratios.</li>
+<li>A public summary suitable for posting on your careers site (required by the law).</li>
+<li>A candidate notice template (10 business days' notice requirement).</li>
+</ol>
+<p>ComplyLens computes all of these statistics deterministically from your ATS export — no black box, no LLM-generated numbers — and delivers the report in 72 hours.</p>
+</article>
+</body>
+</html>
