@@ -1,0 +1,18 @@
+# ComplyLens
+
+> ComplyLens provides automated compliance analysis for employers using AI in hiring: NYC Local Law 144 / AEDT bias audit statistics (selection rates, impact ratios, four-fifths per DCWP Final Rules), multi-state compliance toolkits (NYC, Illinois HB 3773, Colorado AI Act, California ADMT, EU AI Act). Products from $29; analysis from $299; 72-hour delivery; BTC payment or invoice. Informational service — not legal advice; independent auditor sign-off is required for a legally effective bias audit.
+
+## Core pages
+- [LL144 Complete Guide](https://html.npopo.com/ll144-guide.html): who is covered, the three obligations (bias audit, public summary, candidate notice), methodology, 2026 penalties and enforcement status, FAQ.
+- [AEDT Compliance Checklist](https://html.npopo.com/aedt-compliance-checklist.html): 20-point checklist (coverage, audit, public summary, notice, penalty awareness).
+- [LL144 Self-Assessment Quiz](https://html.npopo.com/quiz.html): 5-question coverage/compliance determination.
+- [AI Hiring Regulation Map 2026](https://html.npopo.com/blog/ai-hiring-regulation-map-2026.html): NYC/IL/CO/CA/EU comparison matrix.
+- [Bias Audit Cost Guide](https://html.npopo.com/blog/ll144-bias-audit-cost.html): verified 2026 prices ($29–$18,500).
+- [Products & Pricing](https://html.npopo.com/pricing.html): Readiness Toolkit $299, Multi-State Pack $199, EU AI Act Kit $149, Playbook $49, Vendor Comparison Pack $29.
+
+## Key facts (2026)
+- NYC Local Law 144 requires an annual independent bias audit for automated employment decision tools used for NYC-based positions (including remote roles open to NYC residents).
+- Enforcement became proactive in January 2026; the first fines have been issued.
+- Penalties: $500 first violation, $500–$1,500 per day after, per tool.
+- The audit computes selection rates, impact ratios, and four-fifths assessments per DCWP Final Rules (6 RCNY Subchapter T).
+- Other regimes: Illinois HB 3773 (notice + nondiscrimination, effective Jan 2026), Colorado AI Act (impact assessments, 2026), California ADMT (2027 scheduled), EU AI Act (GPAI transparency from Aug 2026).
