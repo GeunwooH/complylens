@@ -86,6 +86,33 @@ document.getElementById("quoteForm").addEventListener("submit", async (e) => {
 
 <p style="background:#f0f6ff;border:1px solid #cfe0ff;border-radius:8px;padding:.8rem 1rem">📘 New to this? Read the <a href="/ll144-guide.html"><strong>complete LL144 bias audit guide</strong></a> — coverage, methodology, penalties, and FAQ.</p>
 <h2>Why compliance matters</h2>
+
+<div style="background:#f7f9ff;border:1px solid #cfe0ff;border-radius:10px;padding:1.2rem;margin:1rem 0">
+<h3 style="margin-top:0">Estimated non-compliance exposure</h3>
+<p style="font-size:.9rem;color:#555">LL144 penalties run per day per tool: $500 first violation, $500–$1,500 per day after. Drag to see your exposure.</p>
+<label>Non-compliant period: <strong id="daysLabel">180 days</strong></label>
+<input type="range" id="daysRange" min="30" max="365" step="30" value="180" style="width:100%">
+<label>Number of tools: <strong id="toolsLabel">1</strong></label>
+<input type="range" id="toolsRange" min="1" max="5" step="1" value="1" style="width:100%">
+<p style="font-size:1.1rem">Exposure: <strong id="exposureLow" style="color:#c0392b">$67,500</strong> – <strong id="exposureHigh" style="color:#c0392b">$270,000</strong></p>
+<p style="font-size:.9rem">vs. a compliant analysis starting at <strong>$299</strong></p>
+</div>
+
+<script>
+function calcExposure() {
+  const days = parseInt(document.getElementById("daysRange").value);
+  const tools = parseInt(document.getElementById("toolsRange").value);
+  document.getElementById("daysLabel").textContent = days + " days";
+  document.getElementById("toolsLabel").textContent = tools;
+  const low = days * 375 * tools;
+  const high = days * 1500 * tools;
+  document.getElementById("exposureLow").textContent = "$" + low.toLocaleString();
+  document.getElementById("exposureHigh").textContent = "$" + high.toLocaleString();
+}
+document.getElementById("daysRange").addEventListener("input", calcExposure);
+document.getElementById("toolsRange").addEventListener("input", calcExposure);
+calcExposure();
+</script>
 <p>A December 2025 NY State Comptroller audit found 17 potential violations among just 32 companies reviewed — a 53% non-compliance rate. The first enforcement actions have since been issued. Penalties accumulate per day of violation: $500–$1,500 per day per tool. Compliance is a one-day project with ComplyLens.</p>
 
 <h2 id="faq">FAQ</h2>

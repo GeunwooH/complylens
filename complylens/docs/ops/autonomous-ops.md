@@ -27,3 +27,8 @@
 2. 주문/결제 로그 점검 → 미확인 결제 처리
 3. 디렉토리 응답 확인 (수신 메일 없음 — SMTP 설정 후 발송)
 4. SEO 키워드 실측 ("LL144 bias audit" SERP)
+
+## 이메일 인프라 발견 (2026-08-01)
+- npopo.com에 Cloudflare Email Routing MX (route1~3.mx.cloudflare.net) + SPF(google 포함) 활성
+- audit@npopo.com 수신 가능 인프라 존재 → G2/Capterra/Product Hunt 회사 이메일 인증 + 고객 문의 수신에 활용 가능
+- 확인 필요: 포워딩 대상 주소 (아마 npopo86@gmail.com — Cloudflare 대시보드 확인)
