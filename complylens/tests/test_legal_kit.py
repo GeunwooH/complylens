@@ -22,10 +22,9 @@ def test_engagement_letter_has_statutory_clauses() -> None:
 
 
 def test_dpa_has_no_training_and_retention_clauses() -> None:
-    text = build_dpa("Acme Corp")
-    assert "no training" in text
-    assert "retention" in text
-    assert "deletion" in text
+    text = build_dpa("Acme Corp").casefold()
+    for clause in ["no training", "retention", "deletion"]:
+        assert clause in text
 
 
 def test_independence_confirmation_declares_no_interest() -> None:
