@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LL144 Audit Data Requirements: How to Export ATS Data (Greenhouse, Lever, Workday) | ComplyLens</title>
+<meta name="description" content="What data an NYC LL144 bias audit needs, and how to export it from Greenhouse, Lever, Workday, or CSV — protected categories, selection outcomes, and formatting.">
+<link rel="canonical" href="https://html.npopo.com/blog/ll144-audit-data-requirements.html">
+<style>
+body{font-family:system-ui,sans-serif;max-width:780px;margin:0 auto;padding:2rem 1.5rem;line-height:1.7;color:#1a1a1a}
+h1{border-bottom:3px solid #0b5fff;padding-bottom:.4rem}
+pre{background:#f6f8fa;border:1px solid #e1e4e8;border-radius:8px;padding:1rem;overflow-x:auto;font-size:.9rem}
+.cta{display:inline-block;background:#0b5fff;color:#fff;padding:.8rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600;margin:1rem 0}
+footer{margin-top:2.5rem;color:#666;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><strong><a href="/" style="text-decoration:none;color:inherit">ComplyLens</a></strong> — <a href="/ll144-guide.html">LL144 Guide</a></header>
+<h1>LL144 Audit Data Requirements: What to Export from Your ATS</h1>
+<p>Before you commission an LL144 bias audit, you need the right data. Here is exactly what the audit needs and how to export it from common ATS platforms.</p>
+
+<h2>The minimal dataset</h2>
+<pre>
+candidate_id, category, selected
+cand_001, male, 1
+cand_002, female, 0
+...
+</pre>
+<ul>
+<li><strong>candidate_id</strong>: unique applicant identifier (de-identified is fine).</li>
+<li><strong>category</strong>: protected category — sex, ethnicity, or their intersection (e.g. "female_asian").</li>
+<li><strong>selected</strong>: outcome — 1 = selected/advanced, 0 = not (or a continuous score, see below).</li>
+</ul>
+
+<h2>Score-based tools</h2>
+<p>If your tool scores candidates on a continuous scale instead of a binary outcome, export the <strong>score</strong> column instead — the audit computes median-threshold scoring rates and score-based impact ratios.</p>
+<pre>
+candidate_id, category, score
+cand_001, male, 87.5
+cand_002, female, 63.2
+</pre>
+
+<h2>Exporting from common ATS platforms</h2>
+<table border="1" cellpadding="6">
+<tr><th>Platform</th><th>Export path</th><th>Notes</th></tr>
+<tr><td>Greenhouse</td><td>Reports → Hiring reports → Candidate demographics export</td><td>Include all candidates screened by the tool, not just hires</td></tr>
+<tr><td>Lever</td><td>Reports → Diversity export (or custom CSV)</td><td>Filter by the position(s) and time window the tool was used</td></tr>
+<tr><td>Workday</td><td>Report Writer → custom candidate report</td><td>May require report-writer permission; ask HRIS admin</td></tr>
+<tr><td>CSV (any)</td><td>Direct export</td><td>Ensure consistent category labels across rows</td></tr>
+</table>
+
+<h2>Data quality checklist</h2>
+<ul>
+<li>Include <strong>every candidate</strong> the tool evaluated, not only finalists — the audit measures the tool's full screening funnel.</li>
+<li>Cover the <strong>full audit period</strong> (typically 12 months or the tool's deployment period).</li>
+<li>Use <strong>consistent category labels</strong> (normalize "M", "Male", "male" → "male").</li>
+<li>De-identify names/emails if you prefer — only the category and outcome matter.</li>
+<li>Aim for <strong>100+ records</strong> per category for statistically meaningful impact ratios (fewer is still analysable but less reliable).</li>
+</ul>
+
+<h2>Next step</h2>
+<p>Once your export is ready, the statistical analysis takes 72 hours. Toolkits from $29, analysis from $299.</p>
+<p><a class="cta" href="/pricing.html">Start with the Readiness Toolkit — $299</a></p>
+
+<footer>Informational guide. Not legal advice.</footer>
+</body>
+</html>
