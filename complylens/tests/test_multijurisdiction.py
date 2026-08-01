@@ -5,7 +5,7 @@ from pathlib import Path
 
 from complylens.report.builder import build_detailed_report_html
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 
 AUDIT = {
     "categories": {
