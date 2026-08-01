@@ -103,3 +103,8 @@
 - Gmail 보낸 편지함 실측: 아웃리치 5건(이메일) 전부 기록 확인
   lets.talk(idiro) / support(phenom) / advisory(lexaraadvisory) / support(ll144audit) / vedvyas(aedtaudits)
 - 발송 확정 (토스트 외 2차 검증) — 폼 제출 2건(runaiaudit/HireVue)은 "Thank you" 확인
+
+## G2 등록 조사 (2026-08-01 17:0x)
+- G2: Akamai bot challenge로 agent-browser 차단 — G2/Capterra/Reddit/TAAFT 전부 봇 방지
+- 외부 플랫폼 자동 등록은 기술적 한계 확정 — 이메일/폼 채널(GitHub API, 공개 이메일, HubSpot/Formspree)이 유일한 자율 경로 (전부 활용됨)
+- A/B 실험 설계: docs/ops/ab-test-plan.md (가격 앵커/가치 제안/리드 위치 3종)
