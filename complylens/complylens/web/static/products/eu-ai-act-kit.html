@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EU AI Act Readiness Kit — ComplyLens</title>
+<style>body{font-family:system-ui,sans-serif;max-width:820px;margin:0 auto;padding:2rem 1.5rem;line-height:1.65;color:#1a1a1a}h1{border-bottom:3px solid #0b5fff;padding-bottom:.4rem}h2{margin-top:2.2rem;color:#0b3d91;border-bottom:1px solid #ddd;padding-bottom:.3rem}pre{background:#f6f8fa;border:1px solid #e1e4e8;border-radius:8px;padding:1rem;overflow-x:auto;font-size:.9rem}.note{background:#fffbe6;border:1px solid #e6d88a;border-radius:8px;padding:.8rem 1rem;margin:1rem 0}</style>
+</head>
+<body>
+<h1>EU AI Act Readiness Kit</h1>
+<p><strong>Product:</strong> ComplyLens EU AI Act Readiness Kit (starter edition) — 5 templates for AI system providers preparing for the EU AI Act (Regulation (EU) 2024/1689).</p>
+<p><em>Informational templates. Not legal advice. Verify obligations against the final text and your specific use case.</em></p>
+
+<h2>1. Applicability &amp; Risk Classification Checklist</h2>
+<p>Work through this to classify your AI system and identify which obligations apply.</p>
+<pre>
+A. Is it an AI system under Art. 3(1)?
+   [ ] Machine-learning model (supervised/unsupervised/reinforcement)
+   [ ] Logic- or knowledge-based system (expert systems, statistical approaches)
+   [ ] Receives input and generates output (predictions, content, recommendations, decisions)
+   If none: the AI Act likely does not apply.
+
+B. Is it PROHIBITED under Art. 5?
+   [ ] Manipulative/deceptive techniques exploiting vulnerabilities
+   [ ] Social scoring (public/private)
+   [ ] Real-time biometric identification in publicly accessible spaces (law enforcement — narrow exceptions)
+   [ ] Emotion inference in workplace/education
+   If YES: the system may not be placed on the market. STOP.
+
+C. Is it HIGH-RISK under Annex III (with the Digital Omnibus amendments)?
+   [ ] Biometrics (remote identification, categorisation, emotion)
+   [ ] Critical infrastructure management (safety components)
+   [ ] Education &amp; vocational training (admission, evaluation)
+   [ ] Employment &amp; worker management (recruitment, promotion, termination)
+   [ ] Access to essential services (credit, insurance, healthcare, energy)
+   [ ] Law enforcement (risk assessment, evidence evaluation, profiling)
+   [ ] Migration &amp; border control
+   [ ] Administration of justice
+   [ ] Democratic processes (disinformation/influence)
+   If YES: full high-risk obligations apply (risk management, data governance,
+   technical documentation, logging, transparency, human oversight, accuracy).
+
+D. Is it a GPAI model under Art. 51?
+   [ ] Trained with cumulative compute &gt; 10^25 FLOPs (GPAI with systemic risk)
+   [ ] Otherwise a general-purpose AI model
+   If YES: transparency/summary obligations apply; systemic-risk tier adds more.
+
+E. Does Art. 50 transparency apply?
+   [ ] Chatbot / conversational AI interacting with humans
+   [ ] Deepfake / synthetic content generation
+   [ ] Emotion recognition or biometric categorisation
+   If YES: disclose AI interaction / mark synthetic content.
+</pre>
+<p class="note">Key dates: GPAI obligations applied Aug 2025; transparency and (post-Digital-Omnibus) high-risk obligations from 2 Aug 2026; remaining high-risk provisions from 2 Aug 2027. Confirm current deadlines before relying on them.</p>
+
+<h2>2. Risk Management System Template (Art. 9)</h2>
+<pre>
+RISK MANAGEMENT RECORD — [SYSTEM NAME], version [X]
+Provider: [company] | Date: [YYYY-MM-DD] | Reviewer: [name]
+
+1. Intended purpose (Art. 3(12)):
+   [Describe the system's intended use, environment, and end users.]
+
+2. Reasonably foreseeable misuse:
+   [List scenarios of misuse and how the system detects/limits them.]
+
+3. Risk identification (hazard categories):
+   | ID | Hazard | Scenario | Severity (1-4) | Likelihood (1-4) | Risk level |
+   |----|--------|----------|----------------|------------------|------------|
+   | R1 | [e.g. biased output] | [when...] | 3 | 2 | Medium |
+   | R2 | ... | ... | ... | ... | ... |
+
+4. Risk evaluation &amp; mitigation:
+   | ID | Mitigation measure | Residual risk | Evidence (test/record) |
+   |----|--------------------|---------------|------------------------|
+   | R1 | [e.g. balanced training data, threshold calibration, human review] | Low | [link to eval report] |
+
+5. Acceptable residual risk statement:
+   [Confirmed by responsible person that residual risks are acceptable for the intended purpose.]
+
+6. Review cycle: [quarterly] | Next review: [date]
+</pre>
+
+<h2>3. Technical Documentation Template (Art. 11 / Annex IV)</h2>
+<pre>
+TECHNICAL DOCUMENTATION — [SYSTEM NAME] v[X]
+Provider: [company] | Date: [YYYY-MM-DD]
+
+1. General description:
+   - Intended purpose, system type (ML/logic-based), version
+   - Interaction with hardware/software environment
+   - Inputs/outputs and modalities
+   - How the system is used (deployment context, users)
+
+2. Detailed description:
+   - Architecture and development approach
+   - Data: sources, collection, preprocessing, labelling, validation
+   - Human oversight measures (Art. 14): who reviews, when, how
+   - Expected accuracy, robustness, cybersecurity (Art. 15) and test results
+
+3. Change management:
+   - Version history and what changed
+   - Re-evaluation triggers (data drift, major updates)
+
+4. Conformity references:
+   - Harmonised standards / common specifications used (or justification for alternative approach)
+   - This document must be kept up to date and provided to national authorities on request.
+</pre>
+
+<h2>4. Transparency Notice Template (Art. 50)</h2>
+<pre>
+AI INTERACTION NOTICE — [SYSTEM NAME]
+
+Purpose: this notice informs users that they are interacting with an AI system,
+as required by Article 50 of Regulation (EU) 2024/1689.
+
+[ ] This service/product includes AI-generated or AI-modified content.
+    Synthetic content is labelled: [e.g. watermark, metadata, visible label]
+[ ] Conversational AI: users are informed they are interacting with an AI system.
+[ ] Emotion recognition / biometric categorisation is in use (where applicable).
+
+Effective date: [YYYY-MM-DD]
+Provider contact: [email]
+</pre>
+
+<h2>5. Incident Monitoring &amp; Reporting Template (Art. 72-73)</h2>
+<pre>
+INCIDENT LOG — [SYSTEM NAME]
+Provider: [company]
+
+Incident definition (Art. 3(49)): an event directly or indirectly leading to, or
+potentially leading to: death/serious harm, serious disruption of critical
+infrastructure, infringement of fundamental rights, or serious harm to property/environment.
+
+| Log ID | Date (UTC) | Severity | Description | Impact | Root cause | Corrective action | Reported to authority? (Art. 73: within 15 days) |
+|--------|-----------|----------|-------------|--------|------------|-------------------|--------------------------------------------------|
+| INC-001 | [date] | [low/med/high] | [what happened] | [who/what affected] | [cause] | [fix + verification] | [yes/no + date + authority] |
+
+Review: incident log reviewed [monthly] by [owner].
+</pre>
+
+<hr>
+<p><em>This kit is an informational starting point. Obligations depend on your system's actual classification, and legal advice should be obtained before placing a high-risk system on the EU market.</em></p>
+</body>
+</html>

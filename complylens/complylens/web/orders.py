@@ -26,6 +26,12 @@ PRODUCTS = {
         "price_usd": 199,
         "file": "p3-custom.html",
     },
+    "p4-euaiakit": {
+        "name": "EU AI Act Readiness Kit",
+        "price_btc": 0.0022,
+        "price_usd": 149,
+        "file": "eu-ai-act-kit.html",
+    },
 }
 
 _BTC_TO_SAT = 100_000_000
