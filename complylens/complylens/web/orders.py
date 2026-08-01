@@ -32,6 +32,12 @@ PRODUCTS = {
         "price_usd": 149,
         "file": "eu-ai-act-kit.html",
     },
+    "p5-vendor": {
+        "name": "LL144 Vendor Comparison Pack",
+        "price_btc": 0.00045,
+        "price_usd": 29,
+        "file": "p5-vendor-comparison.html",
+    },
 }
 
 _BTC_TO_SAT = 100_000_000
