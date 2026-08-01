@@ -1,0 +1,442 @@
+<h1
+id="ulw-research-synthesis-deepseek-v4-저비용-ai-서비스-발굴">ULW-Research
+Synthesis: DeepSeek V4 저비용 AI 서비스 발굴</h1>
+<blockquote>
+<p>상태: <strong>COMPLETE</strong> (2026-08-01) — 8/8 축 수렴, skeptic
+라운드 통과 검증 클레임: C13~C75 (63개) · 웨이브: 2 + skeptic · 레인 8개
+전부 완료 합성 인용은 claim-graph.md의 verified-claims만 사용</p>
+</blockquote>
+<hr />
+<h2 id="실행-요약-draft-일부-섹션-대기">1. 실행 요약 (draft — 일부 섹션
+대기)</h2>
+<p>DeepSeek V4는 2026-04-24 출시된 오픈웨이트(MIT) MoE 모델. 공식 가격
+(2026-08-01 기준): <strong>V4-Flash $0.14/$0.0028/$0.28, V4-Pro
+$0.435/$0.003625/$0.87 (1M 토큰)</strong> — 5/22 75% 할인 영구화 반영.
+1M 컨텍스트, 384K 출력, 캐시 히트 98~99% 할인, 피크 2배 정책
+발표됨(미발효).</p>
+<p>핵심 판정 (확정): 1. 가격 모순 해소 완료: $1.74/$3.48 = 출시가 → 현재
+정가 $0.435/$0.87 [C34] 2. 성능: 프론티어 대비 ~8개월 lag (NIST CAISI
+Elo 800 vs 1260) [C41], 자체 보고 80.6% vs 독립 측정 74% [C36] 3. 환각
+최악 수준 (AA-Omniscience 94~96%) [C35] — 서비스 설계 시 RAG/검증 게이트
+필수 4. 한국어 품질: “챗GPT 못지않게 자연스럽다” (표본 4명, 제한적)
+[C37] 5. <strong>“싼 토큰은 필요조건이지 충분조건 아니다”</strong> —
+모든 후보에서 LLM 원가 &lt; 납품가의 1% [C46] 6. U9 해소: DCWP 집행 de
+minimis (2년간 컴플레인 2건, 패널티 0건) — 편향감사 추천 약화 [C43, C52]
+7. 단위 경제: 모든 후보 마진 생존, API 비용은 마진 위협 아님 — 그러나
+DeepSeek이 항상 최저가인 것도 아님 (입력-집약은 Gemini가 5.9% 저렴)
+[C47, C48] 8. 진짜 사업 제약: 유통/신뢰/규제 자격/서포트 자동화 — API
+가격이 아님 [C46, C50]</p>
+<h2 id="deepseek-v4-가격사양-완료-verified">2. DeepSeek V4 가격·사양
+(완료 — verified)</h2>
+<p>[표: 공식 가격, 컨텍스트, 동시성, 정책] — C13~C18, C34</p>
+<h2 id="경쟁-비교-완료-competitor-레인">3. 경쟁 비교 (완료 — competitor
+레인)</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>모델</th>
+<th>입력 $/M</th>
+<th>캐시히트</th>
+<th>출력 $/M</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DeepSeek V4-Flash</strong></td>
+<td>$0.14</td>
+<td>$0.0028 (2%)</td>
+<td>$0.28</td>
+<td>1M ctx, 384K out, 추론 멀티플라이어 없음 [C13, C63]</td>
+</tr>
+<tr>
+<td><strong>DeepSeek V4-Pro</strong></td>
+<td>$0.435</td>
+<td>$0.003625</td>
+<td>$0.87</td>
+<td>영구 프로모가, Azure는 $1.74 [C14, C56]</td>
+</tr>
+<tr>
+<td>Gemini 3.5/2.5 Flash-Lite</td>
+<td>$0.10</td>
+<td>$0.01 (10%)</td>
+<td>$0.40</td>
+<td>입력 29% 저렴, 출력 30% 비쌈 — 3:1에서 동률 [C62]</td>
+</tr>
+<tr>
+<td>GPT-5-mini</td>
+<td>$0.25</td>
+<td>$0.025</td>
+<td>$2.00</td>
+<td>V4-Flash 대비 출력 86% 비쌈 [C62]</td>
+</tr>
+<tr>
+<td>Claude Haiku 4.5</td>
+<td>$1.00</td>
+<td>$0.10</td>
+<td>$5.00</td>
+<td>출력 94% 비쌈 [C62]</td>
+</tr>
+<tr>
+<td>Groq GPT-OSS-20B</td>
+<td>$0.075</td>
+<td>$0.0375</td>
+<td>$0.30</td>
+<td>무료 티어 30 RPM, 한국어 제한적 [C64]</td>
+</tr>
+<tr>
+<td>Qwen3.7-Flash (국제)</td>
+<td>$0.030</td>
+<td>~$0.003</td>
+<td>$0.80</td>
+<td>입력 초저가, 출력 비쌈 [C62]</td>
+</tr>
+<tr>
+<td>OpenRouter V4-Flash</td>
+<td>$0.0896</td>
+<td>—</td>
+<td>$0.1792</td>
+<td>StreamLake/DeepInfra 프로모, 리스트 대비 36% [C62]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>확정 판정</strong> [C62~C64]: - 리스트 가격: Gemini
+Flash-Lite와 동률 (워크로드 의존) — “DeepSeek 최저가”는 OpenRouter
+경유/출력-집약/추론-집약일 때만 성립 - <strong>최대 이점: 추론 출력
+멀티플라이어 없음 (7~50배 우위)</strong> + 캐시 히트 2% (시장 최저)
+[C63] - Gemini $0.30/$2.50 모순 해소: 2.5 Flash 가격 혼동, Flash-Lite는
+$0.10/$0.40 [C64]</p>
+<h2 id="성능-검증-완료-verified">4. 성능 검증 (완료 — verified)</h2>
+<ul>
+<li>자체 보고 vs 독립 검증: 80.6%는 미공개 자체 하네스 기준, 공식
+리더보드 부재, 독립 재현 0건 [C59]</li>
+<li>독립 평가: AA #6/101 (44), LMArena 1457 (탑10 미만) — 프론티어 미만,
+Sonnet급 [C60]</li>
+<li>SWE-bench Verified는 OpenAI가 2026-02-23 퇴역시킨 오염 벤치
+[C57]</li>
+<li>강점: LiveCodeBench 93.5, Codeforces 3206 (최고) / 약점: Apex 38.3,
+HLE 37.7, MRCR 1M 83.5, 비멀티모달 [C60]</li>
+<li><strong>한국어 품질: 완전 미검증</strong> [C61] — kr-market 레인과
+교차</li>
+<li>환각 최악 (AA-Omniscience 94~96%) [C35]</li>
+</ul>
+<h2 id="서비스-아이디어-후보-완료-idea-space-레인">5. 서비스 아이디어
+후보 (완료 — idea-space 레인)</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>순위</th>
+<th>후보</th>
+<th>판정</th>
+<th>핵심</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>LL144 편향감사 (다중관할)</td>
+<td>CONDITIONAL GO</td>
+<td>U9 약화, 가격 하락 $2,500→$1,500, 컨설팅 사업</td>
+</tr>
+<tr>
+<td>2</td>
+<td>수직 특화 지원 에이전트</td>
+<td>수평 NO-GO</td>
+<td>Intercom $0.99/resolution, 유통이 문제</td>
+</tr>
+<tr>
+<td>3</td>
+<td>규제 컴플라이언스 문서</td>
+<td>COND GO</td>
+<td>1M 컨텍스트가 규제 전문 원문 통째 입력 가능 — 유일하게 "싼 토큰"이
+바꾸는 후보</td>
+</tr>
+<tr>
+<td>4-7</td>
+<td>그랜트/번역/계약/교육</td>
+<td>NO-GO</td>
+<td>코모디티/자본 집약</td>
+</tr>
+</tbody>
+</table>
+<p>핵심: 유일하게 DeepSeek의 가격·1M 컨텍스트가 실질적으로 게임을 바꾸는
+후보 = <strong>규제 컴플라이언스 문서 생성</strong> (C46 반영,
+idea-space Rank 3)</p>
+<h2 id="단위-경제-완료-unit-economics-레인">6. 단위 경제 (완료 —
+unit-economics 레인)</h2>
+<p><strong>모든 후보 마진 생존</strong> — API 비용은 수익의 0.001~0.6%
+(C47):</p>
+<table>
+<thead>
+<tr>
+<th>후보</th>
+<th>단가</th>
+<th>마진</th>
+<th>API/단위 (Flash)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>감사</td>
+<td>$2,500</td>
+<td>88.6%</td>
+<td>$0.014</td>
+</tr>
+<tr>
+<td>번역 프리미엄</td>
+<td>$50</td>
+<td>86.0%</td>
+<td>$0.002</td>
+</tr>
+<tr>
+<td>튜터링</td>
+<td>$10</td>
+<td>84.9%</td>
+<td>$0.006</td>
+</tr>
+<tr>
+<td>콘텐츠</td>
+<td>$50</td>
+<td>92.6%</td>
+<td>$0.001</td>
+</tr>
+</tbody>
+</table>
+<p><strong>핵심 판정</strong>: - 입력-집약 워크로드는 Gemini 2.5
+Flash-Lite가 V4-Flash보다 5.9% 저렴 [C48] — DeepSeek 최저가는 워크로드
+의존 - Flash vs Pro 선택이 벤더 선택보다 10~100배 중요 (Pro 3.1x) [C49]
+- 진짜 마진 킬러 = 서포트/인력 (1.3~8%) — 저가 볼륨은 셀프서비스
+자동화로만 생존 [C50] - 피크 2배 정책: 한국 기준 1.78x 유효에도
+논-이벤트 [C50]</p>
+<h2 id="한국-시장-완료-kr-market-레인">7. 한국 시장 (완료 — kr-market
+레인)</h2>
+<p><strong>한국어 사용자 대상 서비스는 구조적 NO-GO</strong> [C65~C69]:
+- 한국어 벤치마크 제로, 중국/영어 중심 훈련 [C65] - PIPA 28-8: 중국 서버
+이전 = 별도 동의 필수, 정부 차단 선례, PIPC 점검, 리셀러 부재 [C65] -
+국내 대안: K-ExaOne 2.0 (한국어 99.8, MIT, 정부 지원), HyperCLOVA X
+(2,000+ 기관), Kanana [C66] - AI 기본법 2026-01-22 시행: 투명성/고영향
+AI/국내 대리인 [C67] - per-seat SaaS 죽음 확정 (Shiftee 2,000원/인/월),
+하이브리드 과금 95%, 무료 온보딩 기본 [C68] - 유일 생존 경로: 자체호스팅
+V4 백엔드 (비-PII, 비한국어) — K-ExaOne 2.0이 경쟁 [C69] - 피크 2배
+정책: 베이징 근무시간 = 한국 근무시간 전부 (KST=UTC+9, 1시간 차이) [C58,
+C68]</p>
+<h2 id="리스크-완료-risks-레인">8. 리스크 (완료 — risks 레인)</h2>
+<p><strong>판정: “모델에 구축하되, 벤더에 구축하지 마라”</strong>
+[C70~C75]:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>리스크</th>
+<th>가능성</th>
+<th>영향</th>
+<th>완화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SLA 없음 + 장애 (99.90%, 7h 장애 사례)</td>
+<td>높음</td>
+<td>중-높</td>
+<td>멀티엔드포인트 라우팅 + 자동 페일오버 [C70]</td>
+</tr>
+<tr>
+<td>피크 2배 + 일방적 가격 변경</td>
+<td>높음 (발표됨)</td>
+<td>중</td>
+<td>비피크 시간 배치, 프롬프트 캐시, 저가 호스트 라우팅, 예산 ±2× [C70,
+C74]</td>
+</tr>
+<tr>
+<td>PRC 데이터 보관 + 훈련 침묵</td>
+<td>높음 (설계상)</td>
+<td>높</td>
+<td>규제 데이터는 비-PRC 호스트로, DPA 협상 (no-training) [C71]</td>
+</tr>
+<tr>
+<td>국경 간 이전 비준수 (GDPR/PIPA)</td>
+<td>중-높</td>
+<td>높</td>
+<td>규제 데이터 오프-PRC, 데이터 최소화 [C71]</td>
+</tr>
+<tr>
+<td>지정학 금지/수출통제</td>
+<td>중</td>
+<td>높</td>
+<td>프로바이더 무관 게이트웨이 + 비-DeepSeek 모델 스와프 [C74]</td>
+</tr>
+<tr>
+<td>벤더 락인</td>
+<td><strong>낮음</strong></td>
+<td>중</td>
+<td>이미 완화됨: MIT + 10+ 호스트 (직판보다 35% 저렴) [C72]</td>
+</tr>
+<tr>
+<td>책임/계약 (상한 12개월, PRC 법)</td>
+<td>높음</td>
+<td>중</td>
+<td>자체 레이어 SLO, 보험, 지출 분산 [C74]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>자체호스팅: 데이터 주권 보험이지 비용 플레이 (손익분기 수십억
+토큰/월) [C73]</li>
+<li>핵심 조건: 멀티프로바이더 라우팅 + 데이터 분리 + 자체호스팅 폴백 +
+자체 SLA + 스와프 가능 모델 [C75]</li>
+</ul>
+<h2 id="스켑틱-라운드-완료-skeptic-레인">9. 스켑틱 라운드 (완료 —
+skeptic 레인)</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>공격 대상</th>
+<th>판정</th>
+<th>핵심</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>“싼 API = 기회” 전제</td>
+<td>WEAKENED</td>
+<td>유통/신뢰/서포트/결제는 가격과 무관, MIT 오픈웨이트 = 가격 모트 제로
+[C53]</td>
+</tr>
+<tr>
+<td>2a</td>
+<td>DCWP 집행 수요</td>
+<td><strong>REFUTED</strong> (why-now)</td>
+<td>DCWP가 권고 3개 거절, “광범위 위반 증거 없다” 공식 입장 [C54]</td>
+</tr>
+<tr>
+<td>2b</td>
+<td>감사에 LLM 필요</td>
+<td><strong>REFUTED</strong> (LLM 각도)</td>
+<td>EEOC 통계 + 독립 서명 + 법률 지식 — LLM은 내러티브 보조 [C55]</td>
+</tr>
+<tr>
+<td>2c</td>
+<td>$2,500 = 시장가</td>
+<td>WEAKENED</td>
+<td>단일 벤더 리스트, $7,500 온프레미스/$18,500 티어 존재 [C9, C44]</td>
+</tr>
+<tr>
+<td>3a</td>
+<td>가격 “오기재” 프레이밍</td>
+<td>WEAKENED (수정)</td>
+<td>$1.74 = 출시 리스트, 프로모 영구화가 현재가, Azure는 여전히 $1.74 —
+원복 리스크 [C56]</td>
+</tr>
+<tr>
+<td>3b</td>
+<td>가격 보고 사이트</td>
+<td>REFUTED</td>
+<td>채널별 가격 미구분 [C56]</td>
+</tr>
+<tr>
+<td>3c</td>
+<td>피크 2배 정책</td>
+<td>WEAKENED</td>
+<td>발효일 미정 — 한국 근무시간 대부분 피크, 미프라이싱 옵션 [C58]</td>
+</tr>
+<tr>
+<td>4</td>
+<td>SWE-bench 80.6%</td>
+<td><strong>WEAKENED→REFUTED</strong></td>
+<td>OpenAI가 2026-02-23 퇴역시킨 오염 벤치 (59.4% 문제 결함) [C57]</td>
+</tr>
+<tr>
+<td>5</td>
+<td>아이디어 순위</td>
+<td>WEAKENED</td>
+<td>상위 2개 = 같은 테제(규제 산출물) 집중 리스크, 숨은 비용 미계상
+[C54, C55]</td>
+</tr>
+<tr>
+<td>6</td>
+<td>단위 경제</td>
+<td>WEAKENED</td>
+<td>캐시 히트 낙관 (감사 워크로드 10-20% 현실적), CNY 페그·지정학
+미모델링 [C58]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>스켑틱 수용 사항</strong>: C14 수정(가격 이력+채널),
+SWE-bench 마케팅 숫자 배제, 감사 워크로드 캐시 히트 10-20%로 하향, 피크
+정책 시나리오 반영.</p>
+<h2 id="결론-및-추천-확정">10. 결론 및 추천 (확정)</h2>
+<h3 id="핵심-판정-5개">핵심 판정 5개</h3>
+<ol type="1">
+<li><strong>“싼 토큰 = 기회”는 기각</strong> — 모든 후보에서 LLM 원가
+&lt; 납품가의 1% (C45, C47). 가격은 필요조건일 뿐, 사업 선택 기준은
+지불의사/유통/신뢰/규제 자격.</li>
+<li><strong>DeepSeek V4의 진짜 이점</strong>: 추론 출력 멀티플라이어
+없음 (경쟁사 대비 7~50배, C63) + 캐시 히트 2% + 1M 컨텍스트 + MIT
+오픈웨이트 코모디티화 (C72).</li>
+<li><strong>한국어 사용자 대상 서비스는 구조적 NO-GO</strong> (C65~C69):
+PIPA 중국 이전 + 한국어 미검증 + K-ExaOne/HyperCLOVA + 무료 온보딩. →
+타깃은 글로벌/영어권.</li>
+<li><strong>DeepSeek 직접 API는 단독 의존 불가</strong> — “모델에
+구축하되 벤더에 구축하지 마라” (C75): 멀티프로바이더 라우팅 + 규제
+데이터 비-PRC + 자체호스팅 폴백.</li>
+<li><strong>규제 컴플라이언스가 유일한 “DeepSeek이 게임을 바꾸는”
+영역</strong> (C46): 1M 컨텍스트로 규제 전문 원문 통째 입력 + 다중관할
+산출물 (LL144 감사, IL HB 3773, CA ADMT, EU) — 단 도메인 전문성
+필수.</li>
+</ol>
+<h3 id="추천-후보-승인-브리프로-제시">추천 후보 (승인 브리프로
+제시)</h3>
+<ul>
+<li><strong>후보 A: 다중관할 AI 규제 컴플라이언스 문서 서비스</strong>
+(글로벌, B2B, 산출물 고정가) — 규제가 산출물을 명명, 1M 컨텍스트 활용,
+DeepSeek 원가 구조가 실질적으로 유리한 유일한 영역. 단점: 법률/규제
+도메인 전문성 필요, WTP 증거 2차 소스.</li>
+<li><strong>후보 B: LL144/AEDT 편향감사 생산품화 (다중관할
+확장)</strong> — 이전 세션 1위, CONDITIONAL GO: enforcement 수요는
+refuted(C54)지만 감사관 53% 위반 발견 + IL/CA/CO 확장(C31)으로 시장
+존재. LLM은 내러티브/문서화 보조(C55).</li>
+<li><strong>후보 C: OpenRouter 기반 저가 LLM 게이트웨이/툴</strong>
+(개발자 대상, 사용량 과금) — DeepSeek의 진짜 이점(추론 멀티플라이어
+없음, 캐시 2%)을 직접 판매, 한국어 불필요. 단점: 개발자 도구 경쟁 과밀,
+프롬프트 코모디티.</li>
+</ul>
+<h3 id="거부된-것">거부된 것</h3>
+<ul>
+<li>한국어 사용자 대상 전부 (소비자/펄시트/교육/번역) — 구조적
+NO-GO</li>
+<li>그랜트/계약검토/일반 튜터링 — 경쟁 과밀 + solo 불리</li>
+<li>“싼 API” 자체를 사업 이유로 하는 전부 — 전제 기각</li>
+</ul>
+<h2 id="한계-초안">한계 (초안)</h2>
+<ul>
+<li>Reddit/X/DDG 접근 불가 — 커뮤니티 증거가 HN + 한국 블로그로
+편향</li>
+<li>한국어 품질 표본 4명 — 방향성만</li>
+<li>OpenRouter 가격($0.0896)은 경쟁사 레인 검증 대기</li>
+</ul>
