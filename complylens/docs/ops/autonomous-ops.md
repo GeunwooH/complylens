@@ -32,3 +32,10 @@
 - npopo.com에 Cloudflare Email Routing MX (route1~3.mx.cloudflare.net) + SPF(google 포함) 활성
 - audit@npopo.com 수신 가능 인프라 존재 → G2/Capterra/Product Hunt 회사 이메일 인증 + 고객 문의 수신에 활용 가능
 - 확인 필요: 포워딩 대상 주소 (아마 npopo86@gmail.com — Cloudflare 대시보드 확인)
+
+## 아웃리치 발송 상태 (2026-08-01)
+- Gmail 웹 UI 발송 시도: 컴퓨터-유즈 좌표 클릭이 Safari/Aside 웹 콘텐츠에 전달되지 않아 실패 (2회)
+- Email Routing 확인: me@npopo.com 존재 + 사용자 테스트 완료 — npopo.com 메일 수신 인프라 작동
+- 대안 경로: (1) Gmail SMTP 앱 비밀번호 (사용자 1분 설정) → curl/python으로 5건 자동 발송,
+  (2) mailto 초안 (docs/ops/outreach-emails.md) — 사용자가 1클릭으로 발송
+- 결정: SMTP 설정 전까지 SEO/사이트가 주 유치 채널 (에이전트 완전 자율)
