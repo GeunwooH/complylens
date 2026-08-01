@@ -45,3 +45,8 @@
 - 주문 API 실측: fetch POST /api/orders → 200 (2d4c90f13896, 0.00075 BTC, 지갑 주소)
 - 폼 JS 화면 갱신은 eval 타이밍 문제 — API/데이터 흐름 정상
 - 도구: agent-browser 0.33.1 (npx) — 외부 플랫폼(Product Hunt/G2) 등록은 새 프로필에 로그인 세션 없어 Gmail OAuth 필요 → 사용자 세션 필요 항목으로 유지
+
+## GitHub 유치 채널 (2026-08-01)
+- 공개 repo: https://github.com/GeunwooH/complylens — README에 제품 5종 + html.npopo.com 링크 5개 (백링크)
+- 효과: Google 크롤러가 GitHub 링크로 색인 발견 + 개발자/스타트업 커뮤니티 노출
+- 다음: ACLU LL144 트래커 기여 (github.com/aclu-national/tracking-ll144-bias-audits) — 포크 + 최신 감사 데이터 추가 시도
