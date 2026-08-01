@@ -71,4 +71,4 @@ def test_webhook_bad_signature_rejected(store: OrderStore, monkeypatch: pytest.M
 
     monkeypatch.setattr("complylens.web.billing.stripe.Webhook.construct_event", fake_construct)
     with pytest.raises(ValueError):
-        handle_checkout_webhook(b"{}", "bad", "whsec_test")
+        handle_checkout_webhook(b"{}", "bad", "whsec_test", store)
