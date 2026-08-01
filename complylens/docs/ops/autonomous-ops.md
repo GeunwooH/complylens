@@ -39,3 +39,9 @@
 - 대안 경로: (1) Gmail SMTP 앱 비밀번호 (사용자 1분 설정) → curl/python으로 5건 자동 발송,
   (2) mailto 초안 (docs/ops/outreach-emails.md) — 사용자가 1클릭으로 발송
 - 결정: SMTP 설정 전까지 SEO/사이트가 주 유치 채널 (에이전트 완전 자율)
+
+## 구매자 여정 QA (agent-browser, 2026-08-01)
+- 실제 Chromium 렌더: 랜딩(타이틀/CTA/벌금 계산기), pricing(제품 4종/환불 보장) 확인
+- 주문 API 실측: fetch POST /api/orders → 200 (2d4c90f13896, 0.00075 BTC, 지갑 주소)
+- 폼 JS 화면 갱신은 eval 타이밍 문제 — API/데이터 흐름 정상
+- 도구: agent-browser 0.33.1 (npx) — 외부 플랫폼(Product Hunt/G2) 등록은 새 프로필에 로그인 세션 없어 Gmail OAuth 필요 → 사용자 세션 필요 항목으로 유지
