@@ -19,7 +19,12 @@ def _escape(value: object) -> str:
     return html.escape(str(value))
 
 
-def build_detailed_report_html(audit_json: dict, narrative: str, tool_description: str) -> str:
+def build_detailed_report_html(
+    audit_json: dict,
+    narrative: str,
+    tool_description: str,
+    include_il_section: bool = False,
+) -> str:
     if not audit_json.get("categories"):
         raise ValueError("audit_json has no categories")
     rows = "".join(
@@ -31,6 +36,14 @@ def build_detailed_report_html(audit_json: dict, narrative: str, tool_descriptio
         "</tr>"
         for cat in audit_json["categories"]
     )
+    il_section = (
+        "<h2>Illinois HB 3773 Notice</h2>"
+        "<p>This tool was used for selection decisions covered by the Illinois Human "
+        "Rights Act as amended by HB 3773. The selection criteria and their role in "
+        "the decision are described in the candidate notice.</p>"
+        if include_il_section
+        else ""
+    )
     return (
         "<html><head><meta charset='utf-8'><title>Bias Audit Report</title></head><body>"
         f"<h1>Bias Audit Report</h1>"
@@ -40,6 +53,7 @@ def build_detailed_report_html(audit_json: dict, narrative: str, tool_descriptio
         "<th>Impact Ratio</th><th>Four-Fifths</th></tr>"
         f"{rows}</table>"
         f"<p><strong>Highest selection rate:</strong> {audit_json['highest_selection_rate']:.4f}</p>"
+        f"{il_section}"
         "</body></html>"
     )
 
