@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
@@ -22,7 +22,7 @@ class SignoffStore:
         record = {
             "audit_id": audit_id,
             "signer": signer,
-            "signed_at": datetime.now(timezone.utc).isoformat(),
+            "signed_at": datetime.now(UTC).isoformat(),
         }
         self._path(audit_id).write_text(json.dumps(record, indent=2), encoding="utf-8")
 

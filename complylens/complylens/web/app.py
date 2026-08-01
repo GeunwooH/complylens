@@ -5,7 +5,7 @@ import io
 import json
 import os
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pandas as pd
@@ -15,7 +15,12 @@ from fastapi.security import APIKeyHeader
 from fastapi.staticfiles import StaticFiles
 
 from complylens.audit.core import MissingCategoryError, evaluate_audit
-from complylens.llm.gateway import HallucinationDetected, LLMGateway, NoProviderAvailable, Provider
+from complylens.llm.gateway import (
+    HallucinationDetected,
+    LLMGateway,
+    NoProviderAvailable,
+    Provider,
+)
 from complylens.report.builder import (
     build_detailed_report_html,
     build_notice_text,
@@ -101,18 +106,15 @@ def _run_pipeline(df: pd.DataFrame, tool_description: str, audit_date: str) -> d
 
 @app.post("/api/audits")
 def create_audit(
-    file: UploadFile = File(...),
+    file: UploadFile = File(...),  # noqa: B008 - FastAPI 의존성 주입 관용구
     tool_description: str = Form(..., min_length=1),
     _: None = Depends(_require_api_key),
 ) -> dict:
     if not tool_description.strip():
         raise HTTPException(status_code=400, detail="tool_description is required")
-    try:
-        df = _parse_csv(file.file.read())
-    except HTTPException:
-        raise
+    df = _parse_csv(file.file.read())
     audit_id = uuid.uuid4().hex[:12]
-    audit_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    audit_date = datetime.now(UTC).strftime("%Y-%m-%d")
     try:
         payload = _run_pipeline(df, tool_description.strip(), audit_date)
     except MissingCategoryError as exc:
@@ -121,7 +123,7 @@ def create_audit(
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     record = {
         "audit_id": audit_id,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "tool_description": payload["tool_description"],
         "audit_date": audit_date,
         "result": payload["audit_json"],

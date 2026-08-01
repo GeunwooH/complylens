@@ -1,12 +1,15 @@
 """LLM 게이트웨이 — 멀티프로바이더 라우팅, 비-PRC 가드, 환각 게이트."""
 from __future__ import annotations
 
+import logging
 import os
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 from openai import OpenAI
+
+_logger = logging.getLogger(__name__)
 
 _NUMBER_RE = re.compile(r"\d+(?:\.\d+)?")
 
@@ -61,7 +64,8 @@ class LLMGateway:
                     messages=[{"role": "user", "content": prompt}],
                 )
                 return resp.choices[0].message.content or ""
-            except Exception:
+            except (TimeoutError, ConnectionError, OSError) as exc:
+                _logger.warning("provider %s failed: %s", p.name, exc)
                 continue
         raise NoProviderAvailable("all active providers failed")
 

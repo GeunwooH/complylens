@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import os
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import stripe
@@ -37,7 +37,7 @@ class OrderStore:
             "status": "created",
             "tool_description": tool_description,
             "amount_usd": AUDIT_PRICE_USD,
-            "created_at": datetime.now(timezone.utc).isoformat(),
+            "created_at": datetime.now(UTC).isoformat(),
         }
         self._write(order)
         return order
@@ -59,7 +59,7 @@ class OrderStore:
         if to_status not in allowed:
             raise InvalidTransition(f"cannot go {order['status']} -> {to_status}")
         order["status"] = to_status
-        order["updated_at"] = datetime.now(timezone.utc).isoformat()
+        order["updated_at"] = datetime.now(UTC).isoformat()
         self._write(order)
         return order
 

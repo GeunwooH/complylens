@@ -97,6 +97,7 @@ def render_pdf(html_str: str, out_path: Path) -> Path:
         capture_output=True,
         text=True,
         timeout=120,
+        check=False,
     )
     if result.returncode != 0:
         raise RuntimeError(f"weasyprint failed: {result.stderr[:500]}")
