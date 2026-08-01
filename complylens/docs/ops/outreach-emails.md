@@ -103,3 +103,9 @@ ComplyLens
 **방법**: HubSpot 연락 폼 (agent-browser, email: audit@npopo.com)
 **내용**: 파트너십 일반 문의 — HireVue 고객(JetBlue/Pfizer 등)의 NYC LL144 감사 수요
 **상태**: ✅ 2026-08-01 제출 ("Thank you" 실측)
+
+## 8. idiro.com (직접 경쟁사 — 리퍼럴 파트너십)
+**받는 사람**: lets.talk@idiro.com
+**제목**: [Partnership] Bias audit referral cooperation
+**내용**: 독립 서명 필요한 수요를 리퍼럴(10-15%) + 교차 등재 제안
+**상태**: ✅ 2026-08-01 발송 ("메시지 전송됨" 실측)
