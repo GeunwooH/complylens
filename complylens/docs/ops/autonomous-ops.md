@@ -88,3 +88,9 @@
 - has_discussions=true (API) + 첫 게시물: github.com/GeunwooH/complylens/discussions/1
 - "ComplyLens launched" — 제품 소개 + 질문 유도 (LL144/방법론/다중관할 AMA)
 - 효과: GitHub 커뮤니티 노출 + Discussion 페이지도 검색 색인 (고권위 백링크)
+
+## 카드 결제(Lemon Squeezy) 시도 결과 (2026-08-01)
+- 가입 흐름: 비즈니스 정보 → Managed Payments(Stripe merchant of record) 온보딩 개입
+- 여러 단계 시도 후 정체 — Stripe KYC(사업자 정보)는 에이전트 불가
+- 결론: 카드 결제 수신은 **사용자 KYC 필요 항목 확정** (skeptic A2 권고 — BTC 전용은 전환율 자해,
+  카드가 필요하나 수신 활성화는 사용자 몫). 크립토+invoice는 자율 가동 중.
