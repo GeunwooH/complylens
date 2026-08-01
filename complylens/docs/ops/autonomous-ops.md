@@ -50,3 +50,8 @@
 - 공개 repo: https://github.com/GeunwooH/complylens — README에 제품 5종 + html.npopo.com 링크 5개 (백링크)
 - 효과: Google 크롤러가 GitHub 링크로 색인 발견 + 개발자/스타트업 커뮤니티 노출
 - 다음: ACLU LL144 트래커 기여 (github.com/aclu-national/tracking-ll144-bias-audits) — 포크 + 최신 감사 데이터 추가 시도
+
+## GitHub 채널 완성 (2026-08-01)
+- complylens repo: README(제품5+링크5) + LICENSE(MIT) + topics 5개
+- 프로필 README (github.com/GeunwooH): ComplyLens 소개 + 링크 3개
+- 백링크 총 8개 — Google 색인 발견 트리거 + 커뮤니티 노출
