@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LL144 Self-Assessment Quiz: Are You Compliant? | ComplyLens</title>
+<meta name="description" content="30-second quiz: does NYC Local Law 144 apply to your company, and are you compliant? Instant coverage determination with next-step guidance.">
+<link rel="canonical" href="https://html.npopo.com/quiz.html">
+<style>
+body{font-family:system-ui,sans-serif;max-width:680px;margin:0 auto;padding:2rem 1.5rem;line-height:1.7;color:#1a1a1a}
+h1{border-bottom:3px solid #0b5fff;padding-bottom:.4rem}
+.q{background:#f7f9ff;border:1px solid #e1e8f5;border-radius:10px;padding:1.2rem;margin:1rem 0}
+label{display:block;margin:.4rem 0;padding:.5rem;border:1px solid #ddd;border-radius:6px;cursor:pointer}
+label:hover{background:#eef4ff}
+input[type=radio]{margin-right:.5rem}
+button{background:#0b5fff;color:#fff;border:none;padding:.7rem 1.4rem;border-radius:6px;font-size:1rem;cursor:pointer}
+#result{display:none;background:#eef7ee;border:1px solid #9ccc9c;border-radius:10px;padding:1.2rem;margin:1rem 0}
+#leadForm{background:#fffbe6;border:1px solid #e6d88a;border-radius:10px;padding:1.2rem;margin:1rem 0;display:none}
+#leadForm input{width:100%;padding:.5rem;margin:.3rem 0;border:1px solid #ccc;border-radius:6px;box-sizing:border-box}
+footer{margin-top:2.5rem;color:#666;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><strong><a href="/" style="text-decoration:none;color:inherit">ComplyLens</a></strong> — <a href="/ll144-guide.html">LL144 Guide</a></header>
+<h1>LL144 Self-Assessment Quiz</h1>
+<p>Answer 5 questions — get an instant coverage determination and next steps. ~30 seconds.</p>
+
+<div id="quiz">
+<div class="q" data-q="1">
+<p><strong>1. Do you use an AI/ML tool (screener, ranker, scorer, chatbot) in hiring or promotion?</strong></p>
+<label><input type="radio" name="q1" value="yes"> Yes</label>
+<label><input type="radio" name="q1" value="no"> No</label>
+</div>
+<div class="q" data-q="2">
+<p><strong>2. Does the tool substantially assist or replace discretionary screening decisions?</strong></p>
+<label><input type="radio" name="q2" value="yes"> Yes</label>
+<label><input type="radio" name="q2" value="no"> No</label>
+</div>
+<div class="q" data-q="3">
+<p><strong>3. Do you hire for any NYC-based positions, including remote roles open to NYC residents?</strong></p>
+<label><input type="radio" name="q3" value="yes"> Yes</label>
+<label><input type="radio" name="q3" value="no"> No</label>
+</div>
+<div class="q" data-q="4">
+<p><strong>4. Was an independent bias audit completed for this tool within the last 12 months?</strong></p>
+<label><input type="radio" name="q4" value="yes"> Yes</label>
+<label><input type="radio" name="q4" value="no"> No</label>
+</div>
+<div class="q" data-q="5">
+<p><strong>5. Is the audit summary publicly posted and are candidates given 10 business days' notice?</strong></p>
+<label><input type="radio" name="q5" value="yes"> Yes</label>
+<label><input type="radio" name="q5" value="no"> No</label>
+</div>
+<button id="submitBtn">Get my result</button>
+</div>
+
+<div id="result"></div>
+<div id="leadForm">
+<h3 style="margin-top:0">Get your free compliance checklist</h3>
+<p style="font-size:.9rem">Enter your email for the 20-point AEDT checklist and next-step guidance.</p>
+<input type="email" id="leEmail" placeholder="you@company.com">
+<button id="leSubmit">Send me the checklist</button>
+<p id="leDone" style="display:none;color:#0b7a2b;font-weight:600">✓ Check your inbox — checklist is on its way. Meanwhile, see our <a href="/pricing.html">products</a>.</p>
+</div>
+
+<script>
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const g = (n) => document.querySelector('input[name="q' + n + '"]:checked');
+  const a = [1,2,3,4,5].map(g);
+  if (a.some(x => !x)) { alert("Please answer all 5 questions."); return; }
+  const vals = a.map(x => x.value);
+  const covered = vals[0] === "yes" && vals[1] === "yes" && vals[2] === "yes";
+  const compliant = covered && vals[3] === "yes" && vals[4] === "yes";
+  let html;
+  if (!covered) {
+    html = "<h3 style='margin-top:0'>Not covered</h3><p>Based on your answers, NYC Local Law 144 likely does <strong>not</strong> apply to these tools. Note: laws change and remote-role definitions vary — <a href='/ll144-guide.html'>review the full guide</a> to be sure.</p>";
+  } else if (compliant) {
+    html = "<h3 style='margin-top:0'>You appear compliant ✅</h3><p>You have a current audit, public summary, and notice in place. Remember: the audit must be re-done every 12 months — <a href='/pricing.html'>set a reminder with our toolkit</a>.</p>";
+  } else {
+    html = "<h3 style='margin-top:0'>Covered — action needed ⚠️</h3><p>NYC Local Law 144 applies to your tool(s). Enforcement went <strong>proactive in January 2026</strong> and the first fines have been issued. Penalties run $500 first violation, $500–$1,500/day after, per tool.</p><p><a href='/pricing.html' style='font-weight:600'>Start with the Readiness Toolkit — $299</a> or the <a href='/aedt-compliance-checklist.html'>free checklist</a>.</p>";
+  }
+  document.getElementById("result").innerHTML = html;
+  document.getElementById("result").style.display = "block";
+  document.getElementById("leadForm").style.display = "block";
+  document.getElementById("quiz").scrollIntoView({behavior:"smooth"});
+  fetch("/api/pv", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({path:"/quiz.html#result"})}).catch(()=>{});
+});
+document.getElementById("leSubmit").addEventListener("click", async () => {
+  const email = document.getElementById("leEmail").value.trim();
+  if (!email.includes("@")) { alert("Enter a valid email."); return; }
+  const res = await fetch("/api/leads", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({name:"", company:"", email, message:"QUIZ: LL144 self-assessment result"})});
+  if (res.ok) {
+    document.getElementById("leDone").style.display = "block";
+    document.getElementById("leSubmit").style.display = "none";
+    document.getElementById("leEmail").style.display = "none";
+  } else { alert("Please enter a valid email."); }
+});
+</script>
+
+<footer>Informational quiz. Not legal advice. Verify with a qualified professional before relying on the result.</footer>
+</body>
+</html>
