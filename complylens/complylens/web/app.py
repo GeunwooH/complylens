@@ -12,6 +12,7 @@ import pandas as pd
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.security import APIKeyHeader
+from fastapi.staticfiles import StaticFiles
 
 from complylens.audit.core import MissingCategoryError, evaluate_audit
 from complylens.llm.gateway import HallucinationDetected, LLMGateway, NoProviderAvailable, Provider
@@ -169,3 +170,7 @@ def public_summary(audit_id: str) -> str:
     if not summary.exists():
         raise HTTPException(status_code=404, detail="summary not found")
     return summary.read_text(encoding="utf-8")
+
+
+_STATIC_DIR = Path(__file__).parent / "static"
+app.mount("/", StaticFiles(directory=_STATIC_DIR, html=True), name="static")
