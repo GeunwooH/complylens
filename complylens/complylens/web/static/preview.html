@@ -36,6 +36,40 @@ footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 </div>
 
 <p class="lock">🔒 The remaining 3 sections (penalty math, data checklist, this-week action plan) are in the full playbook.</p>
+
+<div style="background:#f7f9ff;border:1px solid #cfe0ff;border-radius:10px;padding:1.2rem;margin:1rem 0">
+<h3 style="margin-top:0">Free: LL144 compliance checklist (PDF)</h3>
+<p style="font-size:.9rem">Enter your email and get the 20-point AEDT compliance checklist immediately — the same checklist used by compliance teams. No spam.</p>
+<form id="leadEmailForm">
+<input type="email" id="leEmail" required placeholder="you@company.com" style="width:100%;padding:.5rem;margin:.3rem 0 .8rem;border:1px solid #ccc;border-radius:6px;box-sizing:border-box">
+<button type="submit" style="background:#0b5fff;color:#fff;border:none;padding:.6rem 1.3rem;border-radius:6px;cursor:pointer">Get the free checklist</button>
+</form>
+<p id="leDone" style="display:none;color:#0b7a2b;font-weight:600">✓ Check your inbox — your checklist download link is on its way.</p>
+</div>
+
+<script>
+document.getElementById("leadEmailForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const res = await fetch("/api/leads", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name: "",
+      company: "",
+      email: document.getElementById("leEmail").value,
+      message: "FREE: LL144 compliance checklist request",
+    }),
+  });
+  if (res.ok) {
+    document.getElementById("leDone").style.display = "block";
+    document.getElementById("leadEmailForm").style.display = "none";
+    // 자동 다운로드: 공개 체크리스트 링크
+    window.location.href = "/aedt-compliance-checklist.html";
+  } else {
+    alert("Please enter a valid email.");
+  }
+});
+</script>
 <p style="text-align:center"><a class="cta" href="/pricing.html">Buy the full playbook — $49</a></p>
 
 <footer>Informational product. Not legal advice.</footer>
