@@ -80,10 +80,11 @@ def test_txid_cannot_be_reused_across_orders(
     assert client.post(f"/api/orders/{o2['order_id']}/confirm", json={"txid": "deadbeef" * 8}).status_code == 409
 
 
-def test_product_without_file_is_unavailable(client: TestClient) -> None:
+def test_multistate_pack_now_available(client: TestClient) -> None:
     resp = client.post("/api/orders", json={"email": "a@b.com", "product_id": "p3-custom"})
-    assert resp.status_code == 400
-    assert "unavailable" in resp.json()["detail"]
+    assert resp.status_code == 200
+    assert resp.json()["product_name"] == "Multi-State Compliance Pack"
+    assert resp.json()["amount_btc"] == 0.003
 
 
 def test_product_files_not_publicly_served(client: TestClient) -> None:

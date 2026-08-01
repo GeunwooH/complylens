@@ -21,7 +21,7 @@ PRODUCTS = {
         "file": "ll144-playbook.html",
     },
     "p3-custom": {
-        "name": "Custom Research & Document Automation",
+        "name": "Multi-State Compliance Pack",
         "price_btc": 0.003,
         "price_usd": 199,
         "file": "p3-custom.html",
