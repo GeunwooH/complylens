@@ -32,8 +32,8 @@ def test_create_order_returns_wallet_addresses(client: TestClient) -> None:
     assert body["order_id"]
     assert body["amount_btc"] == 0.00075
     assert body["btc_address"].startswith("1") or body["btc_address"].startswith("3")
-    assert body["eth_address"].startswith("0x")
     assert body["status"] == "pending"
+    assert "eth_address" not in body
 
 
 def test_unknown_product_rejected(client: TestClient) -> None:
@@ -68,6 +68,27 @@ def test_confirm_with_valid_txid_grants_download(
     dl = client.get(f"/api/orders/{order['order_id']}/download")
     assert dl.status_code == 200
     assert "Compliance Playbook" in dl.text
+
+
+def test_txid_cannot_be_reused_across_orders(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("complylens.web.app.verify_btc_payment", lambda *a: True)
+    o1 = client.post("/api/orders", json={"email": "a@b.com", "product_id": "p2-playbook"}).json()
+    o2 = client.post("/api/orders", json={"email": "c@d.com", "product_id": "p2-playbook"}).json()
+    assert client.post(f"/api/orders/{o1['order_id']}/confirm", json={"txid": "deadbeef" * 8}).status_code == 200
+    assert client.post(f"/api/orders/{o2['order_id']}/confirm", json={"txid": "deadbeef" * 8}).status_code == 409
+
+
+def test_product_without_file_is_unavailable(client: TestClient) -> None:
+    resp = client.post("/api/orders", json={"email": "a@b.com", "product_id": "p3-custom"})
+    assert resp.status_code == 400
+    assert "unavailable" in resp.json()["detail"]
+
+
+def test_product_files_not_publicly_served(client: TestClient) -> None:
+    resp = client.get("/products/ll144-playbook.html")
+    assert resp.status_code == 404
 
 
 def test_confirm_with_invalid_txid_rejected(

@@ -23,7 +23,7 @@ footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 <body>
 <header><strong><a href="/" style="text-decoration:none;color:inherit">ComplyLens</a></strong> — Products & Pricing</header>
 <h1>Products & Pricing</h1>
-<p>Payment in BTC or ETH. After payment, submit your transaction ID below to unlock delivery instantly.</p>
+<p>Payment in BTC. After payment, submit your transaction ID below to unlock delivery instantly. Prefer an invoice? Email us.</p>
 
 <div class="product">
 <h2>EU AI Act Readiness Kit</h2>
@@ -32,8 +32,8 @@ footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 </div>
 
 <div class="product">
-<h2>LL144 Data Analysis Report</h2>
-<p>Statistical analysis of your AEDT hiring data: selection rates, impact ratios, and four-fifths assessment per DCWP Final Rules, delivered as a detailed report with public-summary draft. <em>Informational analysis — not a legally effective bias audit (independent auditor sign-off required for that).</em></p>
+<h2>LL144 Readiness Assessment Toolkit</h2>
+<p>Structured self-assessment: coverage determination, compliance gap and exposure estimate (penalty math), audit RFP brief, public summary and candidate notice templates, and a this-week action plan. <em>Informational toolkit — not a legally effective bias audit.</em></p>
 <p class="price">$299 <span style="font-size:.9rem;font-weight:400">(0.0045 BTC)</span></p>
 </div>
 
@@ -56,7 +56,7 @@ footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 <input type="email" id="email" required placeholder="you@company.com">
 <label>Product</label>
 <select id="product">
-<option value="p1-analysis">LL144 Data Analysis Report — $299</option>
+<option value="p1-analysis">LL144 Readiness Assessment Toolkit — $299</option>
 <option value="p4-euaiakit">EU AI Act Readiness Kit — $149</option>
 <option value="p2-playbook">LL144 Compliance Playbook — $49</option>
 <option value="p3-custom">Custom Research — $199</option>
@@ -84,7 +84,6 @@ form.addEventListener("submit", async (e) => {
   document.getElementById("wallet").innerHTML =
     "<strong>Send exactly:</strong> " + data.amount_btc + " BTC (" + data.amount_sat + " sat)<br>" +
     "<strong>BTC address:</strong> <code>" + data.btc_address + "</code><br>" +
-    "<strong>ETH address:</strong> <code>" + data.eth_address + "</code><br>" +
     "<strong>Order ID:</strong> <code>" + data.order_id + "</code><br>" +
     "<label>Transaction ID (after sending):</label><input type='text' id='txid' placeholder='64-char txid'><button id='confirmBtn'>Confirm payment</button>";
   document.getElementById("confirmBtn").addEventListener("click", async () => {

@@ -55,7 +55,6 @@ class OrderStore:
             "amount_btc": product["price_btc"],
             "amount_sat": int(product["price_btc"] * _BTC_TO_SAT),
             "btc_address": os.environ.get("BTC_ADDRESS", ""),
-            "eth_address": os.environ.get("ETH_ADDRESS", ""),
             "status": "pending",
             "created_at": datetime.now(UTC).isoformat(),
         }
@@ -68,12 +67,20 @@ class OrderStore:
             raise KeyError(order_id)
         return json.loads(path.read_text(encoding="utf-8"))
 
-    def confirm(self, order_id: str) -> dict:
+    def confirm(self, order_id: str, txid: str) -> dict:
         order = self.get(order_id)
         order["status"] = "confirmed"
+        order["txid"] = txid
         order["confirmed_at"] = datetime.now(UTC).isoformat()
         self._path(order_id).write_text(json.dumps(order, indent=2), encoding="utf-8")
         return order
+
+    def txid_used(self, txid: str, exclude_order_id: str | None = None) -> bool:
+        for path in self._dir.glob("*.json"):
+            order = json.loads(path.read_text(encoding="utf-8"))
+            if order.get("txid") == txid and order["order_id"] != exclude_order_id:
+                return True
+        return False
 
 
 def verify_btc_payment(txid: str, expected_address: str, expected_sat: int) -> bool:
@@ -85,6 +92,10 @@ def verify_btc_payment(txid: str, expected_address: str, expected_sat: int) -> b
         ) as resp:
             tx = json.loads(resp.read().decode())
     except (OSError, ValueError, KeyError):
+        return False
+    # H1: 0-conf 거부 — 블록 확정된 거래만 수락 (RBF/이중지불 방지)
+    status = tx.get("status", {})
+    if not status.get("confirmed"):
         return False
     received = sum(
         out.get("value", 0)

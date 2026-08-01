@@ -37,7 +37,9 @@ REQUIRED_CATEGORIES = ["male", "female"]
 
 
 def _require_api_key(api_key: str | None = Depends(_api_key_header)) -> None:
-    expected = os.environ.get("COMPLYLENS_API_KEY", "dev-key")
+    expected = os.environ.get("COMPLYLENS_API_KEY")
+    if not expected:
+        raise HTTPException(status_code=503, detail="service not configured")
     if api_key != expected:
         raise HTTPException(status_code=401, detail="invalid or missing API key")
 
@@ -82,8 +84,8 @@ def _run_pipeline(df: pd.DataFrame, tool_description: str, audit_date: str) -> d
         required_categories=REQUIRED_CATEGORIES,
     )
     narrative = (
-        "This audit was completed by the Complify statistical engine. "
-        "No issues requiring remediation were identified beyond the figures below."
+        "This analysis was completed by the ComplyLens statistical engine. "
+        "All figures are reported in the tables below."
     )
     gw = _llm_gateway()
     if gw is not None:
@@ -211,6 +213,11 @@ def create_order(payload: dict) -> dict:
         raise HTTPException(status_code=400, detail="valid email required")
     if product_id not in PRODUCTS:
         raise HTTPException(status_code=400, detail="unknown product")
+    product = PRODUCTS[product_id]
+    # C2: 납품 파일이 없는 제품은 판매 차단
+    product_file = _PRODUCTS_DIR / product["file"]
+    if not product_file.exists():
+        raise HTTPException(status_code=400, detail="product currently unavailable")
     store = OrderStore(_data_dir())
     order = store.create(email, product_id)
     return {
@@ -220,7 +227,6 @@ def create_order(payload: dict) -> dict:
         "amount_btc": order["amount_btc"],
         "amount_sat": order["amount_sat"],
         "btc_address": order["btc_address"],
-        "eth_address": order["eth_address"],
     }
 
 
@@ -234,9 +240,12 @@ def confirm_order(order_id: str, payload: dict) -> dict:
     if order["status"] == "confirmed":
         return {"order_id": order_id, "status": "confirmed"}
     txid = (payload.get("txid") or "").strip()
+    # C3: txid 1회용 — 전역 중복 거부
+    if store.txid_used(txid, exclude_order_id=order_id):
+        raise HTTPException(status_code=409, detail="txid already used for another order")
     if not verify_btc_payment(txid, order["btc_address"], order["amount_sat"]):
         raise HTTPException(status_code=402, detail="payment not verified")
-    store.confirm(order_id)
+    store.confirm(order_id, txid)
     return {"order_id": order_id, "status": "confirmed"}
 
 
@@ -250,10 +259,25 @@ def download_product(order_id: str) -> str:
     if order["status"] != "confirmed":
         raise HTTPException(status_code=403, detail="payment not confirmed")
     product = PRODUCTS[order["product_id"]]
-    file = _STATIC_DIR / "products" / product["file"]
+    file = _PRODUCTS_DIR / product["file"]
     if not file.exists():
         raise HTTPException(status_code=404, detail="product file missing")
     return file.read_text(encoding="utf-8")
+
+
+# C1: 제품 파일은 StaticFiles 마운트 밖 (web/products/) — 무결제 접근 차단
+_PRODUCTS_DIR = Path(__file__).parent / "products"
+
+
+@app.middleware("http")
+async def security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; frame-ancestors 'none'"
+    return response
 
 
 _STATIC_DIR = Path(__file__).parent / "static"
