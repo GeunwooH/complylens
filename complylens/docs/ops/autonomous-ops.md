@@ -55,3 +55,9 @@
 - complylens repo: README(제품5+링크5) + LICENSE(MIT) + topics 5개
 - 프로필 README (github.com/GeunwooH): ComplyLens 소개 + 링크 3개
 - 백링크 총 8개 — Google 색인 발견 트리거 + 커뮤니티 노출
+
+## 아웃리치 발송 성공 (2026-08-01) 🎯
+- **방법**: Gmail compose URL(미리 채운 작성 창) + Cmd+Enter — SMTP 없이 발송 성공
+- **발송 3건**: aedtaudits(등재 문의) · ll144audit(비교 페이지 등재) · lexaraadvisory(교차 리퍼럴)
+- runaiaudit/verifywise: 이메일 미공개(연락 폼만) — 폼 제출은 별도 경로
+- 다음: 응답 모니터링 (Gmail 수신 — 주기 확인)

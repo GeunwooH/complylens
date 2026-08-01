@@ -81,10 +81,10 @@ ComplyLens
 
 | # | 대상 | 발송일 | 응답 | 등재 여부 |
 |---|---|---|---|---|
-| 1 | auditll144.com | — | — | — |
-| 2 | ll144audit.com | — | — | — |
+| 1 | auditll144.com (advisory@lexaraadvisory.com) | ✅ 2026-08-01 | — | — |
+| 2 | ll144audit.com (support@) | ✅ 2026-08-01 | — | — |
 | 3 | runaiaudit.com | — | — | — |
-| 4 | aedtaudits.com | — | — | — |
+| 4 | aedtaudits.com (vedvyas@) | ✅ 2026-08-01 | — | — |
 | 5 | verifywise.ai | — | — | — |
 
 ## 타겟팅 인사이트 (2026-08-01)
