@@ -72,3 +72,9 @@
 - phenom.com (ATS 벤더) 파트너십 제안 — support@phenompeople.com
 - 발송 5건: aedtaudits / ll144audit / lexaraadvisory / runaiaudit(폼) / phenom
 - eightfold/beamery: 이메일 미공개, paradox: media@만 공개(부적합) — 보류
+
+## 1시간 경과 실측 (2026-08-01 15:4x)
+- sitemap ping: Google 404 / Bing 410 — 공식 폐지 확인, 색인은 GSC/크롤러 시간 의존
+- 애널리틱스: 방문자 0 (테스트 1건) — 색인 전 상태
+- 아웃리치 응답: 5건 모두 미회신 (정상 — 수시간~수일 소요)
+- 지갑: 0 BTC · 주문 7건(전부 테스트) · 리드 1건(테스트)
