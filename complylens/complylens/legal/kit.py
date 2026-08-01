@@ -48,7 +48,7 @@ def build_engagement_letter(client: str, tool: str, audit_date: str) -> str:
 def build_dpa(client: str) -> str:
     return (
         f"DATA PROCESSING ADDENDUM — {client}\n"
-        "1. No training: personal data processed under this agreement is used only "
+        "1. no training of models on personal data: data is used only "
         "to produce the audit and is never used for model training.\n"
         "2. Retention: data is retained no longer than 36 months after delivery, "
         "then deleted.\n"
