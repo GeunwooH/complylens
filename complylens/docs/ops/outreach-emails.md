@@ -109,3 +109,25 @@ ComplyLens
 **제목**: [Partnership] Bias audit referral cooperation
 **내용**: 독립 서명 필요한 수요를 리퍼럴(10-15%) + 교차 등재 제안
 **상태**: ✅ 2026-08-01 발송 ("메시지 전송됨" 실측)
+
+## 팔로업 초안 (1차 발송 2-3일 후 사용 — 2026-08-03/04 예정)
+
+**제목**: Re: [Listing/Partnership] ComplyLens — quick follow-up
+**본문**:
+```
+Hello,
+
+Just following up on my message from [DATE] about listing ComplyLens
+(automated LL144/AEDT analysis, 72h delivery, $299-$1,500) on your
+directory / a referral arrangement.
+
+We'd be glad to supply a description, reciprocal link, or sample report
+to make evaluation easy. If now isn't a good time, happy to check back
+later in the quarter.
+
+Best,
+ComplyLens
+```
+
+**발송 대상**: 1차 발송 7건 전체 (2-3일 후, 응답 없는 곳만)
+**발송 방법**: Gmail compose URL + Cmd+Enter (기존 방식)
