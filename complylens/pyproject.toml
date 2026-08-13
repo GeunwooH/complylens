@@ -18,6 +18,12 @@ dependencies = [
     "uvicorn[standard]>=0.52.0",
 ]
 
+[dependency-groups]
+dev = [
+    "mypy>=1.17.0",
+    "pandas-stubs>=2.2.2.250308",
+]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]

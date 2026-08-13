@@ -33,6 +33,26 @@ def test_pageview_counts_accumulate(client: TestClient) -> None:
     assert body["by_path"]["/ll144-guide.html"] == 1
 
 
+def test_pageview_referrer_is_attributed(client: TestClient) -> None:
+    resp = client.post(
+        "/api/pv",
+        json={"path": "/plan.html", "referrer": "https://search.example/q"},
+    )
+    assert resp.status_code == 200
+    body = client.get("/api/stats", headers={"X-API-Key": "test-key"}).json()
+    assert body["by_referrer"]["https://search.example/q"] == 1
+
+
+def test_pageview_referrer_drops_query_tokens(client: TestClient) -> None:
+    client.post(
+        "/api/pv",
+        json={"path": "/plan.html?utm_source=kmong", "referrer": "https://search.example/q?token=secret"},
+    )
+    body = client.get("/api/stats", headers={"X-API-Key": "test-key"}).json()
+    assert body["by_referrer"] == {"https://search.example/q": 1}
+    assert body["by_path"] == {"/plan.html?utm_source=kmong": 1}
+
+
 def test_stats_requires_auth(client: TestClient) -> None:
     resp = client.get("/api/stats")
     assert resp.status_code == 401

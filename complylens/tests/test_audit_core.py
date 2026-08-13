@@ -98,6 +98,29 @@ def test_known_answer_score_based_median_threshold() -> None:
     assert result["female"] == pytest.approx(0.5)
 
 
+def test_score_based_impact_ratio_and_four_fifths_are_reported() -> None:
+    df = pd.DataFrame(
+        [
+            ("m1", "male", 1, 100.0),
+            ("m2", "male", 1, 90.0),
+            ("f1", "female", 1, 60.0),
+            ("f2", "female", 1, 50.0),
+        ],
+        columns=["candidate_id", "category", "selected", "score"],
+    )
+
+    result = evaluate_audit(
+        df,
+        category_col="category",
+        selection_col="selected",
+        score_col="score",
+    )
+
+    assert result["score_based_rates"] == {"male": 1.0, "female": 0.0}
+    assert result["score_based_impact_ratios"] == {"male": 1.0, "female": 0.0}
+    assert result["score_based_four_fifths_violations"] == ["female"]
+
+
 # ── End-to-end: evaluate_audit가 결정적 JSON 스키마 반환 ─────────────
 def test_evaluate_audit_deterministic_schema() -> None:
     df = _df(

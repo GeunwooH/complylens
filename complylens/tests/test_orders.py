@@ -1,10 +1,13 @@
 """주문/결제 테스트 — 제품 주문, txid 검증, 납품 게이트."""
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 from fastapi.testclient import TestClient
 
 from complylens.web.app import app
+from complylens.web.orders import OrderStore, PaymentMethod
 
 API_KEY = "test-key"
 
@@ -46,6 +49,46 @@ def test_download_blocked_until_confirmed(client: TestClient) -> None:
     order_id = resp.json()["order_id"]
     dl = client.get(f"/api/orders/{order_id}/download")
     assert dl.status_code == 403
+
+
+def test_stripe_order_uses_checkout_and_unlocks_after_confirmation(
+    client: TestClient,
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.setenv("COMPLYLENS_PAYMENT_MODE", "stripe")
+    monkeypatch.setenv("STRIPE_SECRET_KEY", "sk_test_orders")
+
+    def fake_checkout(**kwargs: str) -> dict[str, str]:
+        assert kwargs["product_id"] == "p2-playbook"
+        return {
+            "session_id": "cs_orders_test",
+            "checkout_url": "https://checkout.stripe.com/c/pay/orders",
+        }
+
+    monkeypatch.setattr("complylens.web.app.create_product_checkout_session", fake_checkout)
+
+    resp = client.post(
+        "/api/orders",
+        json={"email": "buyer@example.com", "product_id": "p2-playbook"},
+    )
+
+    assert resp.status_code == 200
+    order = resp.json()
+    assert order["payment_method"] == "stripe"
+    assert order["checkout_url"].startswith("https://checkout.stripe.com/")
+    assert client.get(f"/api/orders/{order['order_id']}/download").status_code == 403
+
+    store = OrderStore(tmp_path)
+    confirmed = store.confirm(
+        order["order_id"],
+        "cs_orders_test",
+        payment_method=PaymentMethod.STRIPE,
+    )
+    assert confirmed["stripe_session_id"] == "cs_orders_test"
+    download = client.get(f"/api/orders/{order['order_id']}/download")
+    assert download.status_code == 200
+    assert "Compliance Playbook" in download.text
 
 
 def test_confirm_with_valid_txid_grants_download(

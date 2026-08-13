@@ -58,6 +58,25 @@ def test_prc_guard_blocks_when_only_prc_available(monkeypatch: pytest.MonkeyPatc
         gw.complete("prompt", sensitive=True)
 
 
+def test_sensitive_requires_explicit_non_prc_jurisdiction(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("K3", "k3")
+    providers = [Provider("unverified", "https://unknown.example", "K3", "flash", "unknown")]
+    gw = LLMGateway(providers, client_factory=lambda base, key: _fake_client({}))
+
+    with pytest.raises(NoProviderAvailable):
+        gw.complete("prompt", sensitive=True)
+
+
+def test_configured_provider_names_never_expose_keys(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("K1", "secret-value")
+    gw = LLMGateway(_providers(), client_factory=lambda base, key: _fake_client({}))
+
+    assert gw.configured_provider_names(sensitive=True) == ("deepinfra",)
+    assert "secret-value" not in gw.configured_provider_names(sensitive=True)
+
+
 def test_hallucination_gate_rejects_numbers(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("K1", "k1")
     gw = LLMGateway(_providers(), client_factory=lambda base, key: _fake_client({"flash": "rate was 0.42"}))
