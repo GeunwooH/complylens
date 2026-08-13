@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# 시크릿·데이터 (공개 금지: 실계좌·API 키)
+complylens/data/
+complylens/.env.local
+.env.local
+
+# 에이전트 로컬 상태 (저널·증거에 운영 정보 포함)
+.omo/
+.gjc/
+.senpi/
+
+# Expo/RN 빌드 산출물 (재생성 가능)
+receipt-app/node_modules/
+receipt-app/ios/
+receipt-app/android/
+receipt-app/dist/
+receipt-app/.expo/
