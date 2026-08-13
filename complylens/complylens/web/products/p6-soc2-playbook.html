@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOC2 Under $5k Startup Playbook | ComplyLens</title>
+<meta name="description" content="A practical SOC 2 Type I readiness plan for bootstrapped startups: scope, controls, evidence, auditor questions, and a budget worksheet.">
+<style>
+body{font-family:system-ui,sans-serif;max-width:820px;margin:0 auto;padding:2rem 1.5rem;line-height:1.65;color:#1a1a1a}
+h1{border-bottom:3px solid #0b5fff;padding-bottom:.4rem}
+h2{margin-top:2rem;color:#0b3d91;border-bottom:1px solid #ddd;padding-bottom:.3rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0}
+th,td{border:1px solid #ddd;padding:.55rem .65rem;text-align:left;font-size:.93rem;vertical-align:top}
+th{background:#f0f5ff}
+.callout{background:#f7f9ff;border:1px solid #cfe0ff;border-radius:8px;padding:1rem}
+footer{margin-top:2.5rem;color:#666;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><strong>ComplyLens</strong> — Startup compliance playbook</header>
+<h1>SOC 2 Under $5k: Startup Evidence Binder v1</h1>
+<p>This playbook is for a bootstrapped SaaS team with fewer than ten people that needs a
+credible SOC 2 readiness path without buying an enterprise GRC platform. It focuses on
+SOC 2 Type I preparation: proving that your controls are designed and ready at a point
+in time.</p>
+
+<div class="callout"><strong>Important boundary:</strong> SOC 2 is an attestation
+performed by an independent CPA firm. This information product is not an attestation,
+certification, legal advice, audit, or guarantee that an auditor will issue a report.
+Confirm scope and criteria with your selected CPA firm.</div>
+
+<h2>1. Choose a narrow scope before buying tools</h2>
+<p>Write one sentence that names the service, customer data, production environment,
+and the Trust Services Criteria in scope. A narrow, honest boundary is more useful than
+claiming that the whole company is covered.</p>
+<table>
+<tr><th>Scope question</th><th>Write your answer</th></tr>
+<tr><td>Service and SKU</td><td>____________________________________________</td></tr>
+<tr><td>Customer data processed</td><td>____________________________________________</td></tr>
+<tr><td>Production cloud and regions</td><td>____________________________________________</td></tr>
+<tr><td>People with production access</td><td>____________________________________________</td></tr>
+<tr><td>Criteria</td><td>Security / Availability / Confidentiality / Privacy</td></tr>
+</table>
+
+<h2>2. The 30-day readiness path</h2>
+<table>
+<tr><th>Days</th><th>Output</th><th>Acceptance check</th></tr>
+<tr><td>1–3</td><td>Scope statement, system diagram, asset and vendor inventory</td><td>Every production component has an owner</td></tr>
+<tr><td>4–8</td><td>Security, access, change, incident, backup and vendor policies</td><td>Each policy has an approver and review date</td></tr>
+<tr><td>9–15</td><td>Control-to-evidence matrix</td><td>Every control has a live evidence location</td></tr>
+<tr><td>16–21</td><td>Access review, risk register, incident tabletop, vulnerability review</td><td>Exceptions have owners and due dates</td></tr>
+<tr><td>22–26</td><td>Evidence dry run and management sign-off</td><td>A reviewer can reproduce each sample</td></tr>
+<tr><td>27–30</td><td>CPA shortlist, readiness questions, report scope confirmation</td><td>Written proposal names criteria and period</td></tr>
+</table>
+
+<h2>3. Minimum control set for a small SaaS</h2>
+<ul>
+<li><strong>Access:</strong> SSO or MFA, least privilege, joiner/mover/leaver process, quarterly review.</li>
+<li><strong>Change management:</strong> pull-request review, deployment approval, rollback path, production log.</li>
+<li><strong>Incident response:</strong> severity levels, contacts, customer notice decision, tabletop record.</li>
+<li><strong>Availability:</strong> backup schedule, restore test, monitoring, recovery objectives.</li>
+<li><strong>Vendor risk:</strong> subprocessors, security review, contract owner, annual reassessment.</li>
+<li><strong>Risk management:</strong> named risks, likelihood, impact, treatment, residual risk and acceptance.</li>
+</ul>
+
+<h2>4. Evidence tracker</h2>
+<table>
+<tr><th>Control</th><th>Evidence location</th><th>Owner</th><th>Last reviewed</th><th>Gap / due date</th></tr>
+<tr><td>MFA and access review</td><td>________________</td><td>____________</td><td>____________</td><td>____________</td></tr>
+<tr><td>Production change review</td><td>________________</td><td>____________</td><td>____________</td><td>____________</td></tr>
+<tr><td>Incident tabletop</td><td>________________</td><td>____________</td><td>____________</td><td>____________</td></tr>
+<tr><td>Backup restore test</td><td>________________</td><td>____________</td><td>____________</td><td>____________</td></tr>
+<tr><td>Vendor review</td><td>________________</td><td>____________</td><td>____________</td><td>____________</td></tr>
+</table>
+
+<h2>5. Budget worksheet</h2>
+<p>Use this worksheet to compare a low-cost self-managed path with an auditor-led
+proposal. These are planning fields, not price promises.</p>
+<table>
+<tr><th>Line item</th><th>Estimate</th><th>Actual / quote</th></tr>
+<tr><td>Readiness guide and templates</td><td>$________</td><td>$________</td></tr>
+<tr><td>Evidence/GRC tooling</td><td>$________</td><td>$________</td></tr>
+<tr><td>CPA readiness or attestation fee</td><td>$________</td><td>$________</td></tr>
+<tr><td>Remediation and contingency</td><td>$________</td><td>$________</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>$________</strong></td><td><strong>$________</strong></td></tr>
+</table>
+
+<h2>6. Questions for an auditor</h2>
+<ol>
+<li>Which Trust Services Criteria and system boundary are included in the proposal?</li>
+<li>Is this a Type I or Type II engagement, and what period or point-in-time date applies?</li>
+<li>Which evidence samples and control owners will you expect?</li>
+<li>What is excluded: subservice organizations, availability, privacy, or customer responsibilities?</li>
+<li>Which remediation work is advisory and which work must be completed before testing?</li>
+</ol>
+
+<h2>Definition of ready</h2>
+<p>You are ready to request a scoped proposal when the system boundary is written,
+owners are named, the minimum control set has evidence locations, open gaps have
+dates, and management can explain the remaining risk. Do not call the company
+“SOC 2 compliant” before an independent report supports that statement.</p>
+
+<p><a href="/pricing.html">Return to ComplyLens products</a> ·
+<a href="https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria">AICPA Trust Services Criteria</a></p>
+<footer>Informational startup playbook. Not legal advice, an audit, an attestation, or a certification. Verify current criteria and scope with an independent CPA firm.</footer>
+</body>
+</html>

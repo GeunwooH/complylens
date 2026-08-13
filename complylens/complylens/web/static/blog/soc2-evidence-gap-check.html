@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free SOC 2 Evidence Gap Checklist for Startups | ComplyLens</title>
+<meta name="description" content="A free ten-minute SOC 2 evidence-gap checklist for small SaaS teams preparing for a Type I auditor conversation.">
+<link rel="canonical" href="https://html.npopo.com/blog/soc2-evidence-gap-check.html">
+<meta property="og:title" content="Free SOC 2 Evidence Gap Checklist for Startups">
+<meta property="og:description" content="A free ten-minute checklist to find missing SOC 2 evidence owners and links before an auditor conversation.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://html.npopo.com/blog/soc2-evidence-gap-check.html">
+<style>
+body{font-family:system-ui,sans-serif;max-width:780px;margin:0 auto;padding:2rem 1.5rem;line-height:1.7;color:#1a1a1a}
+h1{border-bottom:3px solid #0b5fff;padding-bottom:.4rem}
+.card{background:#f7f9ff;border:1px solid #d8e4ff;border-radius:8px;padding:1rem 1.25rem}
+.cta{display:inline-block;background:#0b5fff;color:#fff;padding:.8rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600}
+footer{margin-top:2.5rem;color:#666;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><strong><a href="/" style="text-decoration:none;color:inherit">ComplyLens</a></strong> — Startup compliance</header>
+<main>
+<h1>Free SOC 2 Evidence Gap Checklist</h1>
+<p>Before buying a GRC platform or requesting an auditor quote, spend ten minutes
+checking whether your team can point to reproducible evidence. This is a readiness
+screen, not a certification test.</p>
+
+<div class="card">
+<h2>Mark each item: owner, link, and last reviewed date</h2>
+<ol>
+<li>Every production service has one named scope owner.</li>
+<li>Access reviews have an owner, date, and retained result.</li>
+<li>Changes link a reviewer, deployment, and rollback evidence.</li>
+<li>Incident records include timeline, decision, and follow-up owner.</li>
+<li>Backups have a restore test result, not only a success notification.</li>
+<li>Vendors have an inventory, risk decision, and review cadence.</li>
+<li>Security training has a roster and completion evidence.</li>
+<li>Risk exceptions have an expiry date and accountable approver.</li>
+<li>Monitoring alerts have an escalation path and sample resolution.</li>
+<li>A CPA can trace each selected control to one evidence location.</li>
+</ol>
+</div>
+
+<h2>What to do with the result</h2>
+<p>If more than three items lack an owner or reproducible link, do not start by
+buying more software. Narrow the system boundary, assign owners, and ask a CPA
+which evidence they will actually test. Then use the evidence binder to turn the
+list into a 30-day readiness sprint.</p>
+<p><a class="cta" data-preserve-tracking href="/pricing.html?source=evidence-gap-check&product=p6-soc2">Open the $49 SOC 2 Evidence Binder</a></p>
+</main>
+<footer>Informational checklist. Not legal advice, an audit, an attestation, or a certification.</footer>
+<script>
+const trackingKeys = ["source", "utm_source", "utm_medium", "utm_campaign", "utm_content"];
+const query = new URLSearchParams(location.search);
+const tracked = new URLSearchParams();
+for (const key of trackingKeys) {
+  const value = query.get(key)?.trim();
+  if (value) tracked.set(key, value.slice(0, 80));
+}
+for (const link of document.querySelectorAll("[data-preserve-tracking]")) {
+  const target = new URL(link.href, location.origin);
+  for (const key of trackingKeys) {
+    const value = query.get(key)?.trim();
+    if (value && !target.searchParams.has(key)) {
+      target.searchParams.set(key, value.slice(0, 80));
+    }
+  }
+  link.href = target.pathname + target.search;
+}
+const page = location.pathname + (tracked.toString() ? `?${tracked}` : "");
+fetch("/api/pv", {
+  method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify({path: page, referrer: document.referrer.slice(0, 200)}),
+}).catch(() => {});
+</script>
+</body>
+</html>

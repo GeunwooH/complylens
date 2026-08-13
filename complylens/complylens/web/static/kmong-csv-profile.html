@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSV 데이터 프로파일 및 한국어 요약 | ComplyLens</title>
+<meta name="description" content="개인정보 제거 CSV 한 개를 프로파일링하고 한국어 요약 리포트를 제공합니다.">
+<style>
+body{font-family:system-ui,sans-serif;max-width:760px;margin:0 auto;padding:2rem 1.25rem;line-height:1.65;color:#172033}
+header{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+a{color:#0b5fff}
+.hero{background:#f7f9ff;border:1px solid #cfe0ff;border-radius:12px;padding:1.4rem;margin:1.5rem 0}
+.price{font-size:1.8rem;font-weight:700;color:#0b5fff}
+.scope{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.scope div{border:1px solid #e1e7f0;border-radius:8px;padding:.8rem}
+form{display:grid;gap:.55rem;margin-top:1.5rem}
+input,textarea{font:inherit;padding:.65rem;border:1px solid #b8c2d1;border-radius:6px}
+button{background:#0b5fff;color:#fff;border:0;border-radius:7px;padding:.75rem 1rem;font:inherit;font-weight:600;cursor:pointer}
+#status{min-height:1.5rem}
+footer{margin-top:2rem;color:#5d6675;font-size:.9rem}
+@media (max-width:600px){.scope{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <strong><a href="/">ComplyLens</a></strong>
+  <a href="/pricing.html">전체 상품 보기</a>
+</header>
+<main>
+<section class="hero">
+  <h1>개인정보 제거 CSV 데이터 프로파일 및 한국어 요약</h1>
+  <p>CSV 한 개의 열·결측·중복·기초 분포를 확인하고 읽기 쉬운 한국어 요약
+  리포트를 제공합니다.</p>
+  <p class="price">300,000원</p>
+  <p>입력과 범위가 확인된 뒤 72시간 내 전달을 목표로 합니다.</p>
+  <p style="margin-top:1rem"><a href="https://kmong.com/gig/800684" target="_blank" rel="noopener" style="display:inline-block;background:#0b5fff;color:#fff;padding:.8rem 1.2rem;border-radius:8px;font-weight:600;text-decoration:none">크몽에서 바로 주문하기 →</a></p>
+</section>
+
+<section class="scope" aria-label="제공 범위">
+  <div><strong>제공</strong><br>profile.json 및 한국어 summary.html</div>
+  <div><strong>입력</strong><br>개인정보를 제거한 CSV만 제출</div>
+  <div><strong>제외</strong><br>법률자문·감사·컴플라이언스 보증</div>
+  <div><strong>보관</strong><br>납품 범위 확인 후 삭제 정책 적용</div>
+</section>
+
+<section class="steps" aria-label="진행 절차">
+  <h2>진행 절차</h2>
+  <ol style="margin:0;padding-left:1.2rem;line-height:2">
+    <li><strong>1. CSV 제출</strong> — 개인정보를 제거한 CSV 한 개를 업무용 이메일과 함께 보내주세요.</li>
+    <li><strong>2. 프로파일 작성</strong> — 열·결측·중복·기초 분포를 분석하고 한국어 요약을 작성합니다.</li>
+    <li><strong>3. 납품</strong> — profile.json + summary.html을 72시간 내 전달합니다.</li>
+  </ol>
+</section>
+
+<section class="trust" aria-label="신뢰 신호">
+  <h2>왜 ComplyLens인가요</h2>
+  <ul style="margin:0;padding-left:1.2rem;line-height:2">
+    <li>크몽 리뷰 평점 5.0 (판매자 전체 서비스 기준)</li>
+    <li>72시간 내 납품 — SLA 명시</li>
+    <li>개인정보 제거 확인 후에만 입력 — 원본 PII는 받지 않습니다</li>
+  </ul>
+</section>
+
+<section class="warning" aria-label="제출 주의">
+  <h2>보내지 마세요</h2>
+  <p>주민등록번호, 계좌번호, 전화번호, 이메일 등 <strong>개인정보가 포함된 CSV는 제출하지 마세요</strong>.
+  제출 전에 개인정보를 제거·마스킹했는지 확인해 주세요.</p>
+</section>
+
+<form id="kmongLeadForm">
+  <label for="email">업무용 이메일</label>
+  <input id="email" type="email" required autocomplete="email">
+  <label for="company">회사/팀 (선택)</label>
+  <input id="company" type="text" autocomplete="organization">
+  <label for="message">원하는 요약 범위</label>
+  <textarea id="message" rows="4" required placeholder="예: 열별 결측·중복·기초 분포를 확인하고 싶습니다."></textarea>
+  <label>
+    <input id="sanitizedData" type="checkbox" required>
+    제출할 데이터에서 개인정보를 제거했음을 확인합니다.
+  </label>
+  <button type="submit">범위 문의하기</button>
+</form>
+<p id="status" aria-live="polite"></p>
+<p style="font-size:.9rem">바로 주문하고 싶다면 → <a href="https://kmong.com/gig/800684" target="_blank" rel="noopener">크몽 리스팅에서 주문하기</a></p>
+</main>
+<footer>이 페이지는 데이터 정리 서비스 안내이며 법률·세무·감사 의견이 아닙니다.</footer>
+<script>
+const form = document.getElementById("kmongLeadForm");
+const status = document.getElementById("status");
+const source = new URLSearchParams(location.search).get("source") || "kmong";
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  status.textContent = "문의 접수 중...";
+  const response = await fetch("/api/leads", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      email: document.getElementById("email").value.trim(),
+      company: document.getElementById("company").value.trim(),
+      message: document.getElementById("message").value.trim(),
+      attribution: {
+        source: source.slice(0, 80),
+        product: "kmong-csv-profile",
+        consent: "customer-confirmed"
+      }
+    })
+  });
+  if (!response.ok) {
+    status.textContent = "접수에 실패했습니다. 잠시 후 다시 시도해 주세요.";
+    return;
+  }
+  status.textContent = "문의가 접수되었습니다. 범위를 확인한 뒤 답변드리겠습니다.";
+  form.reset();
+});
+</script>
+</body>
+</html>

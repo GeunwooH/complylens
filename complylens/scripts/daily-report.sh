@@ -14,18 +14,41 @@ WALLET=$(curl -s --max-time 10 "https://blockstream.info/api/address/${BTC_ADDR}
   | python3 -c "import json,sys; d=json.load(sys.stdin); print(f\"{d['chain_stats']['funded_txo_sum']/1e8:.8f} BTC ({d['chain_stats']['tx_count']}건)\")" 2>/dev/null || echo "확인 불가")
 echo "지갑: ${WALLET}"
 
-ORDERS=$(ls "${DATA_DIR}/orders/"*.json 2>/dev/null | wc -l | tr -d ' ')
-LEADS=$(ls "${DATA_DIR}/leads/"*.json 2>/dev/null | wc -l | tr -d ' ')
+ORDERS=0
+for file in "${DATA_DIR}/orders/"*.json; do
+  [ -e "$file" ] || continue
+  ORDERS=$((ORDERS + 1))
+done
+LEADS=0
+for file in "${DATA_DIR}/leads/"*.json; do
+  [ -e "$file" ] || continue
+  LEADS=$((LEADS + 1))
+done
 echo "주문: ${ORDERS}건 | 리드: ${LEADS}건"
 
 echo "--- 최근 주문 ---"
-for f in $(ls -t "${DATA_DIR}/orders/"*.json 2>/dev/null | head -3); do
-  python3 -c "
+python3 - "${DATA_DIR}/orders" <<'PY'
 import json
-d = json.load(open('$f'))
-print(f\"{d['order_id']} | {d['email']} | {d['product_name'][:30]} | {d['status']} | {d['created_at'][:16]}\")
-" 2>/dev/null || true
-done
+import sys
+from pathlib import Path
+
+directory = Path(sys.argv[1])
+paths = sorted(
+    (path for path in directory.glob("*.json") if path.is_file()),
+    key=lambda path: path.stat().st_mtime,
+    reverse=True,
+)[:3]
+for path in paths:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        print(
+            f"{data['order_id']} | {data['email']} | "
+            f"{data['product_name'][:30]} | {data['status']} | "
+            f"{data['created_at'][:16]}"
+        )
+    except (OSError, KeyError, TypeError, json.JSONDecodeError) as exc:
+        print(f"unreadable order {path.name}: {exc}", file=sys.stderr)
+PY
 
 if [ -n "${COMPLYLENS_API_KEY:-}" ]; then
   PV=$(curl -s -H "X-API-Key: ${COMPLYLENS_API_KEY}" --max-time 10 https://html.npopo.com/api/stats 2>/dev/null \
@@ -36,12 +59,26 @@ else
 fi
 
 echo "--- 최근 리드 ---"
-for f in $(ls -t "${DATA_DIR}/leads/"*.json 2>/dev/null | head -3); do
-  python3 -c "
+python3 - "${DATA_DIR}/leads" <<'PY'
 import json
-d = json.load(open('$f'))
-print(f\"{d['lead_id']} | {d['email']} | {d['message'][:40]} | {d['created_at'][:16]}\")
-" 2>/dev/null || true
-done
+import sys
+from pathlib import Path
+
+directory = Path(sys.argv[1])
+paths = sorted(
+    (path for path in directory.glob("*.json") if path.is_file()),
+    key=lambda path: path.stat().st_mtime,
+    reverse=True,
+)[:3]
+for path in paths:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        print(
+            f"{data['lead_id']} | {data['email']} | "
+            f"{data['message'][:40]} | {data['created_at'][:16]}"
+        )
+    except (OSError, KeyError, TypeError, json.JSONDecodeError) as exc:
+        print(f"unreadable lead {path.name}: {exc}", file=sys.stderr)
+PY
 
 echo "=== 끝 ==="

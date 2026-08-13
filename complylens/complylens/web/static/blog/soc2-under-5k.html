@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOC 2 Under $5k: A 30-Day Startup Readiness Plan | ComplyLens</title>
+<meta name="description" content="How a small SaaS startup can scope SOC 2 Type I, collect evidence, choose an auditor, and build a realistic under-$5k readiness plan without enterprise GRC software.">
+<link rel="canonical" href="https://html.npopo.com/blog/soc2-under-5k.html">
+<meta property="og:title" content="SOC 2 Under $5k: A 30-Day Startup Readiness Plan">
+<meta property="og:description" content="A practical scope, controls, evidence, and auditor plan for bootstrapped SaaS teams.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://html.npopo.com/blog/soc2-under-5k.html">
+<style>
+body{font-family:system-ui,sans-serif;max-width:780px;margin:0 auto;padding:2rem 1.5rem;line-height:1.7;color:#1a1a1a}
+h1{border-bottom:3px solid #0b5fff;padding-bottom:.4rem}
+.cta{display:inline-block;background:#0b5fff;color:#fff;padding:.8rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600}
+footer{margin-top:2.5rem;color:#666;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><strong><a href="/" style="text-decoration:none;color:inherit">ComplyLens</a></strong> — Startup compliance</header>
+<main>
+<h1>SOC 2 Under $5k: A 30-Day Startup Readiness Plan</h1>
+<p>Small SaaS teams often encounter a SOC 2 request before they can justify an
+enterprise GRC platform. The practical response is not to promise a cheap
+attestation. It is to narrow the system scope, map controls to evidence, and ask
+an independent CPA for a proposal with no hidden assumptions.</p>
+<p><a data-preserve-tracking href="/blog/soc2-evidence-gap-check.html">Use the free evidence-gap checklist</a>
+to find the five controls most likely to stall an auditor conversation before buying
+more software.</p>
+
+<h2>What “under $5k” should mean</h2>
+<p>Use the number as a planning constraint for readiness work, not as a guaranteed
+audit quote. Separate the budget into guide/templates, tooling, remediation,
+and the CPA engagement. A Type I readiness plan is not a SOC 2 report.</p>
+
+<h2>The five things to do first</h2>
+<ol>
+<li>Write the one-service system boundary and list production data.</li>
+<li>Select Security first; add Availability, Confidentiality, or Privacy only when
+   the buyer and system actually require them.</li>
+<li>Assign owners for access, changes, incidents, backups, vendors, and risk.</li>
+<li>Put one reproducible evidence link beside every control.</li>
+<li>Ask auditors what they will test before buying more software.</li>
+</ol>
+
+<h2>Why expensive platforms are not the first step</h2>
+<p>Vanta, Drata, Secureframe, and audit-plus-platform providers can be useful for
+larger programs, but a very small team still needs a scope decision and evidence
+owners. Buying a dashboard before those decisions adds cost without closing the
+gaps. Start with the smallest boundary that accurately describes the service.</p>
+
+<h2>Download the working pack</h2>
+<p>The <a class="cta" data-preserve-tracking href="/pricing.html?source=soc2-under-5k&product=p6-soc2">SOC 2 Under $5k Startup Playbook — $49</a>
+includes the 30-day schedule, control set, evidence tracker, budget worksheet,
+and CPA questions.</p>
+
+<div style="margin:2rem 0;padding:1rem;background:#f7f9ff;border:1px solid #e1e8f5;border-radius:8px;font-size:.95rem"><strong>Related:</strong> <a href="/pricing.html">Products</a> · <a href="/blog/ll144-compliance-proof.html">Compliance evidence guide</a> · <a href="/llms.txt">Research index</a></div>
+</main>
+<footer>Informational guide. Not legal advice, an audit, an attestation, or a certification.</footer>
+<script>
+const trackingKeys = ["source", "utm_source", "utm_medium", "utm_campaign", "utm_content"];
+const query = new URLSearchParams(location.search);
+const tracked = new URLSearchParams();
+for (const key of trackingKeys) {
+  const value = query.get(key)?.trim();
+  if (value) tracked.set(key, value.slice(0, 80));
+}
+for (const link of document.querySelectorAll("[data-preserve-tracking]")) {
+  const target = new URL(link.href, location.origin);
+  for (const key of trackingKeys) {
+    const value = query.get(key)?.trim();
+    if (value && !target.searchParams.has(key)) {
+      target.searchParams.set(key, value.slice(0, 80));
+    }
+  }
+  link.href = target.pathname + target.search;
+}
+const page = location.pathname + (tracked.toString() ? `?${tracked}` : "");
+fetch("/api/pv", {
+  method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify({path: page, referrer: document.referrer.slice(0, 200)}),
+}).catch(() => {});
+</script>
+</body>
+</html>
