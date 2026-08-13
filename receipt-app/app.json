@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "영수증 장부",
+    "slug": "receipt-ledger-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.npopo.receiptledger"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow receipt photos from library",
+          "cameraPermission": "Allow camera for receipts"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow camera for receipts"
+        }
+      ],
+      [
+        "expo-sharing",
+        {
+          "photosPermission": "Allow saving exported files"
+        }
+      ]
+    ]
+  }
+}

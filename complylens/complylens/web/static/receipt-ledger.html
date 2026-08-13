@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>영수증 장부 — 매달 밤새던 장부 정리, 이제 하루 5분</title>
+<meta name="description" content="소상공인용 영수증 촬영 → AI 장부 자동화. 영수증 한 장 찍으면 품목·금액·분류가 자동으로 장부에 기록되고, 월간 리포트와 세금신고 CSV가 만들어집니다. 사업자등록증 없이 무통장으로 시작.">
+<meta property="og:title" content="영수증 장부 — 촬영만 하면 장부가 끝납니다">
+<meta property="og:description" content="영수증 한 장 = 장부 한 줄. 매월 밤새던 정리, 이제 하루 5분. 월간 리포트·세금신고 CSV 자동. 사업자등록 없이 무통장 시작.">
+<style>
+body{font-family:system-ui,sans-serif;max-width:820px;margin:0 auto;padding:2rem 1.25rem;line-height:1.65;color:#172033}
+header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+a{color:#0b5fff}
+.cta{display:inline-block;background:#0b5fff;color:#fff;padding:.8rem 1.4rem;border-radius:9px;font-weight:600;text-decoration:none;margin:.3rem .3rem 0 0}
+.cta.ghost{background:#fff;color:#0b5fff;border:1px solid #0b5fff}
+.card{background:#f7f9ff;border:1px solid #cfe0ff;border-radius:12px;padding:1.4rem;margin:1.5rem 0}
+.result{background:#eefdf3;border:1px solid #bfe8cd;border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem}
+.grid>div{border:1px solid #e1e7f0;border-radius:9px;padding:.9rem}
+.price{font-size:2rem;font-weight:700;color:#0b5fff;margin:.2rem 0}
+.tag{display:inline-block;background:#e8f1ff;color:#0b4d9e;border-radius:999px;padding:.15rem .6rem;font-size:.85rem;margin-right:.4rem}
+.tag.green{background:#e3f8ec;color:#0a6b34}
+h2{margin-top:2.2rem;padding-top:.4rem;border-top:2px solid #e1e7f0}
+details{border:1px solid #e1e7f0;border-radius:9px;padding:.7rem 1rem;margin:.5rem 0;background:#fbfcfe}
+summary{font-weight:600;cursor:pointer}
+footer{margin-top:2.5rem;color:#5d6675;font-size:.9rem}
+small{color:#5d6675}
+.diff{font-size:.95rem;color:#35506e}
+</style>
+</head>
+<body>
+<header>
+  <strong><a href="/">영수증 장부</a></strong>
+  <nav>
+    <a href="#result">결과</a> ·
+    <a href="#problem-solution">어떻게 되나</a> ·
+    <a href="#diff">차별점</a> ·
+    <a href="#pricing">요금</a> ·
+    <a href="#faq">FAQ</a>
+  </nav>
+</header>
+
+<section id="hero" aria-label="결과 소개">
+  <div class="card">
+    <h1>매달 밤새던 장부 정리,<br>이제 하루 5분이면 끝납니다.</h1>
+    <p>영수증을 찍는 순간 장부에 기록됩니다. 세무 시즌에 영수증 봉투 뒤지던 일,
+    장부에 금액 옮겨 적던 일 — 이 앱이 전부 대신합니다.</p>
+    <div class="result">
+      <strong>이런 결과를 드립니다:</strong><br>
+      📸 영수증 100장 → <strong>5분</strong>이면 장부 완성<br>
+      📊 월간 손익 리포트 → <strong>버튼 1번</strong>으로 확인<br>
+      🧾 신고 준비용 CSV/엑셀 → <strong>그대로 내려받기</strong>
+    </div>
+    <p>
+      <a class="cta" href="https://receipt-api.npopo.com/receipt-ledger-v113.apk">Android 앱 다운로드 →</a>
+      <a class="cta ghost" href="#pricing">무통장 결제로 시작</a>
+    </p>
+    <small>사업자등록증 없이 계좌이체로 바로 시작할 수 있습니다. 궁금하면 <a href="#faq">FAQ</a>를 확인하세요.</small>
+  </div>
+</section>
+
+<section id="problem-solution" aria-label="사용 흐름">
+  <h2>어떻게 되는지 — 3초면 흐름이 보입니다</h2>
+  <div class="card">
+    <ol style="margin:0;padding-left:1.2rem;line-height:2">
+      <li><strong>찍는다</strong> — 카메라로 영수증 한 장 (갤러리 사진도 가능)</li>
+      <li><strong>장부에 쌓인다</strong> — 가게·금액·날짜·계정과목이 자동 분류되어 기록</li>
+      <li><strong>필요할 때 뽑는다</strong> — 월간 리포트, 신고 준비용 CSV·엑셀, 상위 지출처 분석까지</li>
+    </ol>
+  </div>
+  <p class="diff">안 쓰면: 영수증은 쌓이고, 장부는 밀리고, 세무 시즌이면 밤새 정리 →<br>
+  쓰면: 촬영만 하고 장부는 앱이 관리 → 세무 시즌엔 CSV만 내려받으면 끝</p>
+</section>
+
+<section id="features" aria-label="고객이 얻는 것">
+  <h2>쓰면 뭐가 좋아지나</h2>
+  <div class="grid">
+    <div><span class="tag green">시간</span><h3>장부 시간 1/10로</h3><p>쌓인 영수증 봉투가 사라집니다. OCR이 가게·금액·날짜를 뽑아 장부에 바로 기록합니다.</p></div>
+    <div><span class="tag green">정확</span><h3>틀려도 1클릭</h3><p>잘못 읽은 금액은 탭 → 숫자패드로 즉시 수정. 고친 내역은 같은 가게의 분류 규칙에 반영됩니다.</p></div>
+    <div><span class="tag green">세무</span><h3>세무 시즌 부담 제거</h3><p>홈택스 대비 정리된 CSV·엑셀을 그대로 내려받아 신고 준비 시간을 줄입니다.</p></div>
+    <div><span class="tag green">파악</span><h3>돈이 어디로 가는지</h3><p>카테고리별 지출·주요 지출처·월간 비교로 "이번 달 어디에 많이 썼지?"가 즉시 보입니다.</p></div>
+  </div>
+</section>
+
+<section id="diff" aria-label="왜 이 앱인가">
+  <h2>장부 앱 많은데, 왜 이 앱인가</h2>
+  <div class="grid">
+    <div><h3>사업자등록 없이 시작</h3><p>개인 계좌 무통장 결제. 사업자등록증이 없어도 오늘 바로 쓸 수 있습니다.</p></div>
+    <div><h3>가게 코드로 팀 공유</h3><p>가게 코드 하나로 직원·가족 폰의 장부가 하나로 합쳐집니다. 따로 설정할 것 없음.</p></div>
+    <div><h3>촬영이 전부</h3><p>입력 폼이 없습니다. 찍으면 장부입니다. 바쁜 시간에 앱 조작할 필요가 없습니다.</p></div>
+    <div><h3>PIN 잠금</h3><p>가게 코드를 알아도 PIN 없이는 장부를 볼 수 없습니다. 매출 데이터 보호.</p></div>
+  </div>
+</section>
+
+<section id="pricing" aria-label="가격 안내">
+  <h2>요금 — 무통장(계좌이체) 결제</h2>
+  <div class="grid">
+    <div>
+      <h3>무료</h3>
+      <p class="price">0원</p>
+      <p>영수증 5장/월 · OCR 장부 자동 · 월간 리포트</p>
+    </div>
+    <div>
+      <h3>Light</h3>
+      <p class="price">9,900원<span style="font-size:1rem">/월</span></p>
+      <p>영수증 200장/월 · OCR 장부 자동 · 월간 리포트</p>
+    </div>
+    <div>
+      <h3>Pro</h3>
+      <p class="price">19,900원<span style="font-size:1rem">/월</span></p>
+      <p>영수증 무제한 · 가게 코드 팀 공유 · 신고 준비용 CSV·엑셀 · 카테고리 분석</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>시작 방법 (3분)</h3>
+    <ol style="margin:0;padding-left:1.2rem;line-height:2">
+      <li><a href="https://receipt-api.npopo.com/receipt-ledger-v113.apk">Android 앱 다운로드</a> 후 온보딩에서 코드·PIN 설정</li>
+      <li>앱에서 요금제 선택 → 안내 계좌로 이체 (입금 시 주문번호 메모)</li>
+      <li>앱에서 ‘입금 확인’ 한 번 → 구독 즉시 시작</li>
+    </ol>
+    <p><a class="cta" href="https://receipt-api.npopo.com/receipt-ledger-v113.apk">지금 앱 받기 →</a></p>
+  </div>
+</section>
+
+<section id="faq" aria-label="FAQ">
+  <h2>FAQ — 자주 묻는 질문</h2>
+  <details>
+    <summary>사업자등록증 없이도 쓸 수 있나요?</summary>
+    <p>네. 결제는 개인 계좌 무통장으로 진행되므로 사업자등록 전에도 바로 시작할 수 있습니다. 신고 준비용 CSV는 기장용 서식 그대로 내려받을 수 있습니다.</p>
+  </details>
+  <details>
+    <summary>OCR 인식이 틀리면 어쩌나요?</summary>
+    <p>모든 추출 결과는 저장 전에 한 번 더 확인합니다. 금액·품목이 틀렸으면 1클릭으로 고치고, 수정 내역은 같은 가게의 분류 규칙으로 반영되어 다음 인식이 정확해집니다.</p>
+  </details>
+  <details>
+    <summary>가게 코드와 PIN은 뭔가요?</summary>
+    <p>가게 코드는 같은 가게 폰들을 묶는 키입니다. 직원 폰에 같은 코드를 입력하면 장부가 하나로 합쳐집니다. PIN은 장부를 보는 잠금 — 코드를 알아도 PIN 없이는 접근할 수 없습니다.</p>
+  </details>
+  <details>
+    <summary>데이터는 안전한가요?</summary>
+    <p>원본 영수증 이미지는 신고 준비와 증빙 보관을 위해 5년간 암호화 저장소에 보관합니다 (국세기본법 제85조의3). 장부는 가게 PIN으로 잠겨 있으며, 누구에게도 판매하지 않습니다.</p>
+  </details>
+  <details>
+    <summary>무통장 입금 후 구독은 언제 시작되나요?</summary>
+    <p>앱에서 ‘입금 확인’을 누르는 즉시 구독이 활성화됩니다. 입금 확인은 버튼 한 번으로 완료되며, 송금 증빙이 필요하면 24시간 이내 지원팀이 확인해 드립니다.</p>
+  </details>
+  <details>
+    <summary>CSV/엑셀은 어떤 신고에 쓸 수 있나요?</summary>
+    <p>신고 준비용 정리 초안을 제공합니다. 적격증빙·세금신고서를 대체하지 않으며, 신고 전 세무사·세무대리인의 검토를 권장합니다. 전자세금계산서·현금영수증 등 적격증빙 보관은 별도로 필요합니다.</p>
+  </details>
+</section>
+
+<section id="privacy" aria-label="개인정보 처리방침">
+  <h2>개인정보 처리방침 (요약)</h2>
+  <div class="card">
+    <h3>수집·처리 항목</h3>
+    <ul style="margin:0;padding-left:1.2rem;line-height:2">
+      <li><strong>영수증 이미지</strong> — OCR 인식을 위해 업로드 직후 처리되며, 원본은 5년간 보관(국세기본법 제85조의3 증빙 보존)</li>
+      <li><strong>추출 정보</strong> — 가게명·거래일·품목·금액·부가세·결제수단·계정과목 (장부 기록)</li>
+      <li><strong>가게 코드·PIN 해시</strong> — 장부 접근 제어 (PIN은 해시로만 저장)</li>
+    </ul>
+    <h3>해외(국외) 이전 고지 — 개인정보 보호법 제28조의8</h3>
+    <ul style="margin:0;padding-left:1.2rem;line-height:2">
+      <li><strong>Google LLC (미국)</strong> — 영수증 이미지·텍스트 → Gemini API로 전송, OCR 인식 목적 (Gemini API가 무료 요금제로 운영되는 동안)</li>
+      <li><strong>OpenAI LLC (미국)</strong> — 거래처명·품목명 → GPT-4o mini로 전송, 계정과목 분류 목적 (API 키 설정 시에만)</li>
+      <li><strong>이전 시기·보유기간</strong> — 업로드 시점에 전송, 처리 목적 달성 후 일시 보관</li>
+      <li><strong>동의 및 거부 방법</strong> — 앱 온보딩에서 위 내용에 동의하고 시작합니다. 동의하지 않으면 서비스를 이용할 수 없습니다.</li>
+    </ul>
+    <p style="font-size:.85rem;color:#5d6675;margin-top:.8rem">이 요약은 안내용이며, 법적 효력은 운영사가 제공하는 전문 개인정보 처리방침이 우선합니다. 문의: <a href="mailto:support@receipt-ledger.app">support@receipt-ledger.app</a></p>
+  </div>
+</section>
+
+<footer>
+  영수증 장부 — 바쁜 소상공인을 위한 장부 자동화 앱.<br>
+  문의: <a href="mailto:support@receipt-ledger.app">support@receipt-ledger.app</a> · 이 페이지는 세무·법률 의견이 아닙니다.
+</footer>
+</body>
+</html>
