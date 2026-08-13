@@ -50,6 +50,12 @@ footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 <script>
 document.getElementById("leadEmailForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+  const query = new URLSearchParams(location.search);
+  const attribution = {};
+  for (const key of ["source", "utm_source", "utm_medium", "utm_campaign", "utm_content"]) {
+    const value = query.get(key)?.trim();
+    if (value) attribution[key] = value.slice(0, 80);
+  }
   const res = await fetch("/api/leads", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
@@ -58,6 +64,7 @@ document.getElementById("leadEmailForm").addEventListener("submit", async (e) =>
       company: "",
       email: document.getElementById("leEmail").value,
       message: "FREE: LL144 compliance checklist request",
+      attribution,
     }),
   });
   if (res.ok) {
@@ -74,5 +81,5 @@ document.getElementById("leadEmailForm").addEventListener("submit", async (e) =>
 
 <div class="related-links" style="margin:2rem 0;padding:1rem;background:#f7f9ff;border:1px solid #e1e8f5;border-radius:8px;font-size:.95rem"><strong>Related:</strong> <a href="/pricing.html">Pricing</a></div>
 <footer>Informational product. Not legal advice.</footer>
-<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname})}).catch(()=>{});</script></body>
+<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname,referrer:document.referrer.slice(0,200)})}).catch(()=>{});</script></body>
 </html>

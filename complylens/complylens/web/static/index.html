@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LL144 Bias Audit — NYC AI Hiring Law Compliance in 72 Hours | ComplyLens</title>
 <meta name="description" content="NYC Local Law 144 AEDT bias audit, delivered in 72 hours. Independent statistical analysis, public summary, and candidate notice — $1,500 flat.">
-<link rel="canonical" href="https://complylens.example/">
+<link rel="canonical" href="https://html.npopo.com/">
 <meta property="og:title" content="LL144 Bias Audit in 72 Hours | ComplyLens">
 <meta property="og:description" content="Independent AEDT bias audit under NYC Local Law 144. $1,500 flat, 72-hour delivery, compliant public summary.">
 <meta property="og:type" content="website">
@@ -34,7 +34,7 @@ footer{margin-top:3rem;color:#666;font-size:.85rem}
 </style>
 </head>
 <body>
-<header><strong>ComplyLens</strong> — Independent AI Hiring Compliance <nav style="float:right"><a href="/pricing.html">Products</a> · <a href="/research.html">Research</a> · <a href="/plan.html">Plan</a> · <a href="/blog/ll144-enforcement-2026.html">Blog</a></nav></header>
+<header><strong>ComplyLens</strong> — Independent AI Hiring Compliance <nav style="float:right"><a href="/pricing.html">Products</a> · <a href="/research.html">Research</a> · <a href="/blog/ll144-enforcement-2026.html">Blog</a></nav></header>
 <h1>NYC Local Law 144 Compliance Analysis, delivered in 72 hours</h1>
 <p>If your company uses an automated employment decision tool (AEDT) to screen candidates for New York City roles, Local Law 144 requires an annual independent bias audit with a publicly posted summary. We compute the statistics and draft the analysis and compliance documents you need. A legally effective audit additionally requires an independent auditor's sign-off, which we coordinate on request.</p>
 <p class="price">$1,500 <span style="font-size:1rem;font-weight:400">per audit — flat fee</span></p>
@@ -56,7 +56,20 @@ footer{margin-top:3rem;color:#666;font-size:.85rem}
 <p id="qDone" style="display:none;color:#0b7a2b;font-weight:600">✓ Request received — we'll reply within one business day.</p>
 </div>
 
+<section style="background:#f7f9ff;border:1px solid #cfe0ff;border-radius:10px;padding:1.2rem;margin:1.5rem 0">
+<h2 style="margin-top:0">Need a sanitized CSV profile instead?</h2>
+<p>For one 개인정보 제거 CSV, we return a data profile and a readable Korean summary report within 72 hours.</p>
+<a class="cta" href="/kmong-csv-profile.html?source=homepage&amp;product=kmong-csv-profile">View the CSV profile offer — 300,000원</a>
+</section>
+
 <script>
+const trackingKeys = ["source", "utm_source", "utm_medium", "utm_campaign", "utm_content"];
+const query = new URLSearchParams(location.search);
+const attribution = {};
+for (const key of trackingKeys) {
+  const value = query.get(key)?.trim();
+  if (value) attribution[key] = value.slice(0, 80);
+}
 document.getElementById("quoteForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const res = await fetch("/api/leads", {
@@ -67,6 +80,7 @@ document.getElementById("quoteForm").addEventListener("submit", async (e) => {
       company: document.getElementById("qCompany").value,
       email: document.getElementById("qEmail").value,
       message: document.getElementById("qMsg").value,
+      attribution,
     }),
   });
   if (res.ok) {
@@ -81,7 +95,7 @@ document.getElementById("quoteForm").addEventListener("submit", async (e) => {
 <section class="steps">
 <div class="step"><strong>1. Upload</strong><br>Export your hiring data from Greenhouse, Lever, Workday, or CSV.</div>
 <div class="step"><strong>2. We analyze</strong><br>Selection rates and impact ratios computed per DCWP Final Rules methodology, then human-reviewed.</div>
-<div class="step"><strong>3. You comply</strong><br>Detailed report, public summary, and 10-business-day candidate notice within 72 hours.</div>
+<div class="step"><strong>3. You receive the analysis pack</strong><br>Statistical analysis report, public summary, and candidate notice template within 72 hours. Independent auditor sign-off is coordinated separately on request.</div>
 </section>
 
 <p style="background:#f0f6ff;border:1px solid #cfe0ff;border-radius:8px;padding:.8rem 1rem">📘 New to this? Read the <a href="/ll144-guide.html"><strong>complete LL144 bias audit guide</strong></a> — coverage, methodology, penalties, and FAQ.</p>
@@ -95,7 +109,7 @@ document.getElementById("quoteForm").addEventListener("submit", async (e) => {
 <label>Number of tools: <strong id="toolsLabel">1</strong></label>
 <input type="range" id="toolsRange" min="1" max="5" step="1" value="1" style="width:100%">
 <p style="font-size:1.1rem">Exposure: <strong id="exposureLow" style="color:#c0392b">$67,500</strong> – <strong id="exposureHigh" style="color:#c0392b">$270,000</strong></p>
-<p style="font-size:.9rem">vs. a compliant analysis starting at <strong>$299</strong></p>
+<p style="font-size:.9rem">vs. self-serve toolkits from <strong>$29</strong> or a full analysis at <strong>$1,500 flat</strong></p>
 </div>
 
 <script>
@@ -113,7 +127,7 @@ document.getElementById("daysRange").addEventListener("input", calcExposure);
 document.getElementById("toolsRange").addEventListener("input", calcExposure);
 calcExposure();
 </script>
-<p>A December 2025 NY State Comptroller audit found 17 potential violations among just 32 companies reviewed — a 53% non-compliance rate. The first enforcement actions have since been issued. Penalties accumulate per day of violation: $500–$1,500 per day per tool. Compliance is a one-day project with ComplyLens.</p>
+<p>A December 2025 NY State Comptroller audit found 17 potential violations among just 32 companies reviewed — a 53% non-compliance rate. Penalties accumulate per day of violation: $500–$1,500 per day per tool. We target analysis delivery within 72 hours after receiving a readable export; the employer remains responsible for legal compliance.</p>
 
 <h2 id="faq">FAQ</h2>
 <div class="faq">
@@ -124,5 +138,5 @@ calcExposure();
 </div>
 
 <footer>ComplyLens is a service provider, not a law firm. Nothing on this page is legal advice. Data is processed in the United States and never used for AI training.</footer>
-<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname})}).catch(()=>{});</script></body>
+<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname,referrer:document.referrer.slice(0,200)})}).catch(()=>{});</script></body>
 </html>

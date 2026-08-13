@@ -49,8 +49,16 @@ class LLMGateway:
 
     def _active(self, sensitive: bool) -> list[Provider]:
         if sensitive:
-            return [p for p in self._providers if p.jurisdiction != "prc"]
+            return [p for p in self._providers if p.jurisdiction == "non_prc"]
         return self._providers
+
+    def configured_provider_names(self, sensitive: bool = False) -> tuple[str, ...]:
+        """Return configured provider names without exposing keys or making calls."""
+        return tuple(
+            provider.name
+            for provider in self._active(sensitive)
+            if provider.name in self._clients
+        )
 
     def complete(self, prompt: str, sensitive: bool = False, max_retries: int = 2) -> str:
         active = [p for p in self._active(sensitive) if p.name in self._clients]

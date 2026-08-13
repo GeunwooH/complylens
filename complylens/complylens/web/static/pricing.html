@@ -21,96 +21,250 @@ input[type=email],input[type=text],select{width:100%;padding:.5rem;margin:.3rem 
 button{background:#0b5fff;color:#fff;border:none;padding:.6rem 1.2rem;border-radius:6px;font-size:1rem;cursor:pointer}
 #result{background:#eef7ee;border:1px solid #9ccc9c;border-radius:8px;padding:1rem;margin-top:1rem;white-space:pre-wrap;display:none}
 #wallet{background:#fffbe6;border:1px solid #e6d88a;border-radius:8px;padding:1rem;margin-top:1rem;display:none}
+#paymentStatus{background:#f0f6ff;border:1px solid #cfe0ff;border-radius:8px;padding:.8rem 1rem;margin-top:1rem}
+#paymentStatus.info{background:#f0f6ff;border-color:#cfe0ff}
+#paymentStatus.success{background:#eef7ee;border-color:#9ccc9c}
+#paymentStatus.error{background:#fff1f1;border-color:#e0a0a0;color:#7f1d1d}
+#paymentStatus.pending{background:#fffbe6;border-color:#e6d88a}
+.btc-price[hidden]{display:none}
 code{background:#f4f4f4;padding:.15rem .4rem;border-radius:4px;word-break:break-all}
 footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 </style>
 </head>
 <body>
 <header><strong><a href="/" style="text-decoration:none;color:inherit">ComplyLens</a></strong> — Products & Pricing</header>
+<main>
 <h1>Products & Pricing</h1>
-<p>Payment in BTC. After payment, submit your transaction ID below to unlock delivery instantly. Prefer an invoice? Email us.</p>
+<p id="paymentIntro">Choose the payment method enabled for this store. Card payments use a secure Stripe-hosted checkout; BTC remains available only where enabled. Prefer an invoice? Email us.</p>
 
 <div class="product">
 <h2>LL144 Vendor Comparison Pack</h2>
 <p>The LL144 audit market as of Aug 2026: verified vendor prices ($499–$2,500+), an evaluation scorecard, and an RFP template to buy smart.</p>
-<p class="price">$29 <span style="font-size:.9rem;font-weight:400">(0.00045 BTC)</span></p>
+<p class="price">$29 <span class="btc-price" style="font-size:.9rem;font-weight:400">(0.00045 BTC)</span></p>
 </div>
 
 <div class="product">
 <h2>EU AI Act Readiness Kit</h2>
-<p>5 ready-to-use templates for EU AI Act compliance: risk classification checklist, risk management record, technical documentation (Annex IV), transparency notice, and incident log. Built for providers preparing for the 2 Aug 2026 obligations.</p>
-<p class="price">$149 <span style="font-size:.9rem;font-weight:400">(0.0022 BTC)</span></p>
+<p>5 ready-to-use templates for EU AI Act preparation: risk classification checklist, risk management record, technical documentation (Annex IV), transparency notice, and incident log. High-risk Annex III obligations are now scheduled for 2 Dec 2027; GPAI and transparency duties have separate dates.</p>
+<p class="price">$149 <span class="btc-price" style="font-size:.9rem;font-weight:400">(0.0022 BTC)</span></p>
 </div>
 
 <div class="product">
 <h2>LL144 Readiness Assessment Toolkit</h2>
 <p>Structured self-assessment: coverage determination, compliance gap and exposure estimate (penalty math), audit RFP brief, public summary and candidate notice templates, and a this-week action plan. <em>Informational toolkit — not a legally effective bias audit.</em></p>
-<p class="price">$299 <span style="font-size:.9rem;font-weight:400">(0.0045 BTC)</span></p>
+<p class="price">$299 <span class="btc-price" style="font-size:.9rem;font-weight:400">(0.0045 BTC)</span></p>
 </div>
 
 <div class="product">
 <h2>LL144 Compliance Playbook</h2>
 <p>Step-by-step compliance guide distilled from verified research: who is covered, the three obligations, penalty math, data checklist, and a this-week action plan.</p>
-<p class="price">$49 <span style="font-size:.9rem;font-weight:400">(0.00075 BTC)</span></p>
+<p class="price">$49 <span class="btc-price" style="font-size:.9rem;font-weight:400">(0.00075 BTC)</span></p>
 </div>
 
 <div class="product">
 <h2>Multi-State Compliance Pack</h2>
-<p>One workbook covering NYC LL144 + Illinois HB 3773 + Colorado AI Act + California ADMT: jurisdiction matrix, shared statistical core, per-state checklists, and action plan.</p>
-<p class="price">$199 <span style="font-size:.9rem;font-weight:400">(0.003 BTC)</span></p>
+<p>One research workbook covering NYC LL144, current Colorado automated-decision law, California ADMT, and Illinois status tracking: jurisdiction matrix, shared statistical core, per-state checklists, and action plan. Verify current law before relying on any state row.</p>
+<p class="price">$199 <span class="btc-price" style="font-size:.9rem;font-weight:400">(0.003 BTC)</span></p>
+</div>
+
+<div class="product">
+<h2>SOC2 Under $5k Startup Playbook</h2>
+<p><strong>Founding release:</strong> a 30-day SOC 2 Type I readiness plan for small SaaS teams: scope worksheet, control-to-evidence tracker, policy checklist, budget worksheet, and CPA auditor questions. Not an attestation or certification.</p>
+<p class="price">$49 <span class="btc-price" style="font-size:.9rem;font-weight:400">(0.00075 BTC)</span></p>
+</div>
+
+<div class="product">
+<h2>개인정보 제거 CSV 데이터 프로파일</h2>
+<p>CSV 한 개의 열·결측·중복·기초 분포를 확인하고 한국어 요약 리포트를 제공합니다. 법률·감사 의견이 아니며 개인정보 제거 입력만 받습니다.</p>
+<p class="price">300,000원</p>
+<a href="/kmong-csv-profile.html?source=pricing&amp;product=kmong-csv-profile">범위 문의하기</a>
 </div>
 
 <h2>Order</h2>
-<p style="background:#f0f6ff;border:1px solid #cfe0ff;border-radius:8px;padding:.8rem 1rem">💳 <strong>Prefer an invoice?</strong> Email <a href="mailto:audit@npopo.com?subject=Invoice%20request&body=Product%3A%20%0D%0ACompany%3A%20%0D%0AEmail%3A%20">audit@npopo.com</a> and we'll send a payment link or bank-transfer details — no crypto wallet needed.</p>
+<p style="background:#f0f6ff;border:1px solid #cfe0ff;border-radius:8px;padding:.8rem 1rem"><strong>Invoice option:</strong> Email <a href="mailto:audit@npopo.com?subject=Invoice%20request&body=Product%3A%20%0D%0ACompany%3A%20%0D%0AEmail%3A%20">audit@npopo.com</a> and we'll send a payment link or bank-transfer details — no crypto wallet needed.</p>
 <form id="orderForm">
-<label>Email</label>
+<label for="email">Email</label>
 <input type="email" id="email" required placeholder="you@company.com">
-<label>Product</label>
+<label for="product">Product</label>
 <select id="product">
 <option value="p1-analysis">LL144 Readiness Assessment Toolkit — $299</option>
 <option value="p4-euaiakit">EU AI Act Readiness Kit — $149</option>
 <option value="p5-vendor">LL144 Vendor Comparison Pack — $29</option>
 <option value="p2-playbook">LL144 Compliance Playbook — $49</option>
 <option value="p3-custom">Multi-State Compliance Pack — $199</option>
+<option value="p6-soc2">SOC2 Under $5k Startup Playbook — $49</option>
 </select>
-<button type="submit">Create order</button>
+<button type="submit" id="submitButton" disabled>Continue to payment</button>
 </form>
 
+<div id="paymentStatus" class="info" aria-live="polite">Enter your email and choose a product to continue.</div>
 <div id="wallet"></div>
-<div id="result"></div>
+<div id="result" aria-live="polite"></div>
 
 <script>
+const trackingKeys = ["source", "utm_source", "utm_medium", "utm_campaign", "utm_content"];
+const query = new URLSearchParams(location.search);
+const attribution = {};
+for (const key of trackingKeys) {
+  const value = query.get(key)?.trim();
+  if (value) attribution[key] = value.slice(0, 80);
+}
 const form = document.getElementById("orderForm");
+const productSelect = document.getElementById("product");
+const submitButton = document.getElementById("submitButton");
+const paymentStatus = document.getElementById("paymentStatus");
+const wallet = document.getElementById("wallet");
+const result = document.getElementById("result");
+let paymentMethod = null;
+const requestedProduct = query.get("product");
+if (
+  requestedProduct &&
+  [...productSelect.options].some((option) => option.value === requestedProduct)
+) {
+  productSelect.value = requestedProduct;
+}
+
+function setPaymentStatus(message, tone = "pending") {
+  paymentStatus.textContent = message;
+  paymentStatus.className = tone;
+}
+
+function setPaymentError(message) {
+  setPaymentStatus(message, "error");
+}
+
+async function loadPaymentMode() {
+  try {
+    const modeResponse = await fetch("/api/payment-mode");
+    if (!modeResponse.ok) throw new Error("payment mode unavailable");
+    const mode = await modeResponse.json();
+    if (mode.payment_method !== "btc" && mode.payment_method !== "stripe") {
+      throw new Error("unknown payment mode");
+    }
+    paymentMethod = mode.payment_method;
+    if (paymentMethod === "stripe") {
+      document.querySelectorAll(".btc-price").forEach((node) => {
+        node.hidden = true;
+      });
+    }
+    submitButton.disabled = false;
+    setPaymentStatus("Enter your email and choose a product to continue.", "info");
+  } catch {
+    paymentMethod = null;
+    submitButton.disabled = true;
+    setPaymentStatus("Payment method is temporarily unavailable.", "error");
+  }
+}
+
+loadPaymentMode();
+
+async function showStripeReturnState() {
+  const paymentState = query.get("payment");
+  const orderId = query.get("order_id");
+  if (paymentState === "cancel") {
+    setPaymentStatus("Payment was cancelled. Your order was not confirmed.", "error");
+    return;
+  }
+  if (paymentState !== "success") return;
+
+  if (!orderId) {
+    setPaymentStatus("Payment return is missing an order reference.", "error");
+    return;
+  }
+  setPaymentStatus("Payment received. Verifying your order...", "success");
+  const download = await fetch("/api/orders/" + encodeURIComponent(orderId) + "/download");
+  if (download.ok) {
+    result.style.display = "block";
+    result.innerHTML =
+      "<strong>Payment confirmed!</strong> Download: <a href='/api/orders/" +
+      encodeURIComponent(orderId) +
+      "/download'>your product</a>";
+    return;
+  }
+  setPaymentStatus(
+    "Payment received. Verification is still pending; refresh this page shortly.",
+    "pending",
+  );
+}
+
+showStripeReturnState().catch(() => {
+  setPaymentStatus("Payment received. Refresh this page to check delivery status.", "pending");
+});
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const email = document.getElementById("email").value;
+  if (!paymentMethod) {
+    setPaymentError("Payment method is temporarily unavailable.");
+    return;
+  }
+  const email = document.getElementById("email").value.trim();
   const product = document.getElementById("product").value;
-  const res = await fetch("/api/orders", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({email, product_id: product}),
-  });
-  const data = await res.json();
-  if (!res.ok) { alert("Error: " + (data.detail || res.status)); return; }
-  document.getElementById("wallet").style.display = "block";
-  document.getElementById("wallet").innerHTML =
-    "<strong>Send exactly:</strong> " + data.amount_btc + " BTC (" + data.amount_sat + " sat)<br>" +
-    "<strong>BTC address:</strong> <code>" + data.btc_address + "</code><br>" +
-    "<strong>Order ID:</strong> <code>" + data.order_id + "</code><br>" +
-    "<label>Transaction ID (after sending):</label><input type='text' id='txid' placeholder='64-char txid'><button id='confirmBtn'>Confirm payment</button>";
-  document.getElementById("confirmBtn").addEventListener("click", async () => {
-    const txid = document.getElementById("txid").value.trim();
-    const c = await fetch("/api/orders/" + data.order_id + "/confirm", {
+  submitButton.disabled = true;
+  submitButton.textContent = "Preparing payment...";
+  wallet.style.display = "none";
+  result.style.display = "none";
+  setPaymentStatus("Preparing your secure payment...", "pending");
+  try {
+    const res = await fetch("/api/orders", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({txid}),
+      body: JSON.stringify({email, product_id: product, attribution}),
     });
-    const cd = await c.json();
-    if (!c.ok) { alert("Payment not verified: " + (cd.detail || c.status)); return; }
-    document.getElementById("result").style.display = "block";
-    document.getElementById("result").innerHTML =
-      "<strong>Payment confirmed!</strong> Download: <a href='/api/orders/" + data.order_id + "/download'>your product</a>";
-  });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || `Request failed (${res.status})`);
+
+    if (data.payment_method === "stripe" && data.checkout_url) {
+      document.querySelectorAll(".btc-price").forEach((node) => {
+        node.hidden = true;
+      });
+      setPaymentStatus("Redirecting to secure Stripe Checkout...", "success");
+      window.location.assign(data.checkout_url);
+      return;
+    }
+
+    if (data.payment_method !== "btc") {
+      throw new Error("Unsupported payment method");
+    }
+    wallet.style.display = "block";
+    wallet.innerHTML =
+      "<strong>Send exactly:</strong> " + data.amount_btc + " BTC (" + data.amount_sat + " sat)<br>" +
+      "<strong>BTC address:</strong> <code>" + data.btc_address + "</code><br>" +
+      "<strong>Order ID:</strong> <code>" + data.order_id + "</code><br>" +
+      "<label for='txid'>Transaction ID (after sending):</label><input type='text' id='txid' placeholder='64-char txid'><button id='confirmBtn'>Confirm payment</button>";
+    setPaymentStatus("BTC payment instructions ready.", "pending");
+    document.getElementById("confirmBtn").addEventListener("click", async () => {
+      const confirmButton = document.getElementById("confirmBtn");
+      const txid = document.getElementById("txid").value.trim();
+      confirmButton.disabled = true;
+      try {
+        const c = await fetch("/api/orders/" + data.order_id + "/confirm", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({txid}),
+        });
+        const cd = await c.json();
+        if (!c.ok) {
+          confirmButton.disabled = false;
+          setPaymentError("Payment not verified: " + (cd.detail || c.status));
+          return;
+        }
+        result.style.display = "block";
+        result.innerHTML =
+          "<strong>Payment confirmed!</strong> Download: <a href='/api/orders/" + data.order_id + "/download'>your product</a>";
+        setPaymentStatus("Payment confirmed. Your download is ready.", "success");
+      } catch (error) {
+        confirmButton.disabled = false;
+        const message = error instanceof Error ? error.message : "request failed";
+        setPaymentError("Payment confirmation failed: " + message);
+      }
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unable to start payment.";
+    setPaymentError(message + " Try again or use the invoice option below.");
+  } finally {
+    submitButton.disabled = paymentMethod === null;
+    submitButton.textContent = "Continue to payment";
+  }
 });
 </script>
 
@@ -123,6 +277,20 @@ form.addEventListener("submit", async (e) => {
 <li><strong>30-day money-back guarantee</strong> on all digital products.</li>
 </ul>
 </div>
+</main>
 <footer>Informational products. Not legal advice. Independent auditor sign-off is required for a legally effective bias audit.<br><strong>30-day money-back guarantee</strong> on all digital products — if the toolkit doesn't help, email us and we refund in full.</footer>
-<script>fetch("/api/pv",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname})}).catch(()=>{});</script></body>
+<script>
+const tracked = new URLSearchParams();
+for (const key of trackingKeys) {
+  const value = query.get(key)?.trim();
+  if (value) tracked.set(key, value.slice(0, 80));
+}
+const page = location.pathname + (tracked.toString() ? `?${tracked}` : "");
+fetch("/api/pv", {
+  method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify({path: page, referrer: document.referrer.slice(0, 200)}),
+}).catch(() => {});
+</script>
+</body>
 </html>

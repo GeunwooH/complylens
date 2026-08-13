@@ -62,10 +62,10 @@ footer{margin-top:2.5rem;color:#666;font-size:.85rem}
 <div id="result"></div>
 <div id="leadForm">
 <h3 style="margin-top:0">Get your free compliance checklist</h3>
-<p style="font-size:.9rem">Enter your email for the 20-point AEDT checklist and next-step guidance.</p>
+<p style="font-size:.9rem">Enter your email to save your result and get the 20-point AEDT checklist now.</p>
 <input type="email" id="leEmail" placeholder="you@company.com">
 <button id="leSubmit">Send me the checklist</button>
-<p id="leDone" style="display:none;color:#0b7a2b;font-weight:600">✓ Check your inbox — checklist is on its way. Meanwhile, see our <a href="/pricing.html">products</a>.</p>
+<p id="leDone" style="display:none;color:#0b7a2b;font-weight:600">✓ <a href="/aedt-compliance-checklist.html">Open the 20-point AEDT checklist</a>. We’ll reply within one business day if you request help.</p>
 </div>
 
 <script>
@@ -88,12 +88,22 @@ document.getElementById("submitBtn").addEventListener("click", () => {
   document.getElementById("result").style.display = "block";
   document.getElementById("leadForm").style.display = "block";
   document.getElementById("quiz").scrollIntoView({behavior:"smooth"});
-  fetch("/api/pv", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({path:"/quiz.html#result"})}).catch(()=>{});
+  fetch("/api/pv", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({path:"/quiz.html#result", referrer:document.referrer.slice(0,200)})}).catch(()=>{});
 });
 document.getElementById("leSubmit").addEventListener("click", async () => {
   const email = document.getElementById("leEmail").value.trim();
   if (!email.includes("@")) { alert("Enter a valid email."); return; }
-  const res = await fetch("/api/leads", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({name:"", company:"", email, message:"QUIZ: LL144 self-assessment result"})});
+  const query = new URLSearchParams(location.search);
+  const attribution = {};
+  for (const key of ["source", "utm_source", "utm_medium", "utm_campaign", "utm_content"]) {
+    const value = query.get(key)?.trim();
+    if (value) attribution[key] = value.slice(0, 80);
+  }
+  const answers = [1,2,3,4,5].map((n) => document.querySelector('input[name="q' + n + '"]:checked')?.value || "");
+  const covered = answers[0] === "yes" && answers[1] === "yes" && answers[2] === "yes";
+  const compliant = covered && answers[3] === "yes" && answers[4] === "yes";
+  attribution.quiz_result = !covered ? "not_covered" : compliant ? "covered_compliant" : "covered_action_needed";
+  const res = await fetch("/api/leads", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({name:"", company:"", email, message:"QUIZ: LL144 self-assessment result", attribution})});
   if (res.ok) {
     document.getElementById("leDone").style.display = "block";
     document.getElementById("leSubmit").style.display = "none";

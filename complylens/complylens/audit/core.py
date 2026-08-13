@@ -23,7 +23,7 @@ def compute_selection_rates(
         if missing:
             raise MissingCategoryError(f"missing required categories: {missing}")
     grouped = df.groupby(category_col)[selection_col].mean()
-    return {cat: float(rate) for cat, rate in grouped.items()}
+    return {str(cat): float(rate) for cat, rate in grouped.items()}
 
 
 def compute_impact_ratios(rates: dict[str, float]) -> dict[str, float]:
@@ -47,7 +47,7 @@ def compute_score_based_rates(df: pd.DataFrame, category_col: str, score_col: st
     counts = df.groupby(category_col).size()
     above_counts = above.groupby(category_col).size()
     return {
-        cat: float(above_counts.get(cat, 0) / counts[cat]) if counts[cat] > 0 else 0.0
+        str(cat): float(above_counts.get(cat, 0) / counts[cat]) if counts[cat] > 0 else 0.0
         for cat in counts.index
     }
 
@@ -65,6 +65,12 @@ def evaluate_audit(
     score_based = (
         compute_score_based_rates(df, category_col, score_col) if score_col else None
     )
+    score_based_ratios = compute_impact_ratios(score_based) if score_based is not None else None
+    score_based_violations = (
+        sorted(four_fifths_rule(score_based_ratios))
+        if score_based_ratios is not None
+        else None
+    )
     return {
         "categories": {
             cat: {
@@ -77,4 +83,6 @@ def evaluate_audit(
         "highest_selection_rate": max(rates.values()) if rates else 0.0,
         "four_fifths_violations": sorted(violations),
         "score_based_rates": score_based,
+        "score_based_impact_ratios": score_based_ratios,
+        "score_based_four_fifths_violations": score_based_violations,
     }

@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://complylens.example/sitemap.xml
+Sitemap: https://html.npopo.com/sitemap.xml

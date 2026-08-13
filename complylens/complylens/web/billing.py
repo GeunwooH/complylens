@@ -4,8 +4,10 @@ from __future__ import annotations
 import json
 import os
 import uuid
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import TypedDict
 
 import stripe
 
@@ -21,6 +23,21 @@ _TRANSITIONS = {
 
 class InvalidTransition(ValueError):
     """허용되지 않는 주문 상태 전이."""
+
+
+@dataclass(frozen=True, slots=True)
+class StripeConfigurationError(RuntimeError):
+    """Stripe secret key 또는 Checkout 응답이 유효하지 않음."""
+
+    detail: str
+
+    def __str__(self) -> str:
+        return self.detail
+
+
+class CheckoutSessionResult(TypedDict):
+    session_id: str
+    checkout_url: str
 
 
 class OrderStore:
@@ -65,7 +82,14 @@ class OrderStore:
 
 
 def _stripe() -> None:
-    stripe.api_key = os.environ.get("STRIPE_SECRET_KEY", "sk_test_missing")
+    secret_key = os.environ.get("STRIPE_SECRET_KEY")
+    if not secret_key:
+        raise StripeConfigurationError("Stripe payment is not configured")
+    stripe.api_key = secret_key
+
+
+def _checkout_idempotency_key(order_id: str) -> str:
+    return f"complylens-checkout-{order_id}"
 
 
 def create_checkout_session(order_id: str, success_url: str = "https://example.com/success", cancel_url: str = "https://example.com/cancel") -> str:
@@ -85,8 +109,50 @@ def create_checkout_session(order_id: str, success_url: str = "https://example.c
         success_url=success_url,
         cancel_url=cancel_url,
         metadata={"order_id": order_id},
+        idempotency_key=_checkout_idempotency_key(order_id),
     )
     return session.id
+
+
+def create_product_checkout_session(
+    order_id: str,
+    product_id: str,
+    product_name: str,
+    amount_usd: int,
+    customer_email: str,
+    success_url: str,
+    cancel_url: str,
+) -> CheckoutSessionResult:
+    """제품 주문을 Stripe hosted Checkout 세션으로 변환한다."""
+    secret_key = os.environ.get("STRIPE_SECRET_KEY")
+    if not secret_key:
+        raise StripeConfigurationError("Stripe payment is not configured")
+    stripe.api_key = secret_key
+    session = stripe.checkout.Session.create(
+        mode="payment",
+        line_items=[
+            {
+                "price_data": {
+                    "currency": "usd",
+                    "unit_amount": amount_usd * 100,
+                    "product_data": {"name": product_name},
+                },
+                "quantity": 1,
+            }
+        ],
+        customer_email=customer_email,
+        success_url=success_url,
+        cancel_url=cancel_url,
+        metadata={"order_id": order_id, "product_id": product_id},
+        idempotency_key=_checkout_idempotency_key(order_id),
+    )
+    session_id = getattr(session, "id", None)
+    checkout_url = getattr(session, "url", None)
+    if not isinstance(session_id, str) or not session_id:
+        raise StripeConfigurationError("Stripe Checkout session ID is missing")
+    if not isinstance(checkout_url, str) or not checkout_url:
+        raise StripeConfigurationError("Stripe Checkout URL is missing")
+    return {"session_id": session_id, "checkout_url": checkout_url}
 
 
 def handle_checkout_webhook(payload: bytes, sig_header: str, secret: str, store: OrderStore) -> str:

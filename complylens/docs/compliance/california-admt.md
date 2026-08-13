@@ -1,15 +1,15 @@
 # California ADMT (CCPA) — Employment AI Obligations
 
-Status: **조사 노트 (비활성)** — 2027-01-01 발효 예정, 사전 대비 문서.
+Status: **최종 규정 조사 노트** — 규정은 2026-01-01 발효, ADMT 준수는 2027-01-01부터.
 
-## 예정 요건 (2027-01-01)
-- 캘리포니아 소비자보호법(CCPA) 개정 — 고용 AI 도구(ADMT) 사용 시:
+## 확인된 일정과 요건 (2027-01-01)
+- CPPA ADMT 규정 — 적용 대상 사업자의 ADMT 사용 시:
   1. 사전 위험 평가 (risk assessment)
   2. 사전 고지 + 옵트아웃
   3. 접근/수정 권리
   4. 벤더 관리 의무
-- 출처: Littler, National Law Review — claim-graph.md C11
+- 출처: CPPA final rulemaking — https://cppa.ca.gov/announcements/2025/20250923.html
 
 ## 제품 통합 지점
-- 2026 Q4 재검증 (날짜 연기/폐지 가능성 — Colorado 선례: R2)
-- 확정 시 감사 패키지에 CA 섹션 추가
+- 제품 패키지에는 법률 자문이 아닌 risk-assessment/notice 준비 체크리스트로 포함
+- 실제 적용 여부와 예외는 현재 CPPA 규정 원문 및 counsel로 재검증

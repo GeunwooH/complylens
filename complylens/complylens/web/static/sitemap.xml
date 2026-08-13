@@ -3,7 +3,6 @@
   <url><loc>https://html.npopo.com/</loc><priority>1.0</priority></url>
   <url><loc>https://html.npopo.com/pricing.html</loc><priority>0.9</priority></url>
   <url><loc>https://html.npopo.com/research.html</loc><priority>0.6</priority></url>
-  <url><loc>https://html.npopo.com/plan.html</loc><priority>0.5</priority></url>
   <url><loc>https://html.npopo.com/blog/ll144-enforcement-2026.html</loc><priority>0.7</priority></url>
   <url><loc>https://html.npopo.com/blog/illinois-hb3773-2026.html</loc><priority>0.7</priority></url>
   <url><loc>https://html.npopo.com/blog/comptroller-audit-explained.html</loc><priority>0.7</priority></url>
@@ -26,4 +25,6 @@
   <url><loc>https://html.npopo.com/blog/ll144-audit-renewal.html</loc><priority>0.8</priority></url>
   <url><loc>https://html.npopo.com/blog/ll144-compliance-proof.html</loc><priority>0.7</priority></url>
   <url><loc>https://html.npopo.com/blog/ll144-for-startups.html</loc><priority>0.7</priority></url>
+  <url><loc>https://html.npopo.com/blog/soc2-under-5k.html</loc><priority>0.7</priority></url>
+  <url><loc>https://html.npopo.com/blog/soc2-evidence-gap-check.html</loc><priority>0.8</priority></url>
 </urlset>
