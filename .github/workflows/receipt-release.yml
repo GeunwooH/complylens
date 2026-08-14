@@ -98,6 +98,12 @@ jobs:
         working-directory: receipt-app/android
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
+      - name: NDK 버전 지정 (설치된 28.2 사용 — 부분 다운로드 27.1 우회)
+        working-directory: receipt-app/android
+        run: |
+          sed -i 's/ndkVersion = "27.1.12297006"/ndkVersion = "28.2.13676358"/' build.gradle
+          grep -n 'ndkVersion' build.gradle
+
       - name: 릴리스 키스토어 복원 (PLACEHOLDER [2])
         run: |
           if [ -n "$KEYSTORE_BASE64" ]; then
