@@ -117,13 +117,13 @@ jobs:
             import os
             p = 'android/app/build.gradle'
             s = open(p).read()
-            # 1) release buildType의 debug 서명을 release 서명으로 교체
-            s = s.replace('signingConfig signingConfigs.debug', 'signingConfig signingConfigs.release')
-            # 2) signingConfigs에 release 정의 추가 (없을 때만)
-            if 'signingConfigs.release' not in s:
+            # 1) signingConfigs에 release 정의 추가 (없을 때만 — 마커로 판별)
+            if 'storeFile file("release.keystore")' not in s:
                 s = s.replace('signingConfigs {', 'signingConfigs {\n        release {\n            storeFile file("release.keystore")\n            storePassword System.getenv("KEYSTORE_PASSWORD")\n            keyAlias System.getenv("KEY_ALIAS")\n            keyPassword System.getenv("KEY_PASSWORD")\n        }', 1)
+            # 2) release buildType의 debug 서명을 release 서명으로 교체
+            s = s.replace('signingConfig signingConfigs.debug', 'signingConfig signingConfigs.release')
             open(p, 'w').write(s)
-            print('release signingConfig 주입 완료')
+            print('release signingConfig 주입 완료 — 정의 존재:', 'signingConfigs.release' in s)
           PY
           else
             echo "::warning::릴리스 키 시크릿 없음 — debug 서명으로 빌드됩니다 (Play 업로드 불가)"
