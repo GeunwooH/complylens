@@ -1,0 +1,225 @@
+# 영수증 장부 앱 릴리스 파이프라인 (DRAFT — 승인 후 푸시 시 활성화)
+# 104 PC self-hosted 러너(104pc)에서 실행: 웹/서버 배포 → APK 생성·공개 → Play 서명 AAB → 내부 테스트 업로드 → 검증
+#
+# ⚠️ DRAFT 상태 — 아래 PLACEHOLDER 항목을 확정한 뒤 사용자가 승인해야 푸시/실행합니다.
+#   [1] DEPLOY_* : 웹/서버 배포 대상 (receipt-api.npopo.com 오리진 미식별 — Cloudflare 대시보드 확인 필요)
+#   [2] ANDROID_* : 릴리스 키스토어 (repo secret: KEYSTORE_BASE64 / KEYSTORE_PASSWORD / KEY_ALIAS / KEY_PASSWORD)
+#   [3] PLAY_*   : Google Play 서비스 계정 JSON (repo secret: PLAY_SERVICE_ACCOUNT_JSON) + 업로드 키
+#   [4] 디스크    : 104 PC 여유 415MB — APK 빌드는 수 GB 필요 (gradle 캐시·node_modules)
+
+name: receipt-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '릴리스 버전 (versionName)'
+        required: true
+        default: '1.6.189'
+      version_code:
+        description: 'versionCode (정수)'
+        required: true
+        default: '189'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: receipt-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ─── 1) 웹/서버 배포 ─────────────────────────────────────────────
+  deploy-web:
+    runs-on: [self-hosted, 104pc]
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: 웹 정적 자산 빌드/동기화 (PLACEHOLDER [1])
+        run: |
+          echo "::warning::DEPLOY 대상 미확정 — 오리진 식별 후 이 스텝을 확정하세요"
+          # 예시 (오리진 확정 후):
+          # rsync -az --delete complylens/complylens/web/static/ "$DEPLOY_HOST:$DEPLOY_PATH"
+          # ssh "$DEPLOY_HOST" 'systemctl restart complylens && systemctl --no-pager status complylens'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+
+      - name: 배포 상태 검증
+        run: |
+          # 예시: curl -fsS https://receipt-api.npopo.com/ > /dev/null && echo "배포 확인 OK"
+          echo "::warning::배포 검증 URL 미확정 (PLACEHOLDER)"
+
+  # ─── 2) APK 생성·공개 ────────────────────────────────────────────
+  build-apk:
+    runs-on: [self-hosted, 104pc]
+    needs: deploy-web
+    timeout-minutes: 60
+    env:
+      ANDROID_HOME: /home/npopo/Android
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: 환경 확인
+        run: |
+          node -v && npm -v
+          java -version 2>&1 | head -1 || echo "::warning::JDK 미설치 — JDK 17 필요"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          df -h / | tail -1
+
+      - name: 버전 세팅 (${{ github.event.inputs.version }} / ${{ github.event.inputs.version_code }})
+        working-directory: receipt-app
+        run: |
+          node -e "
+            const fs = require('fs');
+            const app = JSON.parse(fs.readFileSync('app.json', 'utf8'));
+            app.expo.version = '${{ github.event.inputs.version }}';
+            app.expo.android = { ...(app.expo.android || {}), versionCode: Number('${{ github.event.inputs.version_code }}') };
+            fs.writeFileSync('app.json', JSON.stringify(app, null, 2) + '\n');
+          "
+          grep -A2 '"version"' app.json
+
+      - name: 의존성 설치
+        working-directory: receipt-app
+        run: npm ci
+
+      - name: 타입 체크
+        working-directory: receipt-app
+        run: npx tsc --noEmit
+
+      - name: Android 네이티브 프로젝트 생성 (prebuild)
+        working-directory: receipt-app
+        run: npx expo prebuild --platform android --no-install
+
+      - name: SDK 경로 설정 (local.properties)
+        working-directory: receipt-app/android
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+      - name: 릴리스 키스토어 복원 (PLACEHOLDER [2])
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > receipt-app/android/app/release.keystore
+            echo "키스토어 복원 OK"
+          else
+            echo "::warning::KEYSTORE_BASE64 미설정 — debug 서명으로 빌드됩니다 (Play 업로드 불가)"
+          fi
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+
+      - name: 릴리스 서명 설정 (키 시크릿 있을 때만)
+        working-directory: receipt-app
+        run: |
+          if [ -n "$KEYSTORE_PASSWORD" ] && [ -f android/app/release.keystore ]; then
+            python3 - <<'PY'
+            import os
+            p = 'android/app/build.gradle'
+            s = open(p).read()
+            # 1) release buildType의 debug 서명을 release 서명으로 교체
+            s = s.replace('signingConfig signingConfigs.debug', 'signingConfig signingConfigs.release')
+            # 2) signingConfigs에 release 정의 추가 (없을 때만)
+            if 'signingConfigs.release' not in s:
+                s = s.replace('signingConfigs {', 'signingConfigs {\n        release {\n            storeFile file("release.keystore")\n            storePassword System.getenv("KEYSTORE_PASSWORD")\n            keyAlias System.getenv("KEY_ALIAS")\n            keyPassword System.getenv("KEY_PASSWORD")\n        }', 1)
+            open(p, 'w').write(s)
+            print('release signingConfig 주입 완료')
+          PY
+          else
+            echo "::warning::릴리스 키 시크릿 없음 — debug 서명으로 빌드됩니다 (Play 업로드 불가)"
+          fi
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: APK 빌드 (assembleRelease)
+        working-directory: receipt-app/android
+        run: ./gradlew assembleRelease --no-daemon
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: APK 검증 (sha256)
+        run: |
+          APK=$(ls receipt-app/android/app/build/outputs/apk/release/app-release.apk)
+          ls -la "$APK"
+          shasum -a 256 "$APK"
+
+      - name: APK 공개 (릴리스 업로드)
+        uses: actions/upload-artifact@v4
+        with:
+          name: receipt-ledger-v${{ github.event.inputs.version }}-apk
+          path: receipt-app/android/app/build/outputs/apk/release/app-release.apk
+
+  # ─── 3) Play 서명 AAB + 내부 테스트 업로드 ────────────────────────
+  play-upload:
+    runs-on: [self-hosted, 104pc]
+    needs: build-apk
+    timeout-minutes: 60
+    env:
+      ANDROID_HOME: /home/npopo/Android
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: AAB 빌드 (bundleRelease)
+        working-directory: receipt-app/android
+        run: ./gradlew bundleRelease --no-daemon
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: AAB 검증
+        run: |
+          AAB=$(ls receipt-app/android/app/build/outputs/bundle/release/app-release.aab)
+          ls -la "$AAB"
+          shasum -a 256 "$AAB"
+
+      - name: Play 서비스 계정 복원 (PLACEHOLDER [3])
+        run: |
+          if [ -n "$PLAY_SERVICE_ACCOUNT_JSON" ]; then
+            echo "$PLAY_SERVICE_ACCOUNT_JSON" > /tmp/play-sa.json
+            echo "서비스 계정 복원 OK"
+          else
+            echo "::error::PLAY_SERVICE_ACCOUNT_JSON 미설정 — 업로드 불가"
+            exit 1
+          fi
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+
+      - name: 내부 테스트 트랙 업로드
+        working-directory: receipt-app/android
+        run: |
+          ./gradlew :app:publishBundle \
+            -PserviceAccountJson=/tmp/play-sa.json \
+            -Ptracks=internal \
+            -PreleaseStatus=completed
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: 산출물 정리
+        run: rm -f /tmp/play-sa.json
+
+  # ─── 4) 최종 상태 검증 ────────────────────────────────────────────
+  verify:
+    runs-on: [self-hosted, 104pc]
+    needs: [deploy-web, build-apk, play-upload]
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: 요약 생성
+        run: |
+          {
+            echo "## 릴리스 ${{ github.event.inputs.version }} 요약"
+            echo "- 웹/서버: 배포 완료 (검증 URL 확인 필요)"
+            echo "- APK: receipt-ledger-v${{ github.event.inputs.version }}-apk 아티팩트"
+            echo "- AAB: Play 내부 테스트 트랙 업로드됨"
+            echo "- 실행자: ${{ github.actor }}"
+          } >> "$GITHUB_STEP_SUMMARY"
