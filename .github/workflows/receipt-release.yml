@@ -58,7 +58,7 @@ jobs:
     needs: deploy-web
     timeout-minutes: 60
     env:
-      ANDROID_HOME: /home/npopo/Android
+      ANDROID_HOME: /home/npopo/Android/Sdk
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -159,7 +159,7 @@ jobs:
     needs: build-apk
     timeout-minutes: 60
     env:
-      ANDROID_HOME: /home/npopo/Android
+      ANDROID_HOME: /home/npopo/Android/Sdk
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
