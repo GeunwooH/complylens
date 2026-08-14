@@ -1,7 +1,7 @@
 """랜딩 페이지 + SEO 테스트 — 메타/OG/JSON-LD, robots/sitemap, 블로그."""
 from __future__ import annotations
 
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 
 from complylens.web.app import app
 
