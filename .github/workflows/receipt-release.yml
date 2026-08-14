@@ -113,7 +113,7 @@ jobs:
         working-directory: receipt-app
         run: |
           if [ -n "$KEYSTORE_PASSWORD" ] && [ -f android/app/release.keystore ]; then
-            python3 - <<'PY'
+            sed 's/^  //' <<'PY' | python3
             import os
             p = 'android/app/build.gradle'
             s = open(p).read()
