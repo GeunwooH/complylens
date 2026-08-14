@@ -170,6 +170,48 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: 의존성 설치
+        working-directory: receipt-app
+        run: npm ci
+
+      - name: Android 네이티브 프로젝트 생성 (prebuild)
+        working-directory: receipt-app
+        run: npx expo prebuild --platform android --no-install
+
+      - name: SDK 경로 설정 (local.properties)
+        working-directory: receipt-app/android
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+      - name: NDK 버전 지정 (설치된 28.2 사용)
+        working-directory: receipt-app/android
+        run: |
+          sed -i 's/ndkVersion rootProject.ext.ndkVersion/ndkVersion "28.2.13676358"/' app/build.gradle
+          grep -n 'ndkVersion' app/build.gradle
+
+      - name: 릴리스 키스토어 복원
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > receipt-app/android/app/release.keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+
+      - name: 릴리스 서명 설정
+        working-directory: receipt-app
+        run: |
+          sed 's/^  //' <<'PY' | python3
+          import os
+          p = 'android/app/build.gradle'
+          s = open(p).read()
+          if 'storeFile file("release.keystore")' not in s:
+              s = s.replace('signingConfigs {', 'signingConfigs {\n        release {\n            storeFile file("release.keystore")\n            storePassword System.getenv("KEYSTORE_PASSWORD")\n            keyAlias System.getenv("KEY_ALIAS")\n            keyPassword System.getenv("KEY_PASSWORD")\n        }', 1)
+          s = s.replace('signingConfig signingConfigs.debug', 'signingConfig signingConfigs.release')
+          open(p, 'w').write(s)
+          print('release signingConfig 주입 완료')
+          PY
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
       - name: AAB 빌드 (bundleRelease)
         working-directory: receipt-app/android
         run: ./gradlew bundleRelease --no-daemon
