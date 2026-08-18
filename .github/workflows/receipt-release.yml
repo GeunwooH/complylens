@@ -37,20 +37,20 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: 웹 정적 자산 빌드/동기화 (PLACEHOLDER [1])
+      - name: 웹/서버 배포 — 코드 동기화 + 서비스 재시작
         run: |
-          echo "::warning::DEPLOY 대상 미확정 — 오리진 식별 후 이 스텝을 확정하세요"
-          # 예시 (오리진 확정 후):
-          # rsync -az --delete complylens/complylens/web/static/ "$DEPLOY_HOST:$DEPLOY_PATH"
-          # ssh "$DEPLOY_HOST" 'systemctl restart complylens && systemctl --no-pager status complylens'
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          rsync -az --delete \
+            --exclude 'data' --exclude '.venv' --exclude '.env.local' --exclude '.git' \
+            "$GITHUB_WORKSPACE/complylens/" /home/npopo/receipt-ledger/
+          echo "코드 동기화 완료"
+          sudo -n systemctl restart receipt-ledger
+          sleep 3
+          sudo -n systemctl is-active receipt-ledger
 
       - name: 배포 상태 검증
         run: |
-          # 예시: curl -fsS https://receipt-api.npopo.com/ > /dev/null && echo "배포 확인 OK"
-          echo "::warning::배포 검증 URL 미확정 (PLACEHOLDER)"
+          curl -fsS -m 5 http://127.0.0.1:8001/ > /dev/null && echo "로컬 8001 정상"
+          curl -fsS -m 10 https://api.npopo.com/ > /dev/null && echo "공개 api.npopo.com 정상"
 
   # ─── 2) APK 생성·공개 ────────────────────────────────────────────
   build-apk:
