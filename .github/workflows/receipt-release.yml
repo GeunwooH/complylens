@@ -246,7 +246,7 @@ jobs:
             sed 's/^  //' <<'PLUGIN' >> build.gradle
           buildscript {
             repositories { google(); mavenCentral(); gradlePluginPortal() }
-            dependencies { classpath 'com.github.triplet.play:com.github.triplet.play.gradle.plugin:4.1.1' }
+            dependencies { classpath 'com.github.triplet.play:com.github.triplet.play.gradle.plugin:3.8.0' }
           }
           PLUGIN
           fi
