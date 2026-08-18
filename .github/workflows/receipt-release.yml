@@ -241,10 +241,28 @@ jobs:
       - name: 내부 테스트 트랙 업로드
         working-directory: receipt-app/android
         run: |
-          ./gradlew :app:publishBundle \
-            -PserviceAccountJson=/tmp/play-sa.json \
-            -Ptracks=internal \
-            -PreleaseStatus=completed
+          # 1) Play 게시 플러그인 주입 (Triplet)
+          if ! grep -q 'com.github.triplet.play' build.gradle; then
+            sed 's/^  //' <<'PLUGIN' >> build.gradle
+          buildscript {
+            repositories { google(); mavenCentral() }
+            dependencies { classpath 'com.github.triplet.play:com.github.triplet.play:3.8.4' }
+          }
+          PLUGIN
+          fi
+          if ! grep -q 'com.github.triplet.play' app/build.gradle; then
+            sed 's/^  //' <<'PLAYCFG' >> app/build.gradle
+          apply plugin: 'com.github.triplet.play'
+          play {
+            serviceAccountCredentials.set(file("/tmp/play-sa.json"))
+            track.set("internal")
+            releaseStatus.set("completed")
+          }
+          PLAYCFG
+          fi
+          grep -c 'com.github.triplet.play' build.gradle app/build.gradle
+          # 2) 업로드
+          ./gradlew :app:publishBundle --no-daemon
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
