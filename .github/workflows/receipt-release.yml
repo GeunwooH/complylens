@@ -245,8 +245,8 @@ jobs:
           if ! grep -q 'com.github.triplet.play' build.gradle; then
             sed 's/^  //' <<'PLUGIN' >> build.gradle
           buildscript {
-            repositories { google(); mavenCentral() }
-            dependencies { classpath 'com.github.triplet.play:com.github.triplet.play:3.8.4' }
+            repositories { google(); mavenCentral(); gradlePluginPortal() }
+            dependencies { classpath 'com.github.triplet.play:com.github.triplet.play:4.1.1' }
           }
           PLUGIN
           fi
