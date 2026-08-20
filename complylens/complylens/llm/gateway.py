@@ -7,9 +7,20 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from openai import APIConnectionError, APIError, APITimeoutError, OpenAIError
 from openai import OpenAI
 
 _logger = logging.getLogger(__name__)
+
+_UPSTREAM_EXCS: tuple[type[BaseException], ...] = (
+    TimeoutError,
+    ConnectionError,
+    OSError,
+    APIConnectionError,
+    APITimeoutError,
+    APIError,
+    OpenAIError,
+)
 
 _NUMBER_RE = re.compile(r"\d+(?:\.\d+)?")
 
@@ -72,7 +83,7 @@ class LLMGateway:
                     messages=[{"role": "user", "content": prompt}],
                 )
                 return resp.choices[0].message.content or ""
-            except (TimeoutError, ConnectionError, OSError) as exc:
+            except _UPSTREAM_EXCS as exc:
                 _logger.warning("provider %s failed: %s", p.name, exc)
                 continue
         raise NoProviderAvailable("all active providers failed")
