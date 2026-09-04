@@ -1,5 +1,7 @@
 # ComplyLens
 
+[![wish](https://img.shields.io/badge/wish-tested-blue)](WISH.md)
+
 Automated compliance analysis for employers using AI in hiring.
 
 ## What we do
