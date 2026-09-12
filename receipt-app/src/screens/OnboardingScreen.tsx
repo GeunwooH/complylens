@@ -13,7 +13,7 @@ export function OnboardingScreen({
   onComplete,
   existing,
 }: {
-  onComplete: (settings: OnboardSettings) => void;
+  onComplete: (settings: OnboardSettings) => void | Promise<void>;
   existing?: OnboardSettings;
 }) {
   const [businessName, setBusinessName] = useState(existing?.businessName ?? "");

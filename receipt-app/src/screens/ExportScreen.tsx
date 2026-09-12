@@ -3,7 +3,7 @@
  * - GET /api/export (csv/excel) → 다운로드 & 공유
  * - POST /api/orders → 무통장 입금 안내 화면으로 이동
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -26,16 +26,21 @@ export function ExportScreen() {
   const [error, setError] = useState("");
   const [storeCode, setStoreCode] = useState("");
   const [copied, setCopied] = useState(false);
+  const copiedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     loadSettings().then((s) => setStoreCode(s.storeCode));
+    return () => {
+      if (copiedTimer.current) clearTimeout(copiedTimer.current);
+    };
   }, []);
 
   const copyCode = async () => {
     if (!storeCode) return;
     await Clipboard.setStringAsync(storeCode);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (copiedTimer.current) clearTimeout(copiedTimer.current);
+    copiedTimer.current = setTimeout(() => setCopied(false), 2000);
   };
 
   const exportFile = async (format: "csv" | "excel") => {

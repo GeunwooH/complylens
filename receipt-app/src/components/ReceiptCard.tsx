@@ -41,8 +41,9 @@ export function ReceiptCard({
     () =>
       category !== card.category ||
       total !== card.total ||
+      (vat ?? null) !== (card.vat ?? null) ||
       JSON.stringify(items) !== JSON.stringify(card.items),
-    [category, total, items, card]
+    [category, total, vat, items, card]
   );
 
   const padIndex = padTarget !== null && padTarget.startsWith("item-")
@@ -88,6 +89,7 @@ export function ReceiptCard({
         category,
         items,
         total,
+        vat,
       });
       onUpdated(updated);
       trackEvent("receipt_corrected", { category }).catch(() => {});
