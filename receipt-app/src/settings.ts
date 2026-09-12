@@ -17,6 +17,12 @@ export async function loadSettings(): Promise<OnboardSettings> {
       storeCode: typeof parsed.storeCode === "string" ? parsed.storeCode : "",
       storePin: typeof parsed.storePin === "string" ? parsed.storePin : "",
       onboarded: Boolean(parsed.onboarded),
+      industryGroup:
+        typeof parsed.industryGroup === "string" ? parsed.industryGroup : undefined,
+      prevRevenue:
+        typeof parsed.prevRevenue === "string" || typeof parsed.prevRevenue === "number"
+          ? parsed.prevRevenue
+          : undefined,
     };
   } catch {
     return defaultSettings();

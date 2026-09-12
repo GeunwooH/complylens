@@ -91,11 +91,12 @@ export default function App() {
       if (loaded.storeCode && loaded.storePin) {
         setupStorePin(loaded.storeCode, loaded.storePin).catch(() => {});
       }
+      // D1: 오프라인 대기열 자동 재시도 — 반드시 setStoreCode/setStorePin 이후에.
+      // 자격증명이 비어 있으면 서버가 400을 반환하고 flush가 항목을 영구 삭제한다.
+      flushUploadQueue().catch(() => {});
+      // G7: 앱 시작(재방문) 이벤트 — 같은 코호트의 D7/D30 측정 기준
+      trackEvent("app_open").catch(() => {});
     });
-    // D1: 앱 시작 시 오프라인 대기열 자동 재시도
-    flushUploadQueue().catch(() => {});
-    // G7: 앱 시작(재방문) 이벤트 — 같은 코호트의 D7/D30 측정 기준
-    trackEvent("app_open").catch(() => {});
   }, []);
 
   // 로딩 중 — 스플래시 역할

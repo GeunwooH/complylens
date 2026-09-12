@@ -129,6 +129,14 @@ export function parseLedgerReport(raw: unknown): LedgerReport {
   const entries: LedgerEntry[] = rawEntries
     .map((e) => {
       const obj = (e ?? {}) as Record<string, unknown>;
+      const rawItems = Array.isArray(obj.items) ? obj.items : [];
+      const items = rawItems
+        .map((it) => {
+          const itObj = (it ?? {}) as Record<string, unknown>;
+          const name = toStr(itObj.name);
+          return name ? { name, price: toNum(itObj.price) } : null;
+        })
+        .filter((it): it is { name: string; price: number } => it !== null);
       return {
         receipt_id: toStr(obj.receipt_id, ""),
         kind: toStr(obj.kind, "expense"),
@@ -138,6 +146,7 @@ export function parseLedgerReport(raw: unknown): LedgerReport {
         amount: obj.amount == null ? null : toNum(obj.amount),
         category: toStr(obj.category, "기타"),
         note: toStr(obj.note, ""),
+        items: items.length > 0 ? items : undefined,
         needs_review: Boolean(obj.needs_review),
         unclassified: Boolean(obj.unclassified),
       };

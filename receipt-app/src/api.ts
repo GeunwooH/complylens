@@ -241,6 +241,7 @@ export interface CorrectionPayload {
   category: string;
   items: { name: string; price: number | string }[];
   total: number | string;
+  vat?: number | string | null;
 }
 
 export async function correctReceipt(

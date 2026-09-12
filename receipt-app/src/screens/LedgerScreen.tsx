@@ -2,7 +2,7 @@
  * W2-4: 장부 목록 + 월간 리포트 화면.
  * GET /api/ledger?month=YYYY-MM — 매출/지출/손익/미분류 요약 + 거래 목록.
  */
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -45,6 +45,8 @@ export function LedgerScreen() {
   const [catFilter, setCatFilter] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "amount">("date");
   const [sortAsc, setSortAsc] = useState(false);
+  // 월 빠르게 이동 시 느린 응답이 늦게 도착해 최신 월을 덮어쓰는 경합 방지
+  const reqSeq = useRef(0);
 
   const openEdit = (item: LedgerEntry) => {
     setEditEntry(item);
@@ -138,10 +140,12 @@ export function LedgerScreen() {
   };
 
   const load = useCallback(async (m: string, background = false) => {
+    const seq = ++reqSeq.current;
     if (!background) setLoading(true);
     setError("");
     try {
       const data = await fetchLedger(m);
+      if (seq !== reqSeq.current) return; // 그 사이 다른 월 요청이 시작됨 — stale 응답 폐기
       // 방어: 필드 누락/형식 이탈 시에도 화면은 안 죽는다
       setReport({
         ...data,
@@ -154,10 +158,12 @@ export function LedgerScreen() {
         unclassified_count: Number(data.unclassified_count) || 0,
       });
     } catch (e) {
-      setError(await toKoreanError(e));
+      if (seq === reqSeq.current) setError(await toKoreanError(e));
     } finally {
-      setLoading(false);
-      setRefreshing(false);
+      if (seq === reqSeq.current) {
+        setLoading(false);
+        setRefreshing(false);
+      }
     }
   }, []);
 

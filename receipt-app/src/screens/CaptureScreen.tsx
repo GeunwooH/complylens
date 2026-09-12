@@ -2,7 +2,7 @@
  * W2-2: 촬영/갤러리 → 업로드 → OCR 결과 카드.
  * 카메라 권한 + 갤러리 권한 처리, 업로드 중 스피너, 한국어 오류 메시지.
  */
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   Platform,
   Pressable,
@@ -14,7 +14,7 @@ import {
 import { CameraView, useCameraPermissions } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { uploadReceipt, toKoreanError, enqueueUpload, isOfflineError, loadUploadQueue, flushUploadQueue, trackEvent } from "../api";
 import { COLORS, styles as themeStyles } from "../theme";
 import { ReceiptCard as CardType } from "../types";
@@ -82,7 +82,7 @@ export function CaptureScreen({
   };
 
   /** 앱 시작/화면 진입 시 대기열 자동 재시도 (D1). */
-  const retryQueue = async () => {
+  const retryQueue = useCallback(async () => {
     const queue = await loadUploadQueue();
     if (!queue.length) return;
     setBusy(true);
@@ -93,10 +93,18 @@ export function CaptureScreen({
     } finally {
       setBusy(false);
     }
-  };
+  }, []);
+
+  // 화면이 포커스될 때마다(첫 진입 포함) 대기열 재시도 — 이전에는 선언만 되고 호출되지 않았다.
+  useFocusEffect(
+    useCallback(() => {
+      retryQueue();
+    }, [retryQueue])
+  );
 
   const openCamera = async () => {
-    setError("");    if (!permission?.granted) {
+    setError("");
+    if (!permission?.granted) {
       const res = await requestPermission();
       if (!res.granted) {
         setError("카메라 권한이 없습니다. iOS 설정 > 개인정보 보호에서 권한을 허용해 주세요.");
@@ -141,7 +149,7 @@ export function CaptureScreen({
       {/* 업로드 진행 중 오버레이 */}
       {busy ? (
         <View style={styles.overlay}>
-          <Spinner label="영수증 인식 중… (최대 30초)" />
+          <Spinner label="영수증 인식 중… (최대 15초)" />
         </View>
       ) : null}
 
